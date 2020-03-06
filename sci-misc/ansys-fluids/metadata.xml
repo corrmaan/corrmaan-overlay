@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <use>
+    <flag name="mechapdl">Install mechapdl</flag>
+    <flag name="ansyscust">Install ansyscust</flag>
+    <flag name="autodyn">Install autodyn</flag>
+    <flag name="lsdyna">Install lsdyna</flag>
+    <flag name="cfdpost">Install cfdpost</flag>
+    <flag name="cfx">Install cfx</flag>
+    <flag name="turbogrid">Install turbogrid</flag>
+    <flag name="fluent">Install fluent</flag>
+    <flag name="polyflow">Install polyflow</flag>
+    <flag name="aqwa">Install aqwa</flag>
+    <flag name="icemcfd">Install icemcfd</flag>
+    <flag name="forte">Install forte</flag>
+    <flag name="chemkinpro">Install chemkinpro</flag>
+    <flag name="energico">Install energico</flag>
+    <flag name="fensapice">Install fensapice</flag>
+    <flag name="reactionwb">Install reactionwb</flag>
+    <flag name="mfl">Install mfl</flag>
+    <flag name="rsm">Install rsm</flag>
+    <flag name="parasolid">Install parasolid</flag>
+    <flag name="acis">Install acis</flag>
+    <flag name="ug_plugin">Install ug_plugin</flag>
+    <flag name="icepak">Install icepak</flag>
+    <flag name="catia5_reader">Install catia5_reader</flag>
+  </use>
+</pkgmetadata>

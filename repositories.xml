@@ -1,0 +1,13 @@
+<repositories encoding="unicode" version="1.1">
+  <repo priority="50" quality="experimental" status="unofficial">
+    <name>corrmaan</name>
+    <description>My personal Gentoo overlay</description>
+    <homepage>https://github.com/corrmaan/corrmaan-overlay</homepage>
+    <owner>
+      <email>corrmaan@gmail.com</email>
+      <name>Cory Marshall</name>
+    </owner>
+    <source type="git">https://github.com/corrmaan/corrmaan-overlay.git</source>
+    <feed>https://github.com/corrmaan/corrmaan-overlay/commits/master.atom</feed>
+  </repo>
+</repositories>
