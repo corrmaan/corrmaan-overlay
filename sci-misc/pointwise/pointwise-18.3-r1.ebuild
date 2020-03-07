@@ -51,8 +51,8 @@ src_install() {
 	./${FN} -varfile response.varfile -q
 
 	local i
-	for i in 16x16 24x24 32x32 40x40 48x48 64x64 96x96 128x128 192x192 256x256 512x512; do
-		newicon -s ${i} ${FILESDIR}/${PN}_${i}.png ${PN}.png
+	for i in 16x16 24x24 32x32 48x48 64x64 96x96 128x128 192x192 256x256 512x512; do
+		newicon -s ${i} ${FILESDIR}/${PN}-${i}.png ${PN}.png
 	done
 
 	make_desktop_entry ${INSTDIR}/${PN} "Pointwise V${RELID} 64-bit" ${PN} "Science;"
