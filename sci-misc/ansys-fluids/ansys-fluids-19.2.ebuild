@@ -21,7 +21,8 @@ DEPEND="
 	app-arch/gzip
 	app-arch/rpm[python]
 	app-arch/tar
-	dev-lang/perl"
+	dev-lang/perl
+	media-gfx/imagemagick"
 
 RESTRICT="fetch"
 
@@ -88,9 +89,6 @@ src_install() {
 		rm -rf ${ED}${INSTALLDIR}/v${RELID}/${dir}
 	done
 
-	# Fix for lmutil: No such file or directory
-	dosym /$(get_libdir)/ld-linux-x86-64.so.2 ${ED}/$(get_libdir)/ld-lsb-x86-64.so.3
-
 	if use cfx; then
 
 		source /etc/env.d/gcc/config-x86_64-pc-linux-gnu
@@ -103,7 +101,12 @@ src_install() {
 
 		sed -i "s,${ED},," ${ED}${INSTALLDIR}/v${RELID}/CFX/config/hostinfo.ccl
 
-		make_desktop_entry ${INSTALLDIR}/v${RELID}/CFX/bin/cfx5 "ANSYS CFX v${PV}"
+		local i
+		for i in 16x16 32x32 48x48; do
+			newicon -s ${i} ${FILESDIR}/cfx-${i}.png cfx.png
+		done
+
+		make_desktop_entry ${INSTALLDIR}/v${RELID}/CFX/bin/cfx5 "ANSYS CFX v${PV}" cfx "Science;Physics"
 
 	fi
 }
