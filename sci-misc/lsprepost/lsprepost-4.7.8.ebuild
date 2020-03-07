@@ -47,7 +47,7 @@ src_install() {
 
 	insinto ${INSTDIR}
 	insopts -m0755
-	doins lsdyna_bestfit lspp$(ver_cut 1)$(ver_cut 2) lsprepost lsrun msuite_ls_64 tetgen
+	doins lspp$(ver_cut 1)$(ver_cut 2) lsprepost lsrun msuite_ls_64 tetgen
 	doins -r lib
 	insopts -m0644
 	doins material.xml
