@@ -27,7 +27,7 @@ INSTDIR="/opt/tecplot"
 src_install() {
 	local myargs=""
 	use chorus || myargs+=" --exclude-chorus"
-	
+
 	cp ${DISTDIR}/${FN} ${FN}
 	chmod +x ${FN}
 	./${FN} --skip-license${myargs} --prefix=${D}${INSTDIR}
@@ -37,7 +37,7 @@ src_install() {
 
 	local i
 	for i in 16x16 32x32 48x48 192x192; do
-		newicon -s ${i} ${FILESDIR}/${PN}_${i}.png ${PN}.png
+		newicon -s ${i} ${FILESDIR}/${PN}-${i}.png ${PN}.png
 	done
 
 	make_desktop_entry ${INSTDIR}/360ex_${RELID}/bin/tec360 "Tecplot 360 EX ${PV} R${PR:1:1}" ${PN} "Science;DataVisualization"
