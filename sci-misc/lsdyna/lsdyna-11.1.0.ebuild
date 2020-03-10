@@ -31,11 +31,6 @@ RESTRICT="fetch"
 
 S=${WORKDIR}
 
-pkg_nofetch() {
-	einfo "Please obtain"
-	einfo "- ${SRC_URI}"
-}
-
 src_install() {
 	if ! use usermat-only; then
 		use single-precision && dobin ls-dyna_smp_s_R11_1_0_x64_redhat65_ifort160_sse2
