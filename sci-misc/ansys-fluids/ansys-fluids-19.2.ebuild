@@ -17,7 +17,9 @@ SLOT="0"
 IUSE="mechapdl ansyscust autodyn lsdyna cfdpost +cfx turbogrid fluent polyflow aqwa icemcfd forte chemkinpro energico fensapice reactionwb mfl rsm parasolid acis ug_plugin icepak catia5_reader"
 
 RDEPEND="
-	dev-lang/perl"
+	dev-lang/perl
+	dev-lang/tcl
+	dev-lang/tk"
 DEPEND="
 	${RDEPEND}
 	app-arch/gzip
