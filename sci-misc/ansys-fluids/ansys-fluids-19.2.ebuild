@@ -16,12 +16,13 @@ KEYWORDS="~amd64"
 SLOT="0"
 IUSE="mechapdl ansyscust autodyn lsdyna cfdpost +cfx turbogrid fluent polyflow aqwa icemcfd forte chemkinpro energico fensapice reactionwb mfl rsm parasolid acis ug_plugin icepak catia5_reader"
 
-RDEPEND=""
+RDEPEND="
+	dev-lang/perl"
 DEPEND="
+	${RDEPEND}
 	app-arch/gzip
 	app-arch/rpm[python]
 	app-arch/tar
-	dev-lang/perl
 	media-gfx/imagemagick"
 
 RESTRICT="fetch"
@@ -84,6 +85,8 @@ src_install() {
 
 	${S}/INSTALL -usetempdir ${T}/anstmp -silent${myargs} -install_dir "${ED}${INSTALLDIR}"
 
+	rm -rf ${ED}${INSTALLDIR}/shared_files/bin/tclsh
+	rm -rf ${ED}${INSTALLDIR}/shared_files/bin/wish
 	for dir in Addins CADConfigLogs EKM Electronics Framework Images RSM SEC SystemCoupling Tools aisol installer tp
 	do
 		rm -rf ${ED}${INSTALLDIR}/v${RELID}/${dir}
