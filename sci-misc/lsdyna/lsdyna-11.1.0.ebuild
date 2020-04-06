@@ -42,5 +42,3 @@ src_install() {
 		doheader -r usermat
 	fi
 }
-
-
