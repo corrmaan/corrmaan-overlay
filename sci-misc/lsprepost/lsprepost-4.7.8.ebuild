@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit desktop multilib xdg-utils
+inherit desktop
 
 BUILDDATE=04Mar2020
 
@@ -17,18 +17,14 @@ SLOT="0"
 IUSE=""
 REQUIRED_USE=""
 
-RDEPEND="app-arch/bzip2"
-DEPEND="${RDEPEND}
-	media-gfx/imagemagick"
+RDEPEND=""
+DEPEND="media-gfx/imagemagick"
 
 RESTRICT="fetch"
 
 S=${WORKDIR}/${PN}$(ver_cut 1).$(ver_cut 2)_common
 
-INSTDIR="opt/lsprepost"
-
-QA_PRESTRIPPED="${INSTDIR}/lib/*
-	${INSTDIR}/lsrun"
+INSTDIR="/opt/lsprepost"
 
 pkg_nofetch() {
 	einfo "Please obtain"
@@ -41,17 +37,15 @@ src_prepare() {
 
 cat <<EOT > lspp$(ver_cut 1)$(ver_cut 2)
 #!/bin/bash
-export LD_LIBRARY_PATH=/${INSTDIR}/lib:\$LD_LIBRARY_PATH
-/${INSTDIR}/lsprepost \$*
+export LD_LIBRARY_PATH=${INSTDIR}/lib:\$LD_LIBRARY_PATH
+${INSTDIR}/lsprepost \$*
 EOT
 
 }
 
 src_install() {
 
-	dosym libbz2.so "/usr/$(get_libdir)/libbz2.so.1"
-
-	insinto /${INSTDIR}
+	insinto ${INSTDIR}
 	insopts -m0755
 	doins lspp$(ver_cut 1)$(ver_cut 2) lsprepost lsrun msuite_ls_64 tetgen
 	doins -r lib
@@ -65,7 +59,7 @@ src_install() {
 		newicon -s ${i} "${FILESDIR}/${PN}-${i}.png" ${PN}.png
 	done
 
-	make_desktop_entry /${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2) "LS-PrePost V${PV}" ${PN} "Science;Physics"
+	make_desktop_entry ${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2) "LS-PrePost V${PV}" ${PN} "Science;Physics"
 
 }
 
