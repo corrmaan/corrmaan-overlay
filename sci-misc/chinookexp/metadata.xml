@@ -3,5 +3,6 @@
 <pkgmetadata>
   <use>
     <flag name="fsi">Install custom LS-DYNA solver</flag>
+    <flag name="scalemp">Install ScaleMP MPICH2-compatible executable</flag>
   </use>
 </pkgmetadata>
