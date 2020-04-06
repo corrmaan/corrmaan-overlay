@@ -38,21 +38,21 @@ cat <<EOT >> response.varfile
 licenseAcceptBtns\$Integer=0
 sys.adminRights\$Boolean=false
 sys.component.Pointwise\$Boolean=true
-sys.installationDir=${D}${INSTDIR}
+sys.installationDir="${D}${INSTDIR}"
 sys.languageId=en
 EOT
 
 }
 
 src_install() {
-	
-	cp ${DISTDIR}/${FN} ${FN}
+
+	cp "${DISTDIR}/${FN}" ${FN}
 	chmod +x ${FN}
 	./${FN} -varfile response.varfile -q
 
 	local i
 	for i in 16x16 24x24 32x32 48x48 64x64 96x96 128x128 192x192 256x256 512x512; do
-		newicon -s ${i} ${FILESDIR}/${PN}-${i}.png ${PN}.png
+		newicon -s ${i} "${FILESDIR}/${PN}-${i}.png" ${PN}.png
 	done
 
 	make_desktop_entry ${INSTDIR}/${PN} "Pointwise V${RELID} 64-bit" ${PN} "Science;"
