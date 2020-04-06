@@ -45,7 +45,7 @@ src_prepare() {
 	default
 
 	# Just disable Workbench config at install entirely
-	cd ${S}/configs/wb
+	cd "${S}/configs/wb"
 		tar xzf LINX64.TGZ
 		rm config/AnsConfigWB.sh
 		echo '#!/bin/sh' > config/AnsConfigWB.sh
@@ -55,7 +55,7 @@ src_prepare() {
 		rm -rf config unconfig
 	cd -
 
-	mkdir -p ${T}/anstmp
+	mkdir -p "${T}/anstmp"
 }
 
 src_install() {
@@ -85,13 +85,13 @@ src_install() {
 	use icepak && myargs+=" -icepak"
 	use catia5_reader && myargs+=" -catia5_reader"
 
-	${S}/INSTALL -usetempdir ${T}/anstmp -silent${myargs} -install_dir "${ED}${INSTALLDIR}"
+	"${S}/INSTALL" -usetempdir "${T}/anstmp" -silent${myargs} -install_dir "${ED}${INSTALLDIR}"
 
-	rm -rf ${ED}${INSTALLDIR}/shared_files/bin/tclsh
-	rm -rf ${ED}${INSTALLDIR}/shared_files/bin/wish
+	rm -rf "${ED}${INSTALLDIR}/shared_files/bin/tclsh"
+	rm -rf "${ED}${INSTALLDIR}/shared_files/bin/wish"
 	for dir in Addins CADConfigLogs EKM Electronics Framework Images RSM SEC SystemCoupling Tools aisol installer tp
 	do
-		rm -rf ${ED}${INSTALLDIR}/v${RELID}/${dir}
+		rm -rf "${ED}${INSTALLDIR}/v${RELID}/${dir}"
 	done
 
 	if use cfx; then
@@ -99,21 +99,19 @@ src_install() {
 		source /etc/env.d/gcc/config-x86_64-pc-linux-gnu
 		source /etc/env.d/gcc/${CURRENT}
 
-		cd ${ED}${INSTALLDIR}/v${RELID}/CFX/lib/linux-amd64
+		cd "${ED}${INSTALLDIR}/v${RELID}/CFX/lib/linux-amd64"
 		rm libstdc++.so.6
 		ln -s ${LDPATH%%:*}/libstdc++.so libstdc++.so.6
 		cd -
 
-		sed -i "s,${ED},," ${ED}${INSTALLDIR}/v${RELID}/CFX/config/hostinfo.ccl
+		sed -i "s,${ED},," "${ED}${INSTALLDIR}/v${RELID}/CFX/config/hostinfo.ccl"
 
 		local i
 		for i in 16x16 32x32 48x48; do
-			newicon -s ${i} ${FILESDIR}/cfx-${i}.png cfx.png
+			newicon -s ${i} "${FILESDIR}/cfx-${i}.png cfx.png"
 		done
 
 		make_desktop_entry ${INSTALLDIR}/v${RELID}/CFX/bin/cfx5 "ANSYS CFX v${PV}" cfx "Science;Physics"
 
 	fi
 }
-
-
