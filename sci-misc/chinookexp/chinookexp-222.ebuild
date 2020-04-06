@@ -4,7 +4,7 @@
 EAPI=7
 
 DESCRIPTION="Analysis Tools for Explosive and Gas Dynamic Events"
-SRC_URI="chinookexp-221.tar.xz"
+SRC_URI="${P}.tar.xz"
 HOMEPAGE="https://www.lr.org/en/explosion-testing-and-trial-support/"
 
 LICENSE="LR-EULA"
