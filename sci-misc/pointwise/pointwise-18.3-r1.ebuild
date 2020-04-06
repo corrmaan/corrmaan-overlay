@@ -38,7 +38,7 @@ cat <<EOT >> response.varfile
 licenseAcceptBtns\$Integer=0
 sys.adminRights\$Boolean=false
 sys.component.Pointwise\$Boolean=true
-sys.installationDir="${D}${INSTDIR}"
+sys.installationDir=${D}${INSTDIR}
 sys.languageId=en
 EOT
 
