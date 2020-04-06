@@ -58,3 +58,15 @@ src_install() {
 	make_desktop_entry ${INSTDIR}/${PN} "Pointwise V${RELID} 64-bit" ${PN} "Science;"
 
 }
+
+pkg_postinst() {
+
+	xdg_icon_cache_update
+
+}
+
+pkg_postrm() {
+
+	xdg_icon_cache_update
+
+}
