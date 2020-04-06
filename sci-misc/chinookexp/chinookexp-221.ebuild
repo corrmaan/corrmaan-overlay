@@ -12,10 +12,10 @@ KEYWORDS="~amd64"
 SLOT="0"
 IUSE="+fsi +mpi static"
 
-RDEPEND="mpi? ( 
+RDEPEND="mpi? (
 		sci-libs/metis
 		virtual/mpi
-		>=sys-cluster/openmpi-3.1.2 
+		>=sys-cluster/openmpi-3.1.2
 	      )
 	"
 DEPEND="${RDEPEND}"
@@ -40,5 +40,3 @@ src_install() {
 	use fsi && dobin ls971_R701_fsi_v2
 	use mpi && dobin merge_partitions_v1.8_linux64bit
 }
-
-
