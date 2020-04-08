@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit desktop
+inherit desktop xdg-utils
 
 BUILDDATE=04Mar2020
 
@@ -66,11 +66,15 @@ src_install() {
 pkg_postinst() {
 
 	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
 
 }
 
 pkg_postrm() {
 
 	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
 
 }

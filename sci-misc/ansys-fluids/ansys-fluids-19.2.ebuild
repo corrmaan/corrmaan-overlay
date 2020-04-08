@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit desktop
+inherit desktop xdg-utils
 
 RELID="$(ver_cut 1)$(ver_cut 2)"
 
@@ -114,4 +114,20 @@ src_install() {
 		make_desktop_entry ${INSTALLDIR}/v${RELID}/CFX/bin/cfx5 "ANSYS CFX v${PV}" cfx "Science;Physics"
 
 	fi
+}
+
+pkg_postinst() {
+
+	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
+
+}
+
+pkg_postrm() {
+
+	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
+
 }

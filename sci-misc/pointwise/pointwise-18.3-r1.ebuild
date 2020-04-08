@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit desktop
+inherit desktop xdg-utils
 
 RELID="${PV}R${PR:1:1}"
 FN="pw-V${RELID}-linux_x86_64-nojre.sh"
@@ -62,11 +62,15 @@ src_install() {
 pkg_postinst() {
 
 	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
 
 }
 
 pkg_postrm() {
 
 	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
 
 }

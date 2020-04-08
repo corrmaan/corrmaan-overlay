@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit desktop
+inherit desktop xdg-utils
 
 RELID="${PV}${PR}"
 FN="${PN}${RELID}_linux64.sh"
@@ -41,5 +41,21 @@ src_install() {
 	done
 
 	make_desktop_entry ${INSTDIR}/360ex_${RELID}/bin/tec360 "Tecplot 360 EX ${PV} R${PR:1:1}" ${PN} "Science;DataVisualization"
+
+}
+
+pkg_postinst() {
+
+	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
+
+}
+
+pkg_postrm() {
+
+	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
 
 }
