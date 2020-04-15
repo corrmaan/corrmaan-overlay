@@ -55,29 +55,26 @@ src_unpack() {
 
 src_configure() {
 
+	append-cflags $(test-flags-CC -m64)
+	append-cxxflags $(test-flags-CXX -m64)
+	append-cxxflags $(test-flags-CXX -std=c++0x)
+	append-ldflags -m64
+
 	export FOAM_VERBOSE=1
 	export PS1=1
 
 	LIBDIR=$(get_libdir)
-
-#	sed -i 's/^export FOAM_INST_DIR=$(cd/#&/' "${S}/etc/bashrc"
-#	sed -i 's/^export FOAM_INST_DIR=$HOME\/$WM_PROJECT/#&/' "${S}/etc/bashrc"
-#	sed -i '/export FOAM_INST_DIR=\/opt\/$WM_PROJECT/s/^# //g' "${S}/etc/bashrc"
 
 	use mpi || sed -i '/config.sh\/mpi/s/^/#/g' "${S}/etc/bashrc"
 	use paraview || sed -i '/config.sh\/paraview/s/^/#/g' "${S}/etc/bashrc"
 	sed -i '/config.sh\/ensight/s/^/#/g' "${S}/etc/bashrc"
 	use perftools || sed -i '/config.sh\/gperftools/s/^/#/g' "${S}/etc/bashrc"
 
-#	sed -i "s/export WM_CC=\"gcc\"/export WM_CC=\"$(tc-getCC)\"/g" ${S}/etc/config.sh/settings
-#	sed -i "s/export WM_CXX=\"g++\"/export WM_CXX=\"$(tc-getCXX)\"/g" ${S}/etc/config.sh/settings
-#	sed -i "s/export WM_CFLAGS=\"-fPIC\"/export WM_CFLAGS=\"${CFLAGS}\"/g" ${S}/etc/config.sh/settings
-#	sed -i "s/export WM_CXXFLAGS=\"-fPIC -std=c++11\"/export WM_CXXFLAGS=\"${CXXFLAGS}\"/g" ${S}/etc/config.sh/settings
-#	sed -i "s/export WM_LDFLAGS=\"-m32\"/export WM_LDFLAGS=\"${LDFLAGS}\"/g" ${S}/etc/config.sh/settings
-#	sed -i "s/export WM_LDFLAGS=\"-m64\"/export WM_LDFLAGS=\"${LDFLAGS}\"/g" ${S}/etc/config.sh/settings
-
-#	sed -i "s/ccmio_version=libccmio-2.6.1/ccmio_version=libccmio-none/g" ${S}/etc/config.sh/ccmio
-#	sed -i "s/KAHIP_VERSION=kahip-2.00/KAHIP_VERSION=kahip-none/g" ${S}/etc/config.sh/kahip
+	sed -i "s/export WM_CC='gcc'/export WM_CC='$(tc-getCC)'/g" ${S}/etc/config.sh/settings
+	sed -i "s/export WM_CXX='g++'/export WM_CXX='$(tc-getCXX)'/g" ${S}/etc/config.sh/settings
+	sed -i "s/export WM_CFLAGS='-m64 -fPIC'/export WM_CFLAGS='${CFLAGS}'/g" ${S}/etc/config.sh/settings
+	sed -i "s/export WM_CXXFLAGS='-m64 -fPIC -std=c++0x'/export WM_CXXFLAGS='${CXXFLAGS}'/g" ${S}/etc/config.sh/settings
+	sed -i "s/export WM_LDFLAGS='-m64'/export WM_LDFLAGS='${LDFLAGS}'/g" ${S}/etc/config.sh/settings
 
 #	if use cgal; then
 #		sed -i "s/boost_version=boost_1_64_0/boost_version=boost-systen/g" ${S}/etc/config.sh/CGAL
@@ -88,21 +85,6 @@ src_configure() {
 #	else
 #		sed -i "s/boost_version=boost_1_64_0/boost_version=boost-none/g" ${S}/etc/config.sh/CGAL
 #		sed -i "s/cgal_version=CGAL-4.9.1/cgal_version=cgal-none/g" ${S}/etc/config.sh/CGAL
-#	fi
-
-#	if use fftw; then
-#		sed -i "s/fftw_version=fftw-3.3.7/fftw_version=fftw-system/g" ${S}/etc/config.sh/FFTW
-#		sed -i "s:export FFTW_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER/\$fftw_version:export FFTW_ARCH_PATH=/usr:g" ${S}/etc/config.sh/FFTW
-#	else
-#		sed -i "s/fftw_version=fftw-3.3.7/fftw_version=fftw-none/g" ${S}/etc/config.sh/FFTW
-#	fi
-
-#	if use hypre; then
-#		sed -i "s/hypre_version=hypre-2.11.2/hypre_version=hypre-system/g" ${S}/etc/config.sh/hypre
-#		sed -i "s:export HYPRE_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$hypre_version:export HYPRE_ARCH_PATH=/usr:g" ${S}/etc/config.sh/hypre
-#		sed -i "s:header=$(findFirstFile \$HYPRE_ARCH_PATH/include/\$header):header=$(findFirstFile \$HYPRE_ARCH_PATH/include/hypre/\$header):g" ${S}/wmake/scripts/have_hypre
-#	else
-#		sed -i "s/hypre_version=hypre-2.11.2/hypre_version=hypre-none/g" ${S}/etc/config.sh/hypre
 #	fi
 
 #	if use metis; then
