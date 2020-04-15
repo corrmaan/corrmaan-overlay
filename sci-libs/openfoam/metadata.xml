@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <use>
+    <flag name="cgal">Use <pkg>sci-mathematics/cgal</pkg> instead of bundled algorithms</flag>
+    <flag name="hypre">Add support for hypre <pkg>sci-libs/hypre</pkg></flag>
+    <flag name="metis">Enable partitioning with <pkg>sci-libs/metis</pkg></flag>
+    <flag name="perftools">Use <pkg>dev-util/google-perftools</pkg> for memory allocation</flag>
+    <flag name="source">Install source code</flag>
+    <flag name="paraview">Install ParaView post-processor</flag>
+    <flag name="scotch">Add support for scotch</flag>
+  </use>
+</pkgmetadata>
