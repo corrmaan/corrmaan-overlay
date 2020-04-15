@@ -10,7 +10,7 @@ MY_PV="$(ver_cut 1)"
 MY_PP="$(ver_cut 3)"
 MY_P="${MY_PN}-${MY_PV}-${MY_PP}"
 
-DESCRIPTION="Open Source Field Operation and Manipulation toolbox"
+DESCRIPTION="The Open Source CFD Toolbox"
 if [[ ${PV} == "9999" ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/OpenFOAM/OpenFOAM-dev.git"
@@ -60,145 +60,114 @@ src_configure() {
 	append-cxxflags $(test-flags-CXX -std=c++0x)
 	append-ldflags -m64
 
+	if tc-ld-is-gold; then
+		# Need to disable gold linker https://bugs.openfoam.org/view.php?id=685
+		tc-ld-disable-gold
+		# tc-ld-disable-gold only appends -fuse-ld=bfd to LDFLAGS, also need to 
+		# append it to C[XX]FLAGS:
+		append-cflags $(test-flags-CC -fuse-ld=bfd)
+		append-cxxflags $(test-flags-CXX -fuse-ld=bfd)
+	fi
+
+	local myconf
 	export FOAM_VERBOSE=1
 	export PS1=1
 
 	LIBDIR=$(get_libdir)
 
 	use mpi || sed -i '/config.sh\/mpi/s/^/#/g' "${S}/etc/bashrc"
-	use paraview || sed -i '/config.sh\/paraview/s/^/#/g' "${S}/etc/bashrc"
+#	sed -i '/config.sh\/paraview/s/^/#/g' "${S}/etc/bashrc"
 	sed -i '/config.sh\/ensight/s/^/#/g' "${S}/etc/bashrc"
-	use perftools || sed -i '/config.sh\/gperftools/s/^/#/g' "${S}/etc/bashrc"
+#	sed -i '/config.sh\/gperftools/s/^/#/g' "${S}/etc/bashrc"
 
-	sed -i "s/export WM_CC='gcc'/export WM_CC='$(tc-getCC)'/g" ${S}/etc/config.sh/settings
-	sed -i "s/export WM_CXX='g++'/export WM_CXX='$(tc-getCXX)'/g" ${S}/etc/config.sh/settings
-	sed -i "s/export WM_CFLAGS='-m64 -fPIC'/export WM_CFLAGS='${CFLAGS}'/g" ${S}/etc/config.sh/settings
-	sed -i "s/export WM_CXXFLAGS='-m64 -fPIC -std=c++0x'/export WM_CXXFLAGS='${CXXFLAGS}'/g" ${S}/etc/config.sh/settings
-	sed -i "s/export WM_LDFLAGS='-m64'/export WM_LDFLAGS='${LDFLAGS}'/g" ${S}/etc/config.sh/settings
+	sed -i "s/export WM_CC='gcc'/export WM_CC='$(tc-getCC)'/g" "${S}/etc/config.sh/settings"
+	sed -i "s/export WM_CXX='g++'/export WM_CXX='$(tc-getCXX)'/g" "${S}/etc/config.sh/settings"
+	sed -i "s/export WM_CFLAGS='-m64 -fPIC'/export WM_CFLAGS='${CFLAGS}'/g" "${S}/etc/config.sh/settings"
+	sed -i "s/export WM_CXXFLAGS='-m64 -fPIC -std=c++0x'/export WM_CXXFLAGS='${CXXFLAGS}'/g" "${S}/etc/config.sh/settings"
+	sed -i "s/export WM_LDFLAGS='-m64'/export WM_LDFLAGS='${LDFLAGS}'/g" "${S}/etc/config.sh/settings"
 
-#	if use cgal; then
-#		sed -i "s/boost_version=boost_1_64_0/boost_version=boost-systen/g" ${S}/etc/config.sh/CGAL
-#		sed -i "s:export BOOST_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER/\$boost_version:export BOOST_ARCH_PATH=/usr:g" ${S}/etc/config.sh/CGAL
+	use cgal && export FOAMY_HEX_MESH=yes
 
-#		sed -i "s/cgal_version=CGAL-4.9.1/cgal_version=cgal-system/g" ${S}/etc/config.sh/CGAL
-#		sed -i "s:export CGAL_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER/\$cgal_version:export CGAL_ARCH_PATH=/usr:g" ${S}/etc/config.sh/CGAL
-#	else
-#		sed -i "s/boost_version=boost_1_64_0/boost_version=boost-none/g" ${S}/etc/config.sh/CGAL
-#		sed -i "s/cgal_version=CGAL-4.9.1/cgal_version=cgal-none/g" ${S}/etc/config.sh/CGAL
-#	fi
+	if use metis; then
+		sed -i "s/METIS_VERSION=metis-5.1.0/METIS_VERSION=metis-system/g" "${S}/etc/config.sh/metis"
+		sed -i "s:export METIS_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$METIS_VERSION:export METIS_ARCH_PATH=/usr:g" "${S}/etc/config.sh/metis"
+	else
+		sed -i "s/METIS_VERSION=metis-5.1.0/METIS_VERSION=metis-none/g" "${S}/etc/config.sh/metis"
+		sed -i "s:export METIS_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$METIS_VERSION:export METIS_ARCH_PATH=:g" "${S}/etc/config.sh/metis"
+	fi
 
-#	if use metis; then
-#		sed -i "s/METIS_VERSION=metis-5.1.0/METIS_VERSION=metis-system/g" ${S}/etc/config.sh/metis
-#		sed -i "s:export METIS_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$METIS_VERSION:export METIS_ARCH_PATH=/usr:g" ${S}/etc/config.sh/metis
-#	else
-#		sed -i "s/METIS_VERSION=metis-5.1.0/METIS_VERSION=metis-none/g" ${S}/etc/config.sh/metis
-#	fi
-
-#	if use paraview; then
-#		sed -i "s/ParaView_VERSION=5.6.0/ParaView_VERSION=system/g" ${S}/etc/config.sh/paraview
-#		export ParaView_DIR=/usr
+	if use paraview; then
+		sed -i "s/ParaView_VERSION=5.6.0/ParaView_VERSION=system/g" "${S}/etc/config.sh/paraview"
+		export ParaView_DIR=/usr
 #		pv_api="$(emerge --info sci-visualization/paraview | \
 #			grep 'was built with the following' | cut -d'/' -f2 | \
 #			cut -d':' -f1 | cut -d'-' -f2)"
 #		pv_api="${pv_api%.*}"
 #		sed -i "s/pv_api=pv_api/pv_api=${pv_api}/g" ${S}/etc/config.sh/paraview
-#	else
-#		sed -i "s/ParaView_VERSION=5.6.0/ParaView_VERSION=none/g" ${S}/etc/config.sh/paraview
-#	fi
+	else
+		sed -i "s/ParaView_VERSION=5.6.0/ParaView_VERSION=none/g" "${S}/etc/config.sh/paraview"
+	fi
 
-#	if use perftools; then
-#		sed -i "s/gperftools_version=gperftools-2.5/gperftools_version=gperftools-system/g" ${S}/etc/config.sh/gperftools
-#		sed -i "s:GPERFTOOLS_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER/\$gperftools_version:GPERFTOOLS_ARCH_PATH=/usr:g" ${S}/etc/config.sh/gperftools
-#	else
-#		sed -i "s/gperftools_version=gperftools-2.5/gperftools_version=gperftools-none/g" ${S}/etc/config.sh/gperftools
-#	fi
+	if use perftools; then
+		sed -i "s/version=svn/version=system/g" "${S}/etc/config.sh/gperftools"
+		sed -i "s:GPERFTOOLS_ARCH_PATH=\$gperftools_install/\$GPERFTOOLS_VERSION:GPERFTOOLS_ARCH_PATH=/usr:g" "${S}/etc/config.sh/gperftools"
+	else
+		sed -i "s/version=svn/version=none/g" "${S}/etc/config.sh/gperftools"
+	fi
 
-#	if use scotch; then
-#		sed -i "s/SCOTCH_VERSION=scotch_6.0.6/SCOTCH_VERSION=scotch-system/g" ${S}/etc/config.sh/scotch
-#		sed -i "s:export SCOTCH_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$SCOTCH_VERSION:export SCOTCH_ARCH_PATH=/usr:g" ${S}/etc/config.sh/scotch
+	if use scotch; then
+		sed -i "s/export SCOTCH_VERSION=scotch_6.0.6/export SCOTCH_VERSION=scotch-system/g" "${S}/etc/config.sh/scotch"
+		sed -i "s:export SCOTCH_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$SCOTCH_VERSION:export SCOTCH_ARCH_PATH=/usr:g" "${S}/etc/config.sh/scotch"
 #		sed -i "s:header=\$(findFirstFile \$SCOTCH_ARCH_PATH/include/\$header):header=\$(findFirstFile \$SCOTCH_ARCH_PATH/include/scotch/\$header):g" ${S}/wmake/scripts/have_scotch
-#	else
-#		sed -i "s/SCOTCH_VERSION=scotch_6.0.6/SCOTCH_VERSION=scotch-none/g" ${S}/etc/config.sh/scotch
-#	fi
-
-#	VTKVER=$(emerge --info sci-libs/vtk | grep 'was built with the following' | cut -d'/' -f2 | cut -d':' -f1 | cut -d'-' -f2)
-#	sed -i "s/vtk_version=VTK-8.2.0/vtk_version=VTK-${VTKVER}/g" ${S}/etc/config.sh/vtk
-#	sed -i "s:export VTK_DIR=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER/\$vtk_version:export VTK_DIR=/usr:g" ${S}/etc/config.sh/vtk
-#	sed -i "s:_foamAddLib \$VTK_DIR/lib:_foamAddLib \$VTK_DIR/${LIBDIR}:g" ${S}/etc/config.sh/vtk
-
-#	MESAVER=$(emerge --info media-libs/mesa | grep 'was built with the following' | cut -d'/' -f2 | cut -d':' -f1 | cut -d'-' -f2)
-#	sed -i "s/mesa_version=mesa-17.1.1/mesa_version=mesa-${MESAVER}/g" ${S}/etc/config.sh/vtk
-#	sed -i "s:export MESA_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER/\$mesa_version:export MESA_ARCH_PATH=/usr:g" ${S}/etc/config.sh/vtk
+	else
+		sed -i "s/export SCOTCH_VERSION=scotch_6.0.6/export SCOTCH_VERSION=scotch-none/g" "${S}/etc/config.sh/scotch"
+	fi
 
 	source "${S}/etc/bashrc"
 
-#	find $WM_DIR -name dirToString -exec rm -rf {} +
-#	find $WM_DIR -name wmkdep -exec rm -rf {}+
-#	find $WM_DIR -name wmkdepend -exec rm -rf {}+
+	# wmake Rules Changes
+	COMPILER_TYPE=$(echo $WM_COMPILER | tr -d [:digit:])
+	GENERAL_RULES="${WM_DIR}/rules/General"
+	DEFAULT_RULES="${WM_DIR}/rules/${WM_ARCH}${COMPILER_TYPE}"
+	RULES="${WM_DIR}/rules/${WM_ARCH}${WM_COMPILER}"
+	WMAKE_BIN="${WM_DIR}/platforms/${WM_ARCH}${WM_COMPILER}"
 
-#	append-cflags $(test-flags-CC -fPIC)
-#	append-cxxflags $(test-flags-CXX -fPIC)
-#	append-cxxflags $(test-flags-CXX -std=c++11)
-#	append-cxxflags $(test-flags-CXX -DNoRepository)
-#	append-cxxflags $(test-flags-CXX -ftemplate-depth-100)
-#	# Not sure if these are really necessary:
-#	#append-cxxflags $(test-flags-CXX -m64)
-#	#append-cflags $(test-flags-CC -m64)
+	sed -i "s/AR         = ar/AR         = $(tc-getAR)/g" ${GENERAL_RULES}/general
+	sed -i "s/RANLIB     = ranlib/RANLIB     = $(tc-getRANLIB)/g" ${GENERAL_RULES}/general
+	sed -i "s/CPP        = cpp/CPP        = $(tc-getCPP)/g" ${GENERAL_RULES}/general
+	sed -i "s/LD         = ld/LD         = $(tc-getLD)/g" ${GENERAL_RULES}/general
 
-#	if tc-ld-is-gold; then
-#		# Need to disable gold linker https://bugs.openfoam.org/view.php?id=685
-#		tc-ld-disable-gold 
-#		# tc-ld-disable-gold only appends -fuse-ld=bfd to LDFLAGS, also need to 
-#		# append it to C[XX]FLAGS:
-#		append-cflags $(test-flags-CC -fuse-ld=bfd)
-#		append-cxxflags $(test-flags-CXX -fuse-ld=bfd)
-#	fi
-#	
-#	# wmake Rules Changes
-#	COMPILER_TYPE=$(echo $WM_COMPILER | tr -d [:digit:])
-#	GENERAL_RULES=$WM_DIR/rules/General
-#	DEFAULT_RULES=$WM_DIR/rules/$WM_ARCH$COMPILER_TYPE
-#	RULES=$WM_DIR/rules/$WM_ARCH$WM_COMPILER
-#	WMAKE_BIN=$WM_DIR/platforms/$WM_ARCH$WM_COMPILER
+	# The command below is used instead of $(tc-getCPP) because that produces linking 
+	# errors as gcc -E
+	CPP=$(readlink -f `which cpp` | rev | cut -d'/' -f1 | rev)
+	sed -i "s/CPP        = cpp/CPP        = ${CPP}/g" "${DEFAULT_RULES}/general"
 
-#	sed -i "s/AR         = ar/AR         = $(tc-getAR)/g" ${GENERAL_RULES}/general
-#	sed -i "s/RANLIB     = ranlib/RANLIB     = $(tc-getRANLIB)/g" ${GENERAL_RULES}/general
-#	sed -i "s/CPP        = cpp/CPP        = $(tc-getCPP)/g" ${GENERAL_RULES}/general
-#	sed -i "s/LD         = ld/LD         = $(tc-getLD)/g" ${GENERAL_RULES}/general
+	sed -i "s/cc          = gcc -m64/cc          = $(tc-getCC)/g" "${DEFAULT_RULES}/c"
+	sed -i "s/cc          = clang -m64/cc          = $(tc-getCC)/g" "${DEFAULT_RULES}/c"
+	sed -i "s/cFLAGS      = \$(GFLAGS) \$(cWARN) \$(cOPT) \$(cDBUG) \$(LIB_HEADER_DIRS) -fPIC/cFLAGS      = \$(GFLAGS) ${CFLAGS} \$(LIB_HEADER_DIRS)/g" "${DEFAULT_RULES}/c"
+	sed -i "s/-Xlinker --add-needed/-Xlinker --copy-dt-needed-entries/g" ${DEFAULT_RULES}/c
+	sed -i "s/-Xlinker nodefs/-Xlinker undefs/g" ${DEFAULT_RULES}/c
+	
+	test-flags-CXX -std=c++11 && replace-flags -std=c++0x -std=c++11
 
-#	sed -i "s/CC          = g++ -std=c++11 -m64/CC          = $(tc-getCXX)/g" ${GENERAL_RULES}/Gcc/c++
-#	sed -i "s/CC          = clang++ -std=c++11 -m64/CC          = $(tc-getCC)/g" ${GENERAL_RULES}/Clang/c++
-
-#	# The command below is used instead of $(tc-getCPP) because that produces linking 
-#	# errors as gcc -E
-#	CPP=$(readlink -f `which cpp` | rev | cut -d'/' -f1 | rev)
-#	sed -i "s/CPP        = cpp/CPP        = ${CPP}/g" ${DEFAULT_RULES}/general
-#	sed -i "s/LD         = ld/LD         = $(tc-getLD)/g" ${DEFAULT_RULES}/general
-
-#	sed -i "s/cc          = gcc -m64/cc          = $(tc-getCC)/g" ${DEFAULT_RULES}/c
-#	sed -i "s/cc          = clang -m64/cc          = $(tc-getCC)/g" ${DEFAULT_RULES}/c
-#	sed -i "s/cFLAGS      = \$(GFLAGS) \$(cWARN) \$(cOPT) \$(cDBUG) \$(LIB_HEADER_DIRS) -fPIC/cFLAGS      = \$(GFLAGS) ${CFLAGS} \$(LIB_HEADER_DIRS)/g" ${DEFAULT_RULES}/c
-#	sed -i "s/-Xlinker --add-needed/-Xlinker --copy-dt-needed-entries/g" ${DEFAULT_RULES}/c
-#	sed -i "s/-Xlinker nodefs/-Xlinker undefs/g" ${DEFAULT_RULES}/c
-
-#	sed -i "s/CC          = g++ -std=c++11 -m64/CC          = $(tc-getCXX)/g" ${DEFAULT_RULES}/c++
-#	sed -i "s/CC          = clang++ -std=c++11 -m64/CC          = $(tc-getCC)/g" ${DEFAULT_RULES}/c++
-#	sed -i "s/c++FLAGS    = \$(GFLAGS) \$(c++WARN) \$(c++OPT) \$(c++DBUG) \$(ptFLAGS) \$(LIB_HEADER_DIRS) -fPIC/c++FLAGS    = \$(GFLAGS) ${CXXFLAGS} \$(LIB_HEADER_DIRS)/g" ${DEFAULT_RULES}/c++
-#	sed -i "s/-Xlinker --add-needed/-Xlinker --copy-dt-needed-entries/g" ${DEFAULT_RULES}/c++
+	sed -i "s/CC          = g++ -std=c++11 -m64/CC          = $(tc-getCXX)/g" ${DEFAULT_RULES}/c++
+	sed -i "s/CC          = clang++ -std=c++11 -m64/CC          = $(tc-getCXX)/g" ${DEFAULT_RULES}/c++
+	sed -i "s/c++FLAGS    = \$(GFLAGS) \$(c++WARN) \$(c++OPT) \$(c++DBUG) \$(ptFLAGS) \$(LIB_HEADER_DIRS) -fPIC/c++FLAGS    = \$(GFLAGS) ${CXXFLAGS} \$(LIB_HEADER_DIRS)/g" ${DEFAULT_RULES}/c++
+	sed -i "s/-Xlinker --add-needed/-Xlinker --copy-dt-needed-entries/g" ${DEFAULT_RULES}/c++
 
 }
 
-#src_compile() {
+src_compile() {
 
-#	export WM_NCOMPPROCS=$(makeopts_jobs)
+	export WM_NCOMPPROCS=$(nproc)
 
-#	./Allwmake -j ${WM_NCOMPPROCS} || die "Build failure."
+	./Allwmake -j ${WM_NCOMPPROCS} || die "Build failure."
 
-#	if use doc ; then
-#		cd ${S}/doc && ./Allwmake && cd ${S}
-#	fi
+	if use doc ; then
+		cd "${S}/doc" && ./Allwmake && cd -
+	fi
 
-#}
+}
 
 #src_install() {
 
