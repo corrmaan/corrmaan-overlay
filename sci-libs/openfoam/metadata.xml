@@ -3,7 +3,6 @@
 <pkgmetadata>
   <use>
     <flag name="cgal">Use <pkg>sci-mathematics/cgal</pkg> instead of bundled algorithms</flag>
-    <flag name="hypre">Add support for hypre <pkg>sci-libs/hypre</pkg></flag>
     <flag name="metis">Enable partitioning with <pkg>sci-libs/metis</pkg></flag>
     <flag name="perftools">Use <pkg>dev-util/google-perftools</pkg> for memory allocation</flag>
     <flag name="source">Install source code</flag>

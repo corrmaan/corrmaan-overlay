@@ -22,24 +22,21 @@ HOMEPAGE="https://openfoam.org/"
 LICENSE="GPL-3"
 KEYWORDS="~amd64"
 SLOT="${MY_PV}"
-IUSE="cgal doc examples fftw hypre gnuplot metis mpi paraview perftools scotch source"
+IUSE="cgal doc examples gnuplot metis mpi paraview perftools scotch source"
 
-RDEPEND="gnuplot? ( sci-visualization/gnuplot )
-	paraview? ( sci-visualization/paraview[plugins] )"
+RDEPEND="gnuplot? ( sci-visualization/gnuplot )"
 DEPEND="dev-libs/boost
 	|| ( >=sys-devel/gcc-4.8 >=sys-devel/clang-3.6 )
 	sys-devel/flex
 	sys-libs/ncurses
 	sys-libs/readline
-	sci-libs/vtk
 	sys-libs/zlib
 	x11-libs/libXt
 	cgal? ( sci-mathematics/cgal )
 	doc? ( app-doc/doxygen[dot] )
-	fftw? ( sci-libs/fftw )
-	hypre? ( sci-libs/hypre )
 	metis? ( sci-libs/metis )
 	mpi? ( sys-cluster/openmpi )
+	paraview? ( sci-visualization/paraview[plugins] )
 	perftools? ( dev-util/google-perftools )
 	scotch? ( sci-libs/scotch[mpi?] )"
 
@@ -55,9 +52,13 @@ src_unpack() {
 
 src_configure() {
 
+	LIBDIR=$(get_libdir)
+
 	append-cflags $(test-flags-CC -m64)
+	append-cflags $(test-flags-CC -fPIC)
 	append-cxxflags $(test-flags-CXX -m64)
-	append-cxxflags $(test-flags-CXX -std=c++0x)
+	append-cxxflags $(test-flags-CXX -fPIC)
+	append-cxxflags $(test-flags-CXX -std=c++11)
 	append-ldflags -m64
 
 	if tc-ld-is-gold; then
@@ -69,16 +70,11 @@ src_configure() {
 		append-cxxflags $(test-flags-CXX -fuse-ld=bfd)
 	fi
 
-	local myconf
 	export FOAM_VERBOSE=1
 	export PS1=1
 
-	LIBDIR=$(get_libdir)
-
 	use mpi || sed -i '/config.sh\/mpi/s/^/#/g' "${S}/etc/bashrc"
-#	sed -i '/config.sh\/paraview/s/^/#/g' "${S}/etc/bashrc"
 	sed -i '/config.sh\/ensight/s/^/#/g' "${S}/etc/bashrc"
-#	sed -i '/config.sh\/gperftools/s/^/#/g' "${S}/etc/bashrc"
 
 	sed -i "s/export WM_CC='gcc'/export WM_CC='$(tc-getCC)'/g" "${S}/etc/config.sh/settings"
 	sed -i "s/export WM_CXX='g++'/export WM_CXX='$(tc-getCXX)'/g" "${S}/etc/config.sh/settings"
@@ -97,13 +93,14 @@ src_configure() {
 	fi
 
 	if use paraview; then
-		sed -i "s/ParaView_VERSION=5.6.0/ParaView_VERSION=system/g" "${S}/etc/config.sh/paraview"
-		export ParaView_DIR=/usr
-#		pv_api="$(emerge --info sci-visualization/paraview | \
-#			grep 'was built with the following' | cut -d'/' -f2 | \
-#			cut -d':' -f1 | cut -d'-' -f2)"
-#		pv_api="${pv_api%.*}"
-#		sed -i "s/pv_api=pv_api/pv_api=${pv_api}/g" ${S}/etc/config.sh/paraview
+		PV_VER="$(emerge --info sci-visualization/paraview | \
+			grep 'was built with the following' | cut -d'/' -f2 | \
+			cut -d':' -f1 | cut -d'-' -f2)"
+		sed -i "s:export ParaView_GL=mesa:export ParaView_GL=system:g" "${S}/etc/config.sh/paraview"
+		sed -i "s:ParaView_VERSION=5.6.0:ParaView_VERSION=${PV_VER}:g" "${S}/etc/config.sh/paraview"
+		sed -i "s:export ParaView_DIR=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER/\$paraviewArchName:export ParaView_DIR=/usr:g" "${S}/etc/config.sh/paraview"
+		sed -i "s:ParaView_LIB_DIR=\$ParaView_DIR/lib:ParaView_LIB_DIR=\$ParaView_DIR/${LIBDIR}:g" "${S}/etc/config.sh/paraview"
+#		sed -i "s:export PV_PLUGIN_PATH=\$FOAM_LIBBIN/paraview-\$ParaView_MAJOR:export PV_PLUGIN_PATH=\$ParaView_DIR/${LIBDIR}/paraview-\$ParaView_MAJOR:g" "${S}/etc/config.sh/paraview"
 	else
 		sed -i "s/ParaView_VERSION=5.6.0/ParaView_VERSION=none/g" "${S}/etc/config.sh/paraview"
 	fi
@@ -118,7 +115,6 @@ src_configure() {
 	if use scotch; then
 		sed -i "s/export SCOTCH_VERSION=scotch_6.0.6/export SCOTCH_VERSION=scotch-system/g" "${S}/etc/config.sh/scotch"
 		sed -i "s:export SCOTCH_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$SCOTCH_VERSION:export SCOTCH_ARCH_PATH=/usr:g" "${S}/etc/config.sh/scotch"
-#		sed -i "s:header=\$(findFirstFile \$SCOTCH_ARCH_PATH/include/\$header):header=\$(findFirstFile \$SCOTCH_ARCH_PATH/include/scotch/\$header):g" ${S}/wmake/scripts/have_scotch
 	else
 		sed -i "s/export SCOTCH_VERSION=scotch_6.0.6/export SCOTCH_VERSION=scotch-none/g" "${S}/etc/config.sh/scotch"
 	fi
@@ -144,22 +140,18 @@ src_configure() {
 
 	sed -i "s/cc          = gcc -m64/cc          = $(tc-getCC)/g" "${DEFAULT_RULES}/c"
 	sed -i "s/cc          = clang -m64/cc          = $(tc-getCC)/g" "${DEFAULT_RULES}/c"
-	sed -i "s/cFLAGS      = \$(GFLAGS) \$(cWARN) \$(cOPT) \$(cDBUG) \$(LIB_HEADER_DIRS) -fPIC/cFLAGS      = \$(GFLAGS) ${CFLAGS} \$(LIB_HEADER_DIRS)/g" "${DEFAULT_RULES}/c"
-	sed -i "s/-Xlinker --add-needed/-Xlinker --copy-dt-needed-entries/g" ${DEFAULT_RULES}/c
-	sed -i "s/-Xlinker nodefs/-Xlinker undefs/g" ${DEFAULT_RULES}/c
-	
-	test-flags-CXX -std=c++11 && replace-flags -std=c++0x -std=c++11
+	sed -i "s/cOPT        = -O3/cOPT        = ${CFLAGS}/g" "${DEFAULT_RULES}/cOpt"
 
-	sed -i "s/CC          = g++ -std=c++11 -m64/CC          = $(tc-getCXX)/g" ${DEFAULT_RULES}/c++
-	sed -i "s/CC          = clang++ -std=c++11 -m64/CC          = $(tc-getCXX)/g" ${DEFAULT_RULES}/c++
-	sed -i "s/c++FLAGS    = \$(GFLAGS) \$(c++WARN) \$(c++OPT) \$(c++DBUG) \$(ptFLAGS) \$(LIB_HEADER_DIRS) -fPIC/c++FLAGS    = \$(GFLAGS) ${CXXFLAGS} \$(LIB_HEADER_DIRS)/g" ${DEFAULT_RULES}/c++
-	sed -i "s/-Xlinker --add-needed/-Xlinker --copy-dt-needed-entries/g" ${DEFAULT_RULES}/c++
+	sed -i "s/CC          = g++ -std=c++11 -m64/CC          = $(tc-getCXX)/g" "${DEFAULT_RULES}/c++"
+	sed -i "s/CC          = clang++ -std=c++11 -m64/CC          = $(tc-getCXX)/g" "${DEFAULT_RULES}/c++"
+	sed -i "s/c++OPT      = -O3/c++OPT      = ${CXXFLAGS}/g" "${DEFAULT_RULES}/c++Opt"
 
 }
 
 src_compile() {
 
 	export WM_NCOMPPROCS=$(nproc)
+#	export WM_NCOMPPROCS=1
 
 	./Allwmake -j ${WM_NCOMPPROCS} || die "Build failure."
 
@@ -169,9 +161,9 @@ src_compile() {
 
 }
 
-#src_install() {
+src_install() {
 
-#	INSDIR="/usr/${LIBDIR}/${PN}-${MY_PV}"
+	INSDIR="/usr/${LIBDIR}/${PN}-${MY_PV}"
 
 #	insinto ${INSDIR}
 #	doins -r bin
@@ -187,4 +179,4 @@ src_compile() {
 
 #	use doc && dohtml -r doc/Doxygen/html/*
 
-#}
+}
