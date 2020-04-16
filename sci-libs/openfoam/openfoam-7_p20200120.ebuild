@@ -25,7 +25,7 @@ SLOT="${MY_PV}"
 IUSE="cgal doc examples gnuplot metis mpi paraview perftools scotch source"
 
 RDEPEND="gnuplot? ( sci-visualization/gnuplot )"
-DEPEND="dev-libs/boost
+DEPEND="dev-libs/boost[mpi?]
 	|| ( >=sys-devel/gcc-4.8 >=sys-devel/clang-3.6 )
 	sys-devel/flex
 	sys-libs/ncurses
@@ -100,7 +100,6 @@ src_configure() {
 		sed -i "s:ParaView_VERSION=5.6.0:ParaView_VERSION=${PV_VER}:g" "${S}/etc/config.sh/paraview"
 		sed -i "s:export ParaView_DIR=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER/\$paraviewArchName:export ParaView_DIR=/usr:g" "${S}/etc/config.sh/paraview"
 		sed -i "s:ParaView_LIB_DIR=\$ParaView_DIR/lib:ParaView_LIB_DIR=\$ParaView_DIR/${LIBDIR}:g" "${S}/etc/config.sh/paraview"
-#		sed -i "s:export PV_PLUGIN_PATH=\$FOAM_LIBBIN/paraview-\$ParaView_MAJOR:export PV_PLUGIN_PATH=\$ParaView_DIR/${LIBDIR}/paraview-\$ParaView_MAJOR:g" "${S}/etc/config.sh/paraview"
 	else
 		sed -i "s/ParaView_VERSION=5.6.0/ParaView_VERSION=none/g" "${S}/etc/config.sh/paraview"
 	fi
@@ -151,7 +150,6 @@ src_configure() {
 src_compile() {
 
 	export WM_NCOMPPROCS=$(nproc)
-#	export WM_NCOMPPROCS=1
 
 	./Allwmake -j ${WM_NCOMPPROCS} || die "Build failure."
 
@@ -165,18 +163,17 @@ src_install() {
 
 	INSDIR="/usr/${LIBDIR}/${PN}-${MY_PV}"
 
-#	insinto ${INSDIR}
-#	doins -r bin
-#	doins -r etc
-#	doins -r platforms
-#	doins -r wmake
+	insinto ${INSDIR}
+	doins -r applications
+	doins -r bin
+	use doc && dohtml -r doc/Doxygen/html/*
+	doins -r etc
+	doins -r platforms
+	use source && doins -r src
+	use examples && doins -r tutorials
+	use source && doins -r wmake
 
-#	use examples && doins -r tutorials
-
-#	use source && doins -r src
-
-#	dodoc README.md
-
-#	use doc && dohtml -r doc/Doxygen/html/*
+	dodoc COPYING
+	dodoc README.md
 
 }
