@@ -103,7 +103,7 @@ src_configure() {
 		sed -i "s:export ParaView_DIR=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER/\$paraviewArchName:export ParaView_DIR=/usr:g" "${S}/etc/config.sh/paraview"
 		sed -i "s:ParaView_LIB_DIR=\$ParaView_DIR/lib:ParaView_LIB_DIR=\$ParaView_DIR/${LIBDIR}:g" "${S}/etc/config.sh/paraview"
 	else
-		sed -i "s/ParaView_VERSION=5.6.0/ParaView_VERSION=none/g" "${S}/etc/config.sh/paraview"
+		sed -i '/config.sh\/paraview/s/^/#/g' "${S}/etc/bashrc"
 	fi
 
 	if use perftools; then
@@ -189,7 +189,6 @@ src_install() {
 	use source && doins -r src
 	use source && doins -r wmake
 
-	dodoc README.md
 	use doc && einstalldocs
 
 }
