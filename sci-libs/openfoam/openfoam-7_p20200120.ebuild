@@ -22,7 +22,7 @@ HOMEPAGE="https://openfoam.org/"
 LICENSE="GPL-3"
 KEYWORDS="~amd64"
 SLOT="${MY_PV}"
-IUSE="cgal doc examples gnuplot metis mpi paraview perftools scotch source"
+IUSE="cgal doc examples gnuplot metis mpi paraview perftools scotch source test"
 
 RDEPEND="gnuplot? ( sci-visualization/gnuplot )"
 DEPEND="dev-libs/boost[mpi?]
@@ -36,7 +36,7 @@ DEPEND="dev-libs/boost[mpi?]
 	doc? ( app-doc/doxygen[dot] )
 	metis? ( sci-libs/metis )
 	mpi? ( sys-cluster/openmpi )
-	paraview? ( sci-libs/vtk sci-visualization/paraview[development,plugins,mpi?] )
+	paraview? ( sci-visualization/paraview[mpi?] )
 	perftools? ( dev-util/google-perftools )
 	scotch? ( sci-libs/scotch[mpi?] )"
 
@@ -76,6 +76,7 @@ src_configure() {
 	export PS1=1
 
 	use mpi || sed -i '/config.sh\/mpi/s/^/#/g' "${S}/etc/bashrc"
+	sed -i '/config.sh\/paraview/s/^/#/g' "${S}/etc/bashrc"
 	sed -i '/config.sh\/ensight/s/^/#/g' "${S}/etc/bashrc"
 
 	sed -i "s/export WM_CC='gcc'/export WM_CC='$(tc-getCC)'/g" "${S}/etc/config.sh/settings"
@@ -92,18 +93,6 @@ src_configure() {
 	else
 		sed -i "s/METIS_VERSION=metis-5.1.0/METIS_VERSION=metis-none/g" "${S}/etc/config.sh/metis"
 		sed -i "s:export METIS_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$METIS_VERSION:export METIS_ARCH_PATH=:g" "${S}/etc/config.sh/metis"
-	fi
-
-	if use paraview; then
-		PV_VER="$(emerge --info sci-visualization/paraview | \
-			grep 'was built with the following' | cut -d'/' -f2 | \
-			cut -d':' -f1 | cut -d'-' -f2)"
-		sed -i "s:export ParaView_GL=mesa:export ParaView_GL=system:g" "${S}/etc/config.sh/paraview"
-		sed -i "s:ParaView_VERSION=5.6.0:ParaView_VERSION=${PV_VER}:g" "${S}/etc/config.sh/paraview"
-		sed -i "s:export ParaView_DIR=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER/\$paraviewArchName:export ParaView_DIR=/usr:g" "${S}/etc/config.sh/paraview"
-		sed -i "s:ParaView_LIB_DIR=\$ParaView_DIR/lib:ParaView_LIB_DIR=\$ParaView_DIR/${LIBDIR}:g" "${S}/etc/config.sh/paraview"
-	else
-		sed -i '/config.sh\/paraview/s/^/#/g' "${S}/etc/bashrc"
 	fi
 
 	if use perftools; then
