@@ -36,7 +36,7 @@ DEPEND="dev-libs/boost[mpi?]
 	doc? ( app-doc/doxygen[dot] )
 	metis? ( sci-libs/metis )
 	mpi? ( sys-cluster/openmpi )
-	paraview? ( sci-visualization/paraview[plugins] )
+	paraview? ( sci-libs/vtk sci-visualization/paraview[development,plugins,mpi?] )
 	perftools? ( dev-util/google-perftools )
 	scotch? ( sci-libs/scotch[mpi?] )"
 
