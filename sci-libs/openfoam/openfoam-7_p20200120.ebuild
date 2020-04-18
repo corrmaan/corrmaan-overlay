@@ -42,7 +42,7 @@ DEPEND="dev-libs/boost[mpi?]
 
 S="${WORKDIR}/${MY_PN}-${MY_PV}"
 DOCS=( "${S}/doc/Guides" "${S}/doc/codingStyleGuide.org" )
-HTML_DOCS=( "${S}/doc/Doxygen/html" )
+HTML_DOCS=( "${S}/doc/Doxygen/html/" )
 
 src_unpack() {
 
