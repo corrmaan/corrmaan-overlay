@@ -163,7 +163,7 @@ src_test() {
 
 src_install() {
 
-	INSDIR="/usr/${LIBDIR}/${PN}-${MY_PV}"
+	INSDIR="/usr/${LIBDIR}/${MY_PN}-${MY_PV}"
 	insinto ${INSDIR}
 
 	doins -r applications
@@ -185,6 +185,6 @@ src_install() {
 pkg_postinst() {
 
 	elog "Please add the following to ~/.bashrc:"
-	elog "source ${INSTDIR}/etc/bashrc"
+	elog "source ${INSDIR}/etc/bashrc"
 
 }
