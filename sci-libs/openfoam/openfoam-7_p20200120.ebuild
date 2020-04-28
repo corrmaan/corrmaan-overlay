@@ -185,6 +185,6 @@ src_install() {
 pkg_postinst() {
 
 	elog "Please add the following to ~/.bashrc:"
-	elog "source ${INSDIR}/etc/bashrc"
+	elog "source ${INSDIR}/${MY_PN}-${MY_PV}/etc/bashrc"
 
 }
