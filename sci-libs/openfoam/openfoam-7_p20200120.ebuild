@@ -24,7 +24,8 @@ KEYWORDS="~amd64"
 SLOT="${MY_PV}"
 IUSE="cgal doc examples gnuplot metis mpi paraview perftools scotch source test"
 
-RDEPEND="gnuplot? ( sci-visualization/gnuplot )"
+RDEPEND="gnuplot? ( sci-visualization/gnuplot )
+	paraview? ( sci-visualization/paraview[mpi?] )"
 DEPEND="dev-libs/boost[mpi?]
 	|| ( >=sys-devel/gcc-4.8 >=sys-devel/clang-3.6 )
 	sys-devel/flex
@@ -36,7 +37,6 @@ DEPEND="dev-libs/boost[mpi?]
 	doc? ( app-doc/doxygen[dot] )
 	metis? ( sci-libs/metis )
 	mpi? ( sys-cluster/openmpi )
-	paraview? ( sci-visualization/paraview[mpi?] )
 	perftools? ( dev-util/google-perftools )
 	scotch? ( sci-libs/scotch[mpi?] )"
 
@@ -151,12 +151,10 @@ src_compile() {
 src_test() {
 
 	if use test ; then
-
 		cd "${S}/test"
 		./Allrun || die "Test failure."
 		./Allclean
 		cd -
-
 	fi
 
 }
