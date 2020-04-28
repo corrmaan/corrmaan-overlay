@@ -19,14 +19,17 @@ KEYWORDS="~amd64"
 SLOT="${PV}"
 IUSE="examples gnuplot source"
 
-RDEPEND="sci-libs/openfoam:7[gnuplot?]"
-DEPEND="sci-libs/openfoam:7[source]"
+DEPEND="sci-libs/openfoam:7[gnuplot?,source]"
 
 DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/blastFoam_User_Guide.pdf" )
 
-src_configure() {
+pkg_setup() {
 
-	LIBDIR=$(get_libdir)
+	INSDIR="/usr/$(get_libdir)/${P}"
+
+}
+
+src_configure() {
 
 	append-cflags $(test-flags-CC -m64)
 	append-cflags $(test-flags-CC -fPIC)
@@ -49,7 +52,7 @@ src_configure() {
 
 	sed -i 's:export BLAST_DIR=$HOME/$WM_PROJECT/$BLAST_PROJECT:export BLAST_DIR=$(cd $(dirname ${BASH_SOURCE\:-$0})/../.. \&\& pwd -P):g' "${S}/etc/bashrc"
 
-	source "/usr/${LIBDIR}/OpenFOAM-7/etc/bashrc"
+	source "/usr/$(get_libdir)/OpenFOAM-7/etc/bashrc"
 	source "${S}/etc/bashrc"
 
 }
@@ -62,19 +65,18 @@ src_compile() {
 
 src_install() {
 
-	INSDIR="/usr/${LIBDIR}/${P}"
-	insinto ${INSDIR}
+#	insinto ${INSDIR}
 
 #	doins -r applications
 #	doins -r bin
 #	doins -r etc
 #	doins -r platforms
 
-	if use examples ; then
-		doins -r tutorials
-		doins -r validation
-	fi
-	use source && doins -r src
+#	if use examples ; then
+#		doins -r tutorials
+#		doins -r validation
+#	fi
+#	use source && doins -r src
 
 	use doc && einstalldocs
 

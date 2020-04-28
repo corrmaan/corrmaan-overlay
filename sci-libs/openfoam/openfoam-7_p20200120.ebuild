@@ -41,8 +41,15 @@ DEPEND="dev-libs/boost[mpi?]
 	scotch? ( sci-libs/scotch[mpi?] )"
 
 S="${WORKDIR}/${MY_PN}-${MY_PV}"
-DOCS=( "${S}/doc/Guides" "${S}/doc/codingStyleGuide.org" )
-HTML_DOCS=( "${S}/doc/Doxygen/html/" )
+
+pkg_setup() {
+
+	INSDIR="/usr/$(get_libdir)"
+
+	#use doc && DOCS=( "${S}/doc/Guides" "${S}/doc/codingStyleGuide.org" )
+	#use doc && HTML_DOCS=( "${S}/doc/Doxygen/html/" )
+
+}
 
 src_unpack() {
 
@@ -50,11 +57,11 @@ src_unpack() {
 
 	mv "${WORKDIR}/${MY_PN}-${MY_PV}-${MY_PP}" "${S}"
 
+	rm "${S}/.gitignore"
+
 }
 
 src_configure() {
-
-	LIBDIR=$(get_libdir)
 
 	append-cflags $(test-flags-CC -m64)
 	append-cflags $(test-flags-CC -fPIC)
@@ -142,9 +149,9 @@ src_compile() {
 
 	./Allwmake ${MAKEOPTS} || die "Build failure."
 
-	if use doc ; then
-		cd "${S}/doc/Doxygen" && ./Allwmake && cd -
-	fi
+#	if use doc ; then
+#		cd "${S}/doc/Doxygen" && ./Allwmake && cd -
+#	fi
 
 }
 
@@ -161,22 +168,17 @@ src_test() {
 
 src_install() {
 
-	INSDIR="/usr/${LIBDIR}/${MY_PN}-${MY_PV}"
-	insinto ${INSDIR}
+	mkdir -p "${ED}${INSDIR}"
 
-	doins -r applications
-	doins -r bin
-	doins -r etc
-	doins -r platforms
+	mv "${S}" "${ED}${INSDIR}/${MY_PN}-${MY_PV}"
 
-	if use examples ; then
-		doins -r tutorials
-		use source && doins -r test
-	fi
-	use source && doins -r src
-	use source && doins -r wmake
+	cd "${ED}${INSDIR}/${MY_PN}-${MY_PV}"
 
-	use doc && einstalldocs
+	use examples || rm -rf tutorials
+	use source || rm -rf src test wmake
+
+#	use doc && einstalldocs
+	rm -rf doc
 
 }
 
