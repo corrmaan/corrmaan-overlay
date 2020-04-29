@@ -39,22 +39,6 @@ src_unpack() {
 
 src_configure() {
 
-	append-cflags $(test-flags-CC -m64)
-	append-cflags $(test-flags-CC -fPIC)
-	append-cxxflags $(test-flags-CXX -m64)
-	append-cxxflags $(test-flags-CXX -fPIC)
-	append-cxxflags $(test-flags-CXX -std=c++11)
-	append-ldflags -m64
-
-	if tc-ld-is-gold; then
-		# Need to disable gold linker https://bugs.openfoam.org/view.php?id=685
-		tc-ld-disable-gold
-		# tc-ld-disable-gold only appends -fuse-ld=bfd to LDFLAGS, also need to 
-		# append it to C[XX]FLAGS:
-		append-cflags $(test-flags-CC -fuse-ld=bfd)
-		append-cxxflags $(test-flags-CXX -fuse-ld=bfd)
-	fi
-
 	export FOAM_VERBOSE=1
 	export PS1=1
 
@@ -78,6 +62,8 @@ src_install() {
 	mkdir -p "${ED}${INSDIR}"
 
 	mv "${S}" "${ED}${INSDIR}/${P}"
+
+	mv "${HOME}/OpenFOAM/-7/platforms" "${ED}${INSDIR}/${P}"
 
 	cd "${ED}${INSDIR}/${P}"
 
