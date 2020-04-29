@@ -53,6 +53,8 @@ src_compile() {
 
 	./Allwmake ${MAKEOPTS} || die "Build failure."
 
+	mv "${HOME}/OpenFOAM/-7/platforms" "${S}/"
+
 }
 
 src_install() {
@@ -63,11 +65,10 @@ src_install() {
 
 	mv "${S}" "${ED}${INSDIR}/${P}"
 
-	mv "${HOME}/OpenFOAM/-7/platforms" "${ED}${INSDIR}/${P}"
-
 	cd "${ED}${INSDIR}/${P}"
 
 	rm INPUT.md README.md blastFoam_User_Guide.pdf media svgs
+	rm -rf media svgs
 
 	use examples || rm -rf tutorials validation
 	use source || rm -rf Allwclean Allwmake COPYING src
