@@ -21,7 +21,7 @@ HOMEPAGE="https://openfoam.org/"
 
 LICENSE="GPL-3"
 KEYWORDS="~amd64"
-SLOT="${MY_PV}"
+SLOT="${MY_PV}/${MY_PP}"
 IUSE="cgal doc examples gnuplot metis mpi paraview perftools scotch source test"
 
 RDEPEND="gnuplot? ( sci-visualization/gnuplot )
