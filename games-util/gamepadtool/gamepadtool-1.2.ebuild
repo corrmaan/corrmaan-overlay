@@ -27,12 +27,12 @@ MY_PN="gamepad-tool"
 
 S="${WORKDIR}"
 
-DOCS=( "${S}/usr/share/doc/gamepadtool/changelog" )
+DOCS=( "${S}/usr/share/doc/${PN}/changelog" )
 
 src_unpack() {
 
 	unpack_deb ${A}
-	cd "${S}/usr/share/doc/gamepadtool/"
+	cd "${S}/usr/share/doc/${PN}"
 	gunzip changelog.gz
 	cd -
 
@@ -43,7 +43,7 @@ src_install() {
 	dobin "${S}/usr/bin/${MY_PN}"
 
 	newicon -s 256x256 "${S}/usr/share/icons/hicolor/${MY_PN}.png" ${MY_PN}.png
-	make_desktop_entry ${MY_PN} "Gamepad config tool" ${MY_PN} "Utility"
+	make_desktop_entry ${MY_PN} "Gamepad Tool" ${MY_PN} "Utility"
 
 	einstalldocs
 
