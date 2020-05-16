@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{6,7,8} )
+PYTHON_COMPAT=( python3_{6,7,8} )
 
 inherit distutils-r1
 
@@ -16,5 +16,5 @@ SLOT="0.7"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="dev-python/paver[${PYTHON_USEDEP}]
+DEPEND="dev-python/deprecation[${PYTHON_USEDEP}]
 	dev-python/python-magic[${PYTHON_USEDEP}]"
