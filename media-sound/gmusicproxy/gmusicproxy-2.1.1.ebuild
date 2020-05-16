@@ -23,3 +23,11 @@ RDEPEND=">=dev-python/gmusicapi-13.0.0[${PYTHON_USEDEP}]
 	>=dev-python/pyxdg-0.25[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]"
+
+src_install() {
+
+	distutils-r1_src_install
+
+	python_foreach_impl python_domodule ${PN}utils.py
+
+}
