@@ -28,6 +28,6 @@ src_install() {
 
 	distutils-r1_src_install
 
-	python_foreach_impl python_domodule ${PN}utils.py README.md
+	python_foreach_impl python_domodule ${PN}utils.py README.md version.json
 
 }
