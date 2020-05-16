@@ -1,0 +1,31 @@
+diff --git a/proboscis/compatability/exceptions_2_5.py b/proboscis/compatability/exceptions_2_5.py
+index 3a37c9ca700c..d01bb886cdbc 100644
+--- a/proboscis/compatability/exceptions_2_5.py
++++ b/proboscis/compatability/exceptions_2_5.py
+@@ -18,14 +18,14 @@ def capture_exception(body_func, *except_type):
+     try:
+         body_func()
+         return None
+-    except except_type, e:
++    except (except_type, e):
+         return e
+ 
+ 
+ def capture_type_error(func):
+     try:
+         func()
+-    except TypeError, te:
++    except (TypeError, te):
+         msg = str(te)
+         if ("takes exactly 1 argument" in msg and "(0 given)" in msg) \
+             or "instance as first argument (got nothing instead)" in msg:
+diff --git a/proboscis/compatability/raise_2_x.py b/proboscis/compatability/raise_2_x.py
+index 21ceca51f2ec..8aa73f919adc 100644
+--- a/proboscis/compatability/raise_2_x.py
++++ b/proboscis/compatability/raise_2_x.py
+@@ -15,4 +15,4 @@
+ 
+ 
+ def raise_with_traceback(_type, exception, traceback):
+-    raise _type, exception, traceback
++    raise (_type, exception, traceback)
