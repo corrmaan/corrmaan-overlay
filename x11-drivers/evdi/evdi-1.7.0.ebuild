@@ -23,7 +23,6 @@ MODULE_NAMES="evdi(video:${S}/module)"
 CONFIG_CHECK="DRM DRM_KMS_HELPER"
 
 pkg_setup() {
-#	linux-info_pkg_setup
 	linux-mod_pkg_setup
 
 	kernel_is -ge 4 15 || die "Update your kernel to at least version 4.15."
