@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit linux-info linux-mod
+inherit linux-info linux-mod xorg-3 multilib
 
 DESCRIPTION="Extensible Virtual Display Interface"
 HOMEPAGE="https://github.com/DisplayLink/evdi"
@@ -19,24 +19,32 @@ DEPEND="${RDEPEND}
 
 MODULE_NAMES="evdi(video:${S}/module)"
 
-#CONFIG_CHECK="~FB_VIRTUAL ~!INTEL_IOMMU"
-CONFIG_CHECK="DRM DRM_KMS_HELPER"
+CONFIG_CHECK="~FB_VIRTUAL ~!INTEL_IOMMU ~DRM ~DRM_KMS_HELPER"
 
 pkg_setup() {
 	linux-mod_pkg_setup
-
 	kernel_is -ge 4 15 || die "Update your kernel to at least version 4.15."
 }
 
+src_configure() {
+	return
+}
+
 src_compile() {
+	cd "${S}/module"
 	linux-mod_src_compile
+	cd -
 	cd "${S}/library"
+	export LIBDIR=/usr/$(get_libdir)
 	default
-	mv libevdi.so libevdi.so.0
+	cd -
 }
 
 src_install() {
+	cd "${S}/module"
 	linux-mod_src_install
-	dolib.so library/libevdi.so.0
-	dosym libevdi.so.0 "/usr/$(get_libdir)/libevdi.so"
+	cd -
+	cd "${S}/library"
+	default
+	cd -
 }
