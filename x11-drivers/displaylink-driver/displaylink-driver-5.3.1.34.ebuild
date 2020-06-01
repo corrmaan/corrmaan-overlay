@@ -55,8 +55,8 @@ src_configure() {
 	source udev-installer.sh
 	create_bootstrap_file systemd udev.sh
 	if ! use systemd; then
-		sed -i 's/systemctl start displaylink-driver/rc-service start dlm/g' udev.sh
-		sed -i 's/systemctl stop displaylink-driver/rc-service stop dlm/g' udev.sh
+		sed -i 's/systemctl start displaylink-driver/rc-service dlm start/g' udev.sh
+		sed -i 's/systemctl stop displaylink-driver/rc-service dlm stop/g' udev.sh
 	else
 		cp displaylink-installer.sh dlm.service
 		sed -i '/#!\/bin\/bash/,/add_systemd_service()/d' dlm.service
