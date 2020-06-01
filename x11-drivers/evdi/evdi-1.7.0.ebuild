@@ -19,7 +19,7 @@ DEPEND="${RDEPEND}
 
 MODULE_NAMES="evdi(video:${S}/module)"
 
-CONFIG_CHECK="~FB_VIRTUAL ~!INTEL_IOMMU ~DRM ~DRM_KMS_HELPER"
+CONFIG_CHECK="~DRM ~DRM_KMS_HELPER"
 
 pkg_setup() {
 	linux-mod_pkg_setup
@@ -31,9 +31,7 @@ src_configure() {
 }
 
 src_compile() {
-	cd "${S}/module"
 	linux-mod_src_compile
-	cd -
 	cd "${S}/library"
 	export LIBDIR=/usr/$(get_libdir)
 	default
@@ -41,9 +39,7 @@ src_compile() {
 }
 
 src_install() {
-	cd "${S}/module"
 	linux-mod_src_install
-	cd -
 	cd "${S}/library"
 	default
 	cd -
