@@ -3,19 +3,24 @@
 
 EAPI=7
 
-inherit linux-info linux-mod xorg-3 multilib
+inherit linux-info linux-mod
 
-DESCRIPTION="Extensible Virtual Display Interface"
-HOMEPAGE="https://github.com/DisplayLink/evdi"
-SRC_URI="https://github.com/DisplayLink/evdi/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+MY_PN="evdi"
+MY_P="${MY_PN}-${PV}"
 
-LICENSE="GPL-2 LGPL-2.1"
+DESCRIPTION="Extensible Virtual Display Interface Module"
+HOMEPAGE="https://github.com/DisplayLink/${MY_PN}"
+SRC_URI="https://github.com/DisplayLink/${MY_PN}/archive/v${PV}.tar.gz -> ${MY_P}.tar.gz"
+
+LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-RDEPEND="x11-libs/libdrm"
+RDEPEND=""
 DEPEND="${RDEPEND}
 	sys-kernel/linux-headers"
+
+S="${WORKDIR}/${MY_P}"
 
 MODULE_NAMES="evdi(kernel/drivers/gpu/drm/evdi:${S}/module)"
 
@@ -26,33 +31,34 @@ pkg_setup() {
 	kernel_is -ge 4 15 || die "Update your kernel to at least version 4.15."
 }
 
-src_configure() {
-	return
-}
-
 src_compile() {
 	linux-mod_src_compile
+
 	cat > "${S}/modules-load.d-evdi.conf" <<EOF
 evdi
 EOF
 	cat > "${S}/modprobe.d-evdi.conf" <<EOF
 options evdi initial_device_count=4
 EOF
-
-	cd "${S}/library"
-	export LIBDIR=/usr/$(get_libdir)
-	default
-	cd -
 }
 
 src_install() {
 	linux-mod_src_install
+
 	insinto /etc/modprobe.d
 	newins "${S}/modprobe.d-evdi.conf" evdi.conf
 	insinto /etc/modules-load.d
 	newins "${S}/modules-load.d-evdi.conf" evdi.conf
+}
 
-	cd "${S}/library"
-	default
-	cd -
+pkg_preinst() {
+	linux-mod_pkg_preinst
+}
+
+pkg_postinst() {
+	linux-mod_pkg_preinst
+}
+
+pkg_postrm() {
+	linux-mod_pkg_postrm
 }

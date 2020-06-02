@@ -21,7 +21,7 @@ RESTRICT="fetch"
 
 DEPEND="app-admin/chrpath"
 RDEPEND=">=sys-devel/gcc-5.1
-	>=x11-drivers/evdi-1.7
+	>=x11-libs/libevdi-1.7
 	virtual/libusb:1
 	>=x11-base/xorg-server-1.17.0"
 #	!systemd? ( sys-power/pm-utils )"
