@@ -3,7 +3,7 @@
 command="/opt/displaylink/DisplayLinkManager"
 command_background=true
 directory="/opt/displaylink"
-pidfile="/run/${RC_SVCNAME}.pid"
+pidfile="/var/run/${RC_SVCNAME}.pid"
 
 depend() {
 	after xdm
