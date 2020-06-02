@@ -32,6 +32,13 @@ src_configure() {
 
 src_compile() {
 	linux-mod_src_compile
+	cat > "${S}/modules-load.d-evdi.conf" <<EOF
+evdi
+EOF
+	cat > "${S}/modprobe.d-evdi.conf" <<EOF
+options evdi initial_device_count=4
+EOF
+
 	cd "${S}/library"
 	export LIBDIR=/usr/$(get_libdir)
 	default
@@ -40,6 +47,11 @@ src_compile() {
 
 src_install() {
 	linux-mod_src_install
+	insinto /etc/modprobe.d
+	newins "${S}/modprobe.d-evdi.conf" evdi.conf
+	insinto /etc/modules-load.d
+	newins "${S}/modules-load.d-evdi.conf" evdi.conf
+
 	cd "${S}/library"
 	default
 	cd -
