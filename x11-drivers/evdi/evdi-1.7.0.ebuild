@@ -17,7 +17,7 @@ RDEPEND="x11-libs/libdrm"
 DEPEND="${RDEPEND}
 	sys-kernel/linux-headers"
 
-MODULE_NAMES="evdi(video:${S}/module)"
+MODULE_NAMES="evdi(kernel/drivers/gpu/drm/evdi:${S}/module)"
 
 CONFIG_CHECK="~DRM ~DRM_KMS_HELPER"
 
