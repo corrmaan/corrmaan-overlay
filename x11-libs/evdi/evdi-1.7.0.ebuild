@@ -44,7 +44,7 @@ src_compile() {
 evdi
 EOF
 	cat > "${S}/modprobe.d-evdi.conf" <<EOF
-options evdi initial_device_count=4
+options evdi initial_device_count=2
 EOF
 
 	cd "${S}/library"
