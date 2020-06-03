@@ -22,7 +22,7 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/${MY_P}"
 
-MODULE_NAMES="evdi(kernel/drivers/gpu/drm/evdi:${S}/module)"
+MODULE_NAMES="evdi(video:${S}/module)"
 
 CONFIG_CHECK="~DRM ~DRM_KMS_HELPER"
 
@@ -38,7 +38,7 @@ src_compile() {
 evdi
 EOF
 	cat > "${S}/modprobe.d-evdi.conf" <<EOF
-options evdi initial_device_count=4
+options evdi initial_device_count=4 initial_loglevel=6
 EOF
 }
 
