@@ -3,24 +3,20 @@
 
 EAPI=7
 
-inherit linux-info linux-mod
+inherit xorg-3 multilib linux-info linux-mod
 
-MY_PN="evdi"
-MY_P="${MY_PN}-${PV}"
+DESCRIPTION="Extensible Virtual Display Interface"
+HOMEPAGE="https://github.com/DisplayLink/${PN}"
+SRC_URI="https://github.com/DisplayLink/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
-DESCRIPTION="Extensible Virtual Display Interface Module"
-HOMEPAGE="https://github.com/DisplayLink/${MY_PN}"
-SRC_URI="https://github.com/DisplayLink/${MY_PN}/archive/v${PV}.tar.gz -> ${MY_P}.tar.gz"
-
-LICENSE="GPL-2"
+LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 RDEPEND=""
 DEPEND="${RDEPEND}
-	sys-kernel/linux-headers"
-
-S="${WORKDIR}/${MY_P}"
+	sys-kernel/linux-headers
+	x11-libs/libdrm"
 
 MODULE_NAMES="evdi(video:${S}/module)"
 
@@ -29,6 +25,16 @@ CONFIG_CHECK="~DRM ~DRM_KMS_HELPER"
 pkg_setup() {
 	linux-mod_pkg_setup
 	kernel_is -ge 4 15 || die "Update your kernel to at least version 4.15."
+}
+
+src_prepare() {
+	default
+	sed -i -e "s:PREFIX ?= /usr/local:PREFIX ?= /usr:" "${S}/library/Makefile"
+	sed -i -e "s:LIBDIR ?= \$(PREFIX)/lib:LIBDIR ?= \$(PREFIX)/$(get_libdir):" "${S}/library/Makefile"
+}
+
+src_configure(){
+	return
 }
 
 src_compile() {
@@ -40,6 +46,10 @@ EOF
 	cat > "${S}/modprobe.d-evdi.conf" <<EOF
 options evdi initial_device_count=4 initial_loglevel=6
 EOF
+
+	cd "${S}/library"
+	default
+	cd -
 }
 
 src_install() {
@@ -49,6 +59,10 @@ src_install() {
 	newins "${S}/modprobe.d-evdi.conf" evdi.conf
 	insinto /etc/modules-load.d
 	newins "${S}/modules-load.d-evdi.conf" evdi.conf
+
+	cd "${S}/library"
+	default
+	cd -
 }
 
 pkg_preinst() {
