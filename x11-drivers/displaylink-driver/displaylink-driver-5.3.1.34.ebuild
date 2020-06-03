@@ -93,9 +93,14 @@ pkg_postinst() {
 	udev_reload
 }
 
-#pkg_prerm() {
-#	[[ -d "${ROOT}${COREDIR}/DisplayLinkManagerPipe" ]] && rm -rf "${ROOT}${COREDIR}/DisplayLinkManagerPipe"
-#}
+pkg_prerm() {
+	if use systemd; then
+		systemctl stop dlm 2>/dev/null
+	else
+		rc-service --ifexists -- dlm --ifstarted stop
+	fi
+	[[ -d "${ROOT}${COREDIR}/DisplayLinkManagerDirLock" ]] && rm -rf "${ROOT}${COREDIR}/DisplayLinkManagerDirLock"
+}
 
 pkg_postrm() {
 	udev_reload
