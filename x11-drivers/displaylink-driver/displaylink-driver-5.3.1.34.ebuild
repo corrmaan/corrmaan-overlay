@@ -89,19 +89,13 @@ src_install() {
 	fi
 }
 
-#pkg_postinst() {
-#	einfo "The DisplayLinkManager Init is now called dlm"
-#	einfo ""
-#	einfo "You should be able to use xrandr as follows:"
-#	einfo "xrandr --setprovideroutputsource 1 0"
-#	einfo "Repeat for more screens, like:"
-#	einfo "xrandr --setprovideroutputsource 2 0"
-#	einfo "Then, you can use xrandr or GUI tools like arandr to configure the screens, e.g."
-#	einfo "xrandr --output DVI-1-0 --auto"
-#}
 pkg_postinst() {
 	udev_reload
 }
+
+#pkg_prerm() {
+#	[[ -d "${ROOT}${COREDIR}/DisplayLinkManagerPipe" ]] && rm -rf "${ROOT}${COREDIR}/DisplayLinkManagerPipe"
+#}
 
 pkg_postrm() {
 	udev_reload
