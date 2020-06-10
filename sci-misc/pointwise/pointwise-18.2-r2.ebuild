@@ -25,12 +25,36 @@ DEPEND="${RDEPEND}
 
 S=${WORKDIR}
 
-INSTDIR="/opt/Pointwise/PointwiseV${RELID}"
+INSTDIR="opt/Pointwise/PointwiseV${RELID}"
 
 addpredict /root/.java
 addpredict /etc/.java/.systemPrefs/com/install4j/installations/prefs.tmp
 addpredict /root/.local/share/applications
 addpredict /usr/local/bin/${PN}
+
+QA_PRESTRIPPED="${INSTDIR}/linux_x86_64/lib/libmg-tetra.so
+	${INSTDIR}/linux_x86_64/lib/libmeshgems_stubs.so
+	${INSTDIR}/linux_x86_64/lib/libmeshgems.so
+	${INSTDIR}/linux_x86_64/lib/libkernel_io.so
+	${INSTDIR}/linux_x86_64/lib/libQt5Xml.so.5.9.5
+	${INSTDIR}/linux_x86_64/lib/libQt5XcbQpa.so.5.9.5
+	${INSTDIR}/linux_x86_64/lib/libQt5X11Extras.so.5.9.5
+	${INSTDIR}/linux_x86_64/lib/libQt5Widgets.so.5.9.5
+	${INSTDIR}/linux_x86_64/lib/libQt5Svg.so.5.9.5
+	${INSTDIR}/linux_x86_64/lib/libQt5PrintSupport.so.5.9.5
+	${INSTDIR}/linux_x86_64/lib/libQt5OpenGL.so.5.9.5
+	${INSTDIR}/linux_x86_64/lib/libQt5Network.so.5.9.5
+	${INSTDIR}/linux_x86_64/lib/libQt5Gui.so.5.9.5
+	${INSTDIR}/linux_x86_64/lib/libQt5DBus.so.5.9.5
+	${INSTDIR}/linux_x86_64/lib/libQt5Core.so.5.9.5
+	${INSTDIR}/linux_x86_64/bin/xcbglintegrations/libqxcb-glx-integration.so
+	${INSTDIR}/linux_x86_64/bin/rlmutil
+	${INSTDIR}/linux_x86_64/bin/qtdiag
+	${INSTDIR}/linux_x86_64/bin/pointwise_tet
+	${INSTDIR}/linux_x86_64/bin/platforms/libqxcb.so
+	${INSTDIR}/linux_x86_64/bin/imageformats/libqtiff.so
+	${INSTDIR}/linux_x86_64/bin/imageformats/libqsvg.so
+	${INSTDIR}/linux_x86_64/bin/iconengines/libqsvgicon.so"
 
 src_configure() {
 
@@ -38,7 +62,7 @@ cat <<EOT >> response.varfile
 licenseAcceptBtns\$Integer=0
 sys.adminRights\$Boolean=false
 sys.component.Pointwise\$Boolean=true
-sys.installationDir=${D}${INSTDIR}
+sys.installationDir=${D}/${INSTDIR}
 sys.languageId=en
 EOT
 
@@ -55,7 +79,7 @@ src_install() {
 		newicon -s ${i} "${FILESDIR}/${PN}-${i}.png" ${PN}.png
 	done
 
-	make_desktop_entry ${INSTDIR}/${PN} "Pointwise V${RELID} 64-bit" ${PN} "Science;"
+	make_desktop_entry /${INSTDIR}/${PN} "Pointwise V${RELID} 64-bit" ${PN} "Science;"
 
 }
 
