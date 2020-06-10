@@ -79,7 +79,7 @@ src_install() {
 		newicon -s ${i} "${FILESDIR}/${PN}-${i}.png" ${P}.png
 	done
 
-	make_desktop_entry /${INSTDIR}/${PN} "Pointwise V${RELID} 64-bit" ${PN} "Science;"
+	make_desktop_entry /${INSTDIR}/${PN} "Pointwise V${RELID} 64-bit" ${P} "Science;"
 
 }
 
