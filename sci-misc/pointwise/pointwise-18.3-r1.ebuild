@@ -14,7 +14,7 @@ HOMEPAGE="https://www.pointwise.com/"
 
 LICENSE="Pointwise-RTULA"
 KEYWORDS="~amd64"
-SLOT="0"
+SLOT="${PV}"
 IUSE=""
 
 RDEPEND="|| ( virtual/jre:1.8 virtual/jdk:1.8 )
