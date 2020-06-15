@@ -4,12 +4,12 @@
 EAPI=7
 
 inherit desktop xdg-utils
-
-RELID="${PV}R${PR:1:1}"
+MY_PV=$(ver_cut 1-2)
+RELID="${MY_PV}R$(ver_cut 3)C$(ver_cut 5)"
 FN="pw-V${RELID}-linux_x86_64-nojre.sh"
 
 DESCRIPTION="A commercial mesh generation software product"
-SRC_URI="ftp://ftp.pointwise.com/dload/${FN}"
+SRC_URI="ftp://ftp.pointwise.com/dload_rc/${FN}"
 HOMEPAGE="https://www.pointwise.com/"
 
 LICENSE="Pointwise-RTULA"
