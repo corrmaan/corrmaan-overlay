@@ -38,9 +38,9 @@ src_configure(){
 #	filter-flags "-fdevirtualize-at-ltrans"
 #	filter-flags "-fipa-pta"
 #	filter-flags "-fno-semantic-interposition"
-#	filter-flags "-flto*"
-	filter-flags "-fuse-linker-plugin"
-	replace-flags "-O3" "-O2"
+	filter-flags "-flto*"
+#	filter-flags "-fuse-linker-plugin"
+#	replace-flags "-O3" "-O2"
 }
 
 src_compile() {
