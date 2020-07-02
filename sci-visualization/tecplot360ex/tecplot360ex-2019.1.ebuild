@@ -52,8 +52,8 @@ src_install() {
 	rm "${ED}/${INSTDIR}/360ex_${RELID}/bin/libfreetype.so.6"
 
 	# These are world-writable for some reason
-	fperms 664 "${ED}/${INSTDIR}/360ex_${RELID}/tecplotlm.lic"
-	fperms 664 "${ED}/${INSTDIR}/360ex_${RELID}/variable_aliases.txt"
+	fperms 664 "/${INSTDIR}/360ex_${RELID}/tecplotlm.lic"
+	fperms 664 "/${INSTDIR}/360ex_${RELID}/variable_aliases.txt"
 
 	local i
 	for i in 16x16 32x32 48x48 192x192; do
