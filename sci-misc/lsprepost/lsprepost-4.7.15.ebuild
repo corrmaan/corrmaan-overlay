@@ -24,7 +24,7 @@ RESTRICT="fetch"
 
 S=${WORKDIR}/${PN}$(ver_cut 1).$(ver_cut 2)_common
 
-INSTDIR="/opt/lsprepost"
+INSTDIR="opt/lsprepost"
 
 QA_PRESTRIPPED="${INSTDIR}/lib/libGLEW.so.2.0.0
 	${INSTDIR}/lib/libavfilter.so.6.47.100
@@ -61,15 +61,15 @@ src_prepare() {
 
 cat <<EOT > lspp$(ver_cut 1)$(ver_cut 2)
 #!/bin/bash
-export LD_LIBRARY_PATH=${INSTDIR}/lib:\$LD_LIBRARY_PATH
-${INSTDIR}/lsprepost \$*
+export LD_LIBRARY_PATH=/${INSTDIR}/lib:\$LD_LIBRARY_PATH
+/${INSTDIR}/lsprepost \$*
 EOT
 
 }
 
 src_install() {
 
-	insinto ${INSTDIR}
+	insinto /${INSTDIR}
 	insopts -m0755
 	doins lspp$(ver_cut 1)$(ver_cut 2) lsprepost lsrun msuite_ls_64 tetgen
 	doins -r lib
@@ -83,7 +83,7 @@ src_install() {
 		newicon -s ${i} "${FILESDIR}/${PN}-${i}.png" ${PN}.png
 	done
 
-	make_desktop_entry ${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2) "LS-PrePost V${PV}" ${PN} "Science;Physics"
+	make_desktop_entry /${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2) "LS-PrePost V${PV}" ${PN} "Science;Physics"
 
 }
 
