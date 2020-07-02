@@ -5,7 +5,7 @@ EAPI=7
 
 inherit desktop xdg-utils
 
-RELID="${PV}${PR}"
+RELID="$(ver_cut 1)r$(ver_cut 2)"
 FN="${PN}${RELID}_linux64.sh"
 
 DESCRIPTION="A numerical results post-processor"
