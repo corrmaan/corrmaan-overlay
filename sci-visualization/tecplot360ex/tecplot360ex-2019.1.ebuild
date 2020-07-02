@@ -46,14 +46,14 @@ src_install() {
 
 	cp "${DISTDIR}/${FN}" ${FN}
 	chmod +x ${FN}
-	./${FN} --skip-license${myargs} --prefix="${ED}${INSTDIR}"
+	./${FN} --skip-license${myargs} --prefix="${ED}/${INSTDIR}"
 
 	# Fix for "/usr/lib64/libfontconfig.so.1: undefined symbol: FT_Done_MM_Var"
-	rm "${ED}${INSTDIR}/360ex_${RELID}/bin/libfreetype.so.6"
+	rm "${ED}/${INSTDIR}/360ex_${RELID}/bin/libfreetype.so.6"
 
 	# These are world-writable for some reason
-	fperms 664 ${INSTDIR}/360ex_${RELID}/tecplotlm.lic
-	fperms 664 ${INSTDIR}/360ex_${RELID}/variable_aliases.txt
+	fperms 664 "${ED}/${INSTDIR}/360ex_${RELID}/tecplotlm.lic"
+	fperms 664 "${ED}/${INSTDIR}/360ex_${RELID}/variable_aliases.txt"
 
 	local i
 	for i in 16x16 32x32 48x48 192x192; do
