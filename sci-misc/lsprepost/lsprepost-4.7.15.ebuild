@@ -78,11 +78,6 @@ src_install() {
 	doins -r lspp_matlib
 	doins -r resource
 
-	local i
-	for i in 16x16 24x24 32x32 48x48 128x128 256x256; do
-		newicon -s ${i} "${FILESDIR}/${PN}-${i}.png" ${PN}.png
-	done
-
 	make_desktop_entry /${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2) "LS-PrePost V${PV}" ${PN} "Science;Physics"
 
 }
