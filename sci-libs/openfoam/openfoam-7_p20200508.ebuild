@@ -44,7 +44,7 @@ S="${WORKDIR}/${MY_PN}-${MY_PV}"
 
 pkg_setup() {
 
-	INSDIR="/usr/$(get_libdir)"
+	INSDIR="usr/$(get_libdir)"
 
 	#use doc && DOCS=( "${S}/doc/Guides" "${S}/doc/codingStyleGuide.org" )
 	#use doc && HTML_DOCS=( "${S}/doc/Doxygen/html/" )
@@ -168,11 +168,11 @@ src_test() {
 
 src_install() {
 
-	mkdir -p "${ED}${INSDIR}"
+	mkdir -p "${ED}/${INSDIR}"
 
-	mv "${S}" "${ED}${INSDIR}/${MY_PN}-${MY_PV}"
+	mv "${S}" "${ED}/${INSDIR}/${MY_PN}-${MY_PV}"
 
-	cd "${ED}${INSDIR}/${MY_PN}-${MY_PV}"
+	cd "${ED}/${INSDIR}/${MY_PN}-${MY_PV}"
 
 	use examples || rm -rf tutorials
 	use source || rm -rf src test wmake
@@ -185,6 +185,6 @@ src_install() {
 pkg_postinst() {
 
 	elog "Please add the following to ~/.bashrc:"
-	elog "source ${INSDIR}/${MY_PN}-${MY_PV}/etc/bashrc"
+	elog "source ${EPREFIX}/${INSDIR}/${MY_PN}-${MY_PV}/etc/bashrc"
 
 }
