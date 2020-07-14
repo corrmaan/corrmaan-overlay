@@ -100,7 +100,7 @@ pkg_prerm() {
 	else
 		rc-service --ifexists -- dlm --ifstarted stop
 	fi
-	[[ -d "${ROOT}${COREDIR}/DisplayLinkManagerDirLock" ]] && rm -rf "${ROOT}${COREDIR}/DisplayLinkManagerDirLock"
+	[[ -d "${EPREFIX}${COREDIR}/DisplayLinkManagerDirLock" ]] && rm -rf "${EPREFIX}${COREDIR}/DisplayLinkManagerDirLock"
 }
 
 pkg_postrm() {
