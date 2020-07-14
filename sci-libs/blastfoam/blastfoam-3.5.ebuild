@@ -21,14 +21,11 @@ IUSE="examples gnuplot source"
 
 DEPEND="sci-libs/openfoam:7=[gnuplot?,source]"
 
+DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/blastFoam_User_Guide.pdf" )
+
 src_prepare() {
 
 	default
-
-	mv "${S}" "${WORKDIR}/${PN}"
-	S="${WORKDIR}/${PN}"
-
-	DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/blastFoam_User_Guide.pdf" )
 
 	rm "${S}/.gitignore"
 
@@ -62,9 +59,9 @@ src_install() {
 
 	mkdir -p "${ED}/${INSDIR}"
 
-	mv "${S}" "${ED}/${INSDIR}/${P}"
+	mv "${S}" "${ED}/${INSDIR}/${PN}"
 
-	cd "${ED}/${INSDIR}/${P}"
+	cd "${ED}/${INSDIR}/${PN}"
 
 	rm INPUT.md README.md blastFoam_User_Guide.pdf media svgs
 	rm -rf media svgs
@@ -77,6 +74,6 @@ src_install() {
 pkg_postinst() {
 
 	elog "Please add the following to ~/.bashrc:"
-	elog "source ${EPREFIX}/${INSDIR}/${P}/etc/bashrc"
+	elog "source ${EPREFIX}/${INSDIR}/${PN}/etc/bashrc"
 
 }
