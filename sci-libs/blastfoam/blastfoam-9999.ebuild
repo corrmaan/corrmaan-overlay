@@ -11,11 +11,11 @@ if [[ ${PV} == "9999" ]]; then
 	EGIT_REPO_URI="https://github.com/synthetik-technologies/${PN}.git"
 else
 	SRC_URI="https://github.com/synthetik-technologies/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	KEYWORDS="~amd64 ~x86"
 fi
 HOMEPAGE="https://github.com/synthetik-technologies/blastfoam"
 
 LICENSE="GPL-3"
-KEYWORDS="~amd64"
 SLOT="0"
 IUSE="examples gnuplot source"
 
