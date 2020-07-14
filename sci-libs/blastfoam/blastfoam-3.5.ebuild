@@ -16,7 +16,7 @@ HOMEPAGE="https://github.com/synthetik-technologies/blastfoam"
 
 LICENSE="GPL-3"
 KEYWORDS="~amd64"
-SLOT="${PV}"
+SLOT="0"
 IUSE="examples gnuplot source"
 
 DEPEND="sci-libs/openfoam:7=[gnuplot?,source]"

@@ -21,7 +21,7 @@ HOMEPAGE="https://openfoam.org/"
 
 LICENSE="GPL-3"
 KEYWORDS="~amd64"
-SLOT="${MY_PV}/${MY_PP}"
+SLOT="${MY_PV}"
 IUSE="cgal doc examples gnuplot metis mpi paraview perftools scotch source test"
 
 RDEPEND="gnuplot? ( sci-visualization/gnuplot )
@@ -42,15 +42,6 @@ DEPEND="dev-libs/boost[mpi?]
 
 S="${WORKDIR}/${MY_PN}-${MY_PV}"
 
-pkg_setup() {
-
-	INSDIR="usr/$(get_libdir)"
-
-	#use doc && DOCS=( "${S}/doc/Guides" "${S}/doc/codingStyleGuide.org" )
-	#use doc && HTML_DOCS=( "${S}/doc/Doxygen/html/" )
-
-}
-
 src_unpack() {
 
 	default
@@ -58,6 +49,9 @@ src_unpack() {
 	mv "${WORKDIR}/${MY_PN}-${MY_PV}-${MY_PP}" "${S}"
 
 	rm "${S}/.gitignore"
+
+	#use doc && DOCS=( "${S}/doc/Guides" "${S}/doc/codingStyleGuide.org" )
+	#use doc && HTML_DOCS=( "${S}/doc/Doxygen/html/" )
 
 }
 
@@ -167,6 +161,8 @@ src_test() {
 }
 
 src_install() {
+
+	INSDIR="usr/$(get_libdir)"
 
 	mkdir -p "${ED}/${INSDIR}"
 
