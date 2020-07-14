@@ -27,12 +27,6 @@ RESTRICT="fetch"
 
 S=${WORKDIR}
 
-pkg_nofetch() {
-	einfo "Please obtain"
-	einfo "  - ${SRC_URI}"
-	einfo "from whomever wrote this ebuild (probably Cory Marshall)."
-}
-
 src_install() {
 	dobin CFDPP2Chinook_v2.3.3_linux_64bit
 	dobin Dyna2Chinook_v2.3.1_linux_64bit
