@@ -1,2 +1,2 @@
 # TODO
-Nothing right now, phew!
+Check all paths to make sure they're prefix-friendly
