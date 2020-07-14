@@ -23,9 +23,18 @@ DEPEND="sci-libs/openfoam:7=[gnuplot?,source]"
 
 DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/blastFoam_User_Guide.pdf" )
 
-src_configure() {
+src_prepare() {
+
+	default
+
+	mv "${S}" "${WORKDIR}/${PN}"
+	S="${WORKDIR}/${PN}"
 
 	rm "${S}/.gitignore"
+
+}
+
+src_configure() {
 
 	export FOAM_VERBOSE=1
 	export PS1=1
