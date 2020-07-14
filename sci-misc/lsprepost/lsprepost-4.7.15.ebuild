@@ -18,7 +18,7 @@ IUSE=""
 REQUIRED_USE=""
 
 RDEPEND=""
-DEPEND="media-gfx/imagemagick"
+DEPEND=""
 
 RESTRICT="fetch"
 
@@ -50,19 +50,14 @@ QA_PRESTRIPPED="${INSTDIR}/lib/libGLEW.so.2.0.0
 	${INSTDIR}/lib/libswresample.so.2.1.100
 	${INSTDIR}/lib/libtiff.so.3.8.2"
 
-pkg_nofetch() {
-	einfo "Please obtain"
-	einfo "- ${SRC_URI}"
-}
-
 src_prepare() {
 
 	default
 
 cat <<EOT > lspp$(ver_cut 1)$(ver_cut 2)
 #!/bin/bash
-export LD_LIBRARY_PATH=/${INSTDIR}/lib:\$LD_LIBRARY_PATH
-/${INSTDIR}/lsprepost \$*
+export LD_LIBRARY_PATH=${EPREFIX}/${INSTDIR}/lib:\$LD_LIBRARY_PATH
+${EPREFIX}/${INSTDIR}/lsprepost \$*
 EOT
 
 }
@@ -78,7 +73,7 @@ src_install() {
 	doins -r lspp_matlib
 	doins -r resource
 
-	make_desktop_entry /${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2) "LS-PrePost V${PV}" ${PN} "Science;Physics"
+	make_desktop_entry "${EPREFIX}/${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2)" "LS-PrePost V${PV}" ${PN} "Science;Physics"
 
 }
 
