@@ -84,7 +84,7 @@ src_install() {
 	for i in 256 128 96 72 64 48 40 32 24 20 16; do
 		case ${i} in
 		16|22|24|32|36|48|64|72|96|128|192|256|512)
-			newicon -s ${i} "CFX_${j}_${i}x${i}x32.png" ${P}
+			newicon -s ${i} "CFX_${j}_${i}x${i}x32.png" ${P}.png
 			;;
 		*)
 			;;
