@@ -41,6 +41,7 @@ QA_PRESTRIPPED="${INSTDIR}/360ex_${RELID}/bin/ffmpeg
 	${INSTDIR}/360ex_${RELID}/bin/plugins/imageformats/libqgif.so"
 
 src_install() {
+
 	local myargs=""
 	use chorus || myargs+=" --exclude-chorus"
 
@@ -55,12 +56,7 @@ src_install() {
 	fperms 664 "/${INSTDIR}/360ex_${RELID}/tecplotlm.lic"
 	fperms 664 "/${INSTDIR}/360ex_${RELID}/variable_aliases.txt"
 
-	local i
-	for i in 16x16 32x32 48x48 192x192; do
-		newicon -s ${i} "${FILESDIR}/${PN}-${i}.png" ${PN}.png
-	done
-
-	make_desktop_entry /${INSTDIR}/360ex_${RELID}/bin/tec360 "Tecplot 360 EX ${PV} R${PR:1:1}" ${PN} "Science;DataVisualization"
+	make_desktop_entry /${INSTDIR}/360ex_${RELID}/bin/tec360 "Tecplot 360 EX ${PV} R${PR:1:1}" ${P} "Science;DataVisualization"
 
 }
 
