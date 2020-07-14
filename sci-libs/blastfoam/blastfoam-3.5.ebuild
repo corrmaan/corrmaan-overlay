@@ -25,7 +25,7 @@ DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/blastFoam_User_Guide.pdf" )
 
 pkg_setup() {
 
-	INSDIR="/usr/$(get_libdir)"
+	INSDIR="usr/$(get_libdir)"
 
 }
 
@@ -44,7 +44,7 @@ src_configure() {
 
 	sed -i 's:export BLAST_DIR=$HOME/$WM_PROJECT/$BLAST_PROJECT:export BLAST_DIR=$(cd $(dirname ${BASH_SOURCE\:-$0})/.. \&\& pwd -P):g' "${S}/etc/bashrc"
 
-	source "/usr/$(get_libdir)/OpenFOAM-7/etc/bashrc"
+	source "${EPREFIX}/usr/$(get_libdir)/OpenFOAM-7/etc/bashrc"
 	source "${S}/etc/bashrc"
 
 }
@@ -61,11 +61,11 @@ src_install() {
 
 	einstalldocs
 
-	mkdir -p "${ED}${INSDIR}"
+	mkdir -p "${ED}/${INSDIR}"
 
-	mv "${S}" "${ED}${INSDIR}/${P}"
+	mv "${S}" "${ED}/${INSDIR}/${P}"
 
-	cd "${ED}${INSDIR}/${P}"
+	cd "${ED}/${INSDIR}/${P}"
 
 	rm INPUT.md README.md blastFoam_User_Guide.pdf media svgs
 	rm -rf media svgs
@@ -78,6 +78,6 @@ src_install() {
 pkg_postinst() {
 
 	elog "Please add the following to ~/.bashrc:"
-	elog "source ${INSDIR}/${P}/etc/bashrc"
+	elog "source ${EPREFIX}/${INSDIR}/${P}/etc/bashrc"
 
 }
