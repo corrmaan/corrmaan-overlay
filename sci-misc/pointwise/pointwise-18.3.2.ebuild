@@ -28,10 +28,10 @@ S=${WORKDIR}
 
 INSTDIR="opt/Pointwise/PointwiseV${RELID}"
 
+addpredict "${EPREFIX}/etc/.java/.systemPrefs/com/install4j/installations/prefs.tmp"
+addpredict "${EPREFIX}/usr/local/bin/${PN}"
 addpredict /root/.java
-addpredict /etc/.java/.systemPrefs/com/install4j/installations/prefs.tmp
 addpredict /root/.local/share/applications
-addpredict /usr/local/bin/${PN}
 
 QA_PRESTRIPPED="${INSTDIR}/linux_x86_64/lib/libmg-tetra.so
 	${INSTDIR}/linux_x86_64/lib/libmeshgems_stubs.so
@@ -63,7 +63,7 @@ cat <<EOT >> response.varfile
 licenseAcceptBtns\$Integer=0
 sys.adminRights\$Boolean=false
 sys.component.Pointwise\$Boolean=true
-sys.installationDir=${D}/${INSTDIR}
+sys.installationDir=${ED}/${INSTDIR}
 sys.languageId=en
 EOT
 
@@ -97,7 +97,7 @@ src_install() {
 		j=$((j+1))
 	done
 
-	make_desktop_entry /${INSTDIR}/${PN} "Pointwise V${RELID} 64-bit" ${P} "Science;"
+	make_desktop_entry "${EPREFIX}/${INSTDIR}/${PN}" "Pointwise V${RELID} 64-bit" ${P} "Science;"
 
 }
 
