@@ -21,14 +21,14 @@ IUSE="examples gnuplot source"
 
 DEPEND="sci-libs/openfoam:7=[gnuplot?,source]"
 
-DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/blastFoam_User_Guide.pdf" )
-
 src_prepare() {
 
 	default
 
 	mv "${S}" "${WORKDIR}/${PN}"
 	S="${WORKDIR}/${PN}"
+
+	DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/blastFoam_User_Guide.pdf" )
 
 	rm "${S}/.gitignore"
 
