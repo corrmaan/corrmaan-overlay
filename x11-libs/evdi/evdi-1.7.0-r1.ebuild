@@ -29,7 +29,7 @@ pkg_setup() {
 
 src_prepare() {
 	default
-	sed -i -e "s:PREFIX ?= /usr/local:PREFIX ?= /usr:" "${S}/library/Makefile"
+	sed -i -e "s:PREFIX ?= /usr/local:PREFIX ?= ${EPREFIX}/usr:" "${S}/library/Makefile"
 	sed -i -e "s:LIBDIR ?= \$(PREFIX)/lib:LIBDIR ?= \$(PREFIX)/$(get_libdir):" "${S}/library/Makefile"
 }
 
