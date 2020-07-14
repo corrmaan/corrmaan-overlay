@@ -56,7 +56,7 @@ src_install() {
 	fperms 664 "/${INSTDIR}/360ex_${RELID}/tecplotlm.lic"
 	fperms 664 "/${INSTDIR}/360ex_${RELID}/variable_aliases.txt"
 
-	make_desktop_entry /${INSTDIR}/360ex_${RELID}/bin/tec360 "Tecplot 360 EX ${PV} R${PR:1:1}" ${P} "Science;DataVisualization"
+	make_desktop_entry "${EPREFIX}/${INSTDIR}/360ex_${RELID}/bin/tec360" "Tecplot 360 EX ${PV} R${PR:1:1}" ${P} "Science;DataVisualization"
 
 }
 
