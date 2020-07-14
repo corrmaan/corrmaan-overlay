@@ -61,7 +61,7 @@ src_install() {
 		newicon -s ${i} "${S}/chrome/icons/default/default${i}.png" ${P}.png
 	done
 
-	make_desktop_entry "/${INSTDIR}/zotero" "Zotero" ${P} "Science;"
+	make_desktop_entry "${EPREFIX}/${INSTDIR}/zotero" "Zotero" ${P} "Science;"
 
 }
 
