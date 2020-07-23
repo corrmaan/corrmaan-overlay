@@ -19,8 +19,8 @@ fi
 LICENSE="GPL-2"
 SLOT="0"
 
-RDEPEND="app-pda/libplist
-	app-pda/libusbmuxd
+RDEPEND=">=app-pda/libplist-2
+	>=app-pda/libusbmuxd-2
 	dev-util/android-tools
 	media-libs/alsa-lib
 	>=media-libs/libjpeg-turbo-2
@@ -47,6 +47,8 @@ src_prepare() {
 	default
 
 	sed -i -e "s:JPEG  = -I\$(JPEG_INCLUDE) \$(JPEG_LIB)/libturbojpeg.a:JPEG  = \`pkg-config --libs --cflags libturbojpeg\`:" \
+		"${S}/Makefile"
+	sed -i -e "s:LIBS += -lusbmuxd:LIBS += \`pkg-config --libs libusbmuxd-2.0\`:" \
 		"${S}/Makefile"
 
 	echo "${MN}" > "${S}/modules-load.d-${PN}.conf"
