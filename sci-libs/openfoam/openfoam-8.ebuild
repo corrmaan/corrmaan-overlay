@@ -9,7 +9,7 @@ MY_PN="OpenFOAM"
 MY_PV="$(ver_cut 1)"
 MY_PP="$(ver_cut 3)"
 if [ -z "${MY_PP}" ]; then
-      MY_PP="version-${MY_PV}"
+	MY_PP="version-${MY_PV}"
 fi
 
 DESCRIPTION="The Open Source CFD Toolbox"
