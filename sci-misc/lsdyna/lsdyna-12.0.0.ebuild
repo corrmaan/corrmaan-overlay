@@ -35,7 +35,7 @@ RESTRICT="fetch"
 S=${WORKDIR}
 
 src_install() {
-	into /opt/bin/
+	into /opt/
 
 	if ! use usermat-only; then
 		use single-precision && dobin "${FN_S}"
