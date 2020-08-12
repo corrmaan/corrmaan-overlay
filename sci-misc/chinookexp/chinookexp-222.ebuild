@@ -28,6 +28,8 @@ RESTRICT="fetch"
 S=${WORKDIR}
 
 src_install() {
+	into /opt/bin/
+
 	dobin CFDPP2Chinook_v2.3.3_linux_64bit
 	dobin Dyna2Chinook_v2.3.1_linux_64bit
 	use mpi && dobin chinook_v222_parallel-openmpi-3.1.3

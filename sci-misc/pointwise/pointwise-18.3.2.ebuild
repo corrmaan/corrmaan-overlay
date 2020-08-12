@@ -14,7 +14,7 @@ HOMEPAGE="https://www.pointwise.com/"
 
 LICENSE="Pointwise-RTULA"
 KEYWORDS="~amd64"
-SLOT="${PV}"
+SLOT="0"
 IUSE=""
 
 RDEPEND="|| ( virtual/jre:1.8 virtual/jdk:1.8 )
@@ -96,6 +96,8 @@ src_install() {
 		esac
 		j=$((j+1))
 	done
+
+	dosym "${EPREFIX}/${INSTDIR}/${PN}" "/opt/bin/${PN}"
 
 	make_desktop_entry "${EPREFIX}/${INSTDIR}/${PN}" "Pointwise V${RELID} 64-bit" ${P} "Science;"
 

@@ -92,6 +92,11 @@ src_install() {
 		j=$((j+1))
 	done
 
+	dosym "${EPREFIX}/${INSTDIR}/${RELID}/CFX/bin/cfx5" /opt/bin/cfx5
+	dosym "${EPREFIX}/${INSTDIR}/${RELID}/CFX/bin/cfx5pre" /opt/bin/cfx5pre
+	dosym "${EPREFIX}/${INSTDIR}/${RELID}/CFX/bin/cfx5solve" /opt/bin/cfx5solve
+	dosym "${EPREFIX}/${INSTDIR}/${RELID}/CFX/bin/cfx5post" /opt/bin/cfx5post
+
 	make_desktop_entry "${EPREFIX}/${INSTDIR}/${RELID}/CFX/bin/cfx5" "ANSYS CFX v${RELYEAR}R${RELREV}" ${P} "Science;Physics"
 
 }
