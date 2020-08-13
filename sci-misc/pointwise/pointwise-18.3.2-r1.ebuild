@@ -15,12 +15,12 @@ HOMEPAGE="https://www.pointwise.com/"
 LICENSE="Pointwise-RTULA"
 KEYWORDS="~amd64"
 SLOT="0"
-IUSE=""
+IUSE="+X"
 
 RDEPEND="|| ( virtual/jre:1.8 virtual/jdk:1.8 )"
 DEPEND="${RDEPEND}
-	media-gfx/icoutils
-	media-gfx/imagemagick"
+	X? ( media-gfx/icoutils	
+		 media-gfx/imagemagick )"
 
 S=${WORKDIR}
 
@@ -73,31 +73,36 @@ src_install() {
 	chmod +x ${FN}
 	./${FN} -varfile response.varfile -q
 
-	convert -density 960 -background none \
-		"${ED}/${INSTDIR}/doc/user-manual/images/icons/icon_pwise.svg" \
-		-define icon:auto-resize="16,22,24,32,36,48,64,72,96,128,192,256" \
-		icon_pwise.ico
-	icotool -x -o . icon_pwise.ico
-	local i
-	local j=1
-	for i in 16 22 24 32 36 48 64 72 96 128 192 256; do
-		case ${i} in
-		16|22|24|32|36|48|64|72|96|128|192|256|512)
-			if [ ${i} -eq 256 ]; then
-				newicon -s ${i} "icon_pwise_${j}_${i}x${i}x64.png" ${P}.png
-			else
-				newicon -s ${i} "icon_pwise_${j}_${i}x${i}x32.png" ${P}.png
-			fi
-			;;
-		*)
-			;;
-		esac
-		j=$((j+1))
-	done
-
 	dosym "${EPREFIX}/${INSTDIR}/${PN}" "/opt/bin/${PN}"
 
-	make_desktop_entry "${EPREFIX}/${INSTDIR}/${PN}" "Pointwise V${RELID} 64-bit" ${P} "Science;"
+	if use X
+	then
+
+		convert -density 960 -background none \
+			"${ED}/${INSTDIR}/doc/user-manual/images/icons/icon_pwise.svg" \
+			-define icon:auto-resize="16,22,24,32,36,48,64,72,96,128,192,256" \
+			icon_pwise.ico
+		icotool -x -o . icon_pwise.ico
+		local i
+		local j=1
+		for i in 16 22 24 32 36 48 64 72 96 128 192 256; do
+			case ${i} in
+			16|22|24|32|36|48|64|72|96|128|192|256|512)
+				if [ ${i} -eq 256 ]; then
+					newicon -s ${i} "icon_pwise_${j}_${i}x${i}x64.png" ${P}.png
+				else
+					newicon -s ${i} "icon_pwise_${j}_${i}x${i}x32.png" ${P}.png
+				fi
+				;;
+			*)
+				;;
+			esac
+			j=$((j+1))
+		done
+
+		make_desktop_entry "${EPREFIX}/${INSTDIR}/${PN}" "Pointwise V${RELID} 64-bit" ${P} "Science;"
+
+	fi
 
 }
 
