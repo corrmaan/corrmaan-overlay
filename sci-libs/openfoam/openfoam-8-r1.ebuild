@@ -91,10 +91,10 @@ src_configure() {
 	use cgal && export FOAMY_HEX_MESH=yes
 
 	if use metis; then
-		sed -i "s/METIS_VERSION=metis-5.1.0/METIS_VERSION=metis-system/g" "${S}/etc/config.sh/metis"
+		sed -i "s/METIS_VERSION=metis-.*/METIS_VERSION=metis-system/g" "${S}/etc/config.sh/metis"
 		sed -i "s:export METIS_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$METIS_VERSION:export METIS_ARCH_PATH=/usr:g" "${S}/etc/config.sh/metis"
 	else
-		sed -i "s/METIS_VERSION=metis-5.1.0/METIS_VERSION=metis-none/g" "${S}/etc/config.sh/metis"
+		sed -i "s/METIS_VERSION=metis-.*/METIS_VERSION=metis-none/g" "${S}/etc/config.sh/metis"
 		sed -i "s:export METIS_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$METIS_VERSION:export METIS_ARCH_PATH=:g" "${S}/etc/config.sh/metis"
 	fi
 
@@ -106,10 +106,10 @@ src_configure() {
 	fi
 
 	if use scotch; then
-		sed -i "s/export SCOTCH_VERSION=scotch_6.0.9/export SCOTCH_VERSION=scotch-system/g" "${S}/etc/config.sh/scotch"
+		sed -i "s/export SCOTCH_VERSION=scotch_.*/export SCOTCH_VERSION=scotch-system/g" "${S}/etc/config.sh/scotch"
 		sed -i "s:export SCOTCH_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$SCOTCH_VERSION:export SCOTCH_ARCH_PATH=/usr:g" "${S}/etc/config.sh/scotch"
 	else
-		sed -i "s/export SCOTCH_VERSION=scotch_6.0.9/export SCOTCH_VERSION=scotch-none/g" "${S}/etc/config.sh/scotch"
+		sed -i "s/export SCOTCH_VERSION=scotch_.*/export SCOTCH_VERSION=scotch-none/g" "${S}/etc/config.sh/scotch"
 	fi
 
 	source "${S}/etc/bashrc"
