@@ -19,7 +19,7 @@ IUSE="+X"
 
 RDEPEND="|| ( virtual/jre:1.8 virtual/jdk:1.8 )"
 DEPEND="${RDEPEND}
-	X? ( media-gfx/icoutils	
+	X? ( media-gfx/icoutils
 		 media-gfx/imagemagick )"
 
 S=${WORKDIR}
