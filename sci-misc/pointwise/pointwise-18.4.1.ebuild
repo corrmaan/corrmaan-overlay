@@ -10,7 +10,7 @@ FN="pw-V${RELID}-linux_x86_64-nojre.sh"
 
 DESCRIPTION="A commercial mesh generation software product"
 SRC_URI="ftp://ftp.pointwise.com/dload/${FN}
-	doc?		( http://www.pointwise.com/downloads/POINTWISE_V18.4R1-glyph.tgz -> ${P}-glyph.tgz )
+	doc?		( http://www.pointwise.com/downloads/${PN^^}_V${RELID}-glyph.tgz -> ${P}-glyph.tgz )
 	tutorials?	( http://www.pointwise.com/downloads/tutorials.tgz -> ${P}-tutorials.tgz )"
 HOMEPAGE="https://www.pointwise.com/"
 
@@ -26,7 +26,7 @@ DEPEND="${RDEPEND}
 
 S=${WORKDIR}
 
-INSTDIR="opt/Pointwise/PointwiseV${RELID}"
+INSTDIR="opt/${PN^}/${PN^}V${RELID}"
 
 addpredict "${EPREFIX}/etc/.java/.systemPrefs/com/install4j/installations/prefs.tmp"
 addpredict "${EPREFIX}/usr/local/bin/${PN}"
@@ -141,7 +141,7 @@ src_install() {
 			j=$((j+1))
 		done
 
-		make_desktop_entry "${EPREFIX}/${INSTDIR}/${PN}" "Pointwise V${RELID} 64-bit" ${P} "Science;"
+		make_desktop_entry "${EPREFIX}/${INSTDIR}/${PN}" "${PN^} V${RELID} 64-bit" ${P} "Science;"
 
 	fi
 

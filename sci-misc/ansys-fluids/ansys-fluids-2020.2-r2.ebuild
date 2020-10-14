@@ -97,7 +97,7 @@ src_install() {
 
 	"${S}/INSTALL" -usetempdir "${T}/${MY_P}" -silent${myargs} -install_dir "${ED}/${INSTDIR}"
 	use doc && "${S_DOC}/INSTALL" -usetempdir "${T}/${MY_P_DOC}" -silent -install_dir "${ED}/${INSTDIR}"
-	
+
 	# Fixes lmutil
 	dosym ld-linux-x86-64.so.2 "${EPREFIX}/lib64/ld-lsb-x86-64.so.3"
 
