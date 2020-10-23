@@ -62,7 +62,7 @@ src_prepare() {
 
 	cp "${DISTDIR}/${FN}" ${FN}
 	chmod +x ${FN}
-	sed -i "s/^# INSTALL4J_JAVA_HOME_OVERRIDE=/INSTALL4J_JAVA_HOME_OVERRIDE=${EPREFIX}\/usr/" ${FN}
+	sed -i "s&^# INSTALL4J_JAVA_HOME_OVERRIDE=&INSTALL4J_JAVA_HOME_OVERRIDE=${EPREFIX}/usr&" ${FN}
 
 	use doc && HTML_DOCS="${S}/glyph2/."
 
