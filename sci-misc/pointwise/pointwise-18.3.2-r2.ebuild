@@ -60,10 +60,6 @@ src_prepare() {
 
 	default
 
-	cp "${DISTDIR}/${FN}" ${FN}
-	chmod +x ${FN}
-	#sed -i "s&^# INSTALL4J_JAVA_HOME_OVERRIDE=&INSTALL4J_JAVA_HOME_OVERRIDE=${EPREFIX}/usr&" ${FN}
-
 	use doc && HTML_DOCS="${S}/glyph2/."
 
 }
@@ -84,7 +80,10 @@ src_install() {
 
 	default
 
-	app_java_home="${EPREFIX}/usr" ./${FN} -varfile response.varfile -q
+	cp "${DISTDIR}/${FN}" ${FN}
+	chmod +x ${FN}
+
+	app_java_home="${EPREFIX}/usr" ./${FN} -varfile response.varfile -q || die
 
 	dosym "${EPREFIX}/${INSTDIR}/${PN}" "/opt/bin/${PN}"
 
