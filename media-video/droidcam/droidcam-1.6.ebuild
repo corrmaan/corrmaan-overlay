@@ -29,7 +29,8 @@ RDEPEND=">=app-pda/libplist-2
 	media-libs/speex
 	media-video/ffmpeg
 	X? ( dev-libs/libappindicator:3
-	     x11-libs/gtk+:3 )"
+	     x11-libs/gtk+:3 )
+	!modules? ( media-video/v4l2loopback )"
 DEPEND="${RDEPEND}"
 
 S="${WORKDIR}/${P}/linux"
