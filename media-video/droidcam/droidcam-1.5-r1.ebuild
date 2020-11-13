@@ -19,7 +19,7 @@ fi
 LICENSE="GPL-2"
 SLOT="0"
 
-IUSE="X modules"
+IUSE="X"
 
 RDEPEND=">=app-pda/libplist-2
 	>=app-pda/libusbmuxd-2
@@ -40,10 +40,8 @@ BUILD_TARGETS="clean all"
 
 pkg_setup() {
 
-	if use modules; then
-		MN="v4l2loopback_dc"
-		linux-mod_pkg_setup
-	fi
+	MN="v4l2loopback_dc"
+	linux-mod_pkg_setup
 
 }
 
@@ -54,16 +52,14 @@ src_prepare() {
 	sed -i -e "s:JPEG  = -I\$(JPEG_INCLUDE) \$(JPEG_LIB)/libturbojpeg.a:JPEG  = \`pkg-config --libs --cflags libturbojpeg\`:" \
 		"${S}/Makefile"
 
-	if use modules; then
-		echo "${MN}" > "${S}/modules-load.d-${PN}.conf"
-		echo "options ${MN} width=640 height=480" > "${S}/modprobe.d-${PN}.conf"
-	fi
+	echo "${MN}" > "${S}/modules-load.d-${PN}.conf"
+	echo "options ${MN} width=640 height=480" > "${S}/modprobe.d-${PN}.conf"
 
 }
 
 src_compile() {
 
-	use modules && KERNELRELEASE="${KV_FULL}" linux-mod_src_compile
+	KERNELRELEASE="${KV_FULL}" linux-mod_src_compile
 
 	default
 
@@ -71,14 +67,12 @@ src_compile() {
 
 src_install() {
 
-	if use modules; then
-		linux-mod_src_install
+	linux-mod_src_install
 
-		insinto /etc/modules-load.d
-		newins "${S}/modules-load.d-${PN}.conf" ${PN}.conf
-		insinto /etc/modprobe.d
-		newins "${S}/modprobe.d-${PN}.conf" ${PN}.conf
-	fi
+	insinto /etc/modules-load.d
+	newins "${S}/modules-load.d-${PN}.conf" ${PN}.conf
+	insinto /etc/modprobe.d
+	newins "${S}/modprobe.d-${PN}.conf" ${PN}.conf
 
 	einstalldocs
 
@@ -96,13 +90,13 @@ src_install() {
 
 pkg_preinst() {
 
-	use modules && linux-mod_pkg_preinst
+	linux-mod_pkg_preinst
 
 }
 
 pkg_postinst() {
 
-	use modules && linux-mod_pkg_postinst
+	linux-mod_pkg_postinst
 
 	if use X; then
 		xdg_icon_cache_update
@@ -117,7 +111,7 @@ pkg_postinst() {
 
 pkg_postrm() {
 
-	use modules && linux-mod_pkg_postrm
+	linux-mod_pkg_postrm
 
 	if use X; then
 		xdg_icon_cache_update
