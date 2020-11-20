@@ -41,9 +41,17 @@ INSTDIR="opt/${MY_PN}"
 
 S="${WORKDIR}"
 
+src_prepare(){
+
+	default
+
+	chmod 0755 "${S}"
+
+}
+
 src_install(){
 
-	mkdir -pv "${ED}/${INSTDIR}/"
+	insinto /${INSTDIR}
 	cp -av "${S}/." "${ED}/${INSTDIR}/"
 
 	dosym "${EPREFIX}/${INSTDIR}/bin/codium" "/opt/bin/codium"
