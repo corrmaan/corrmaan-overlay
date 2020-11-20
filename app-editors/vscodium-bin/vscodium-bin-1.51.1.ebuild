@@ -52,3 +52,19 @@ src_install(){
 	make_desktop_entry "${EPREFIX}/${INSTDIR}/bin/codium --unity-launch" "VSCodium" "${MY_PN}" "Utility;Development;IDE;"
 
 }
+
+pkg_postinst() {
+
+	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
+
+}
+
+pkg_postrm() {
+
+	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
+
+}
