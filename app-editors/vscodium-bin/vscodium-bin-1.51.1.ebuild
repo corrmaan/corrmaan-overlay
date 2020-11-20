@@ -39,13 +39,12 @@ RDEPEND="
 
 INSTDIR="opt/${MY_PN}"
 
-S="${WORKDIR}"
+src_unpack(){
 
-src_prepare(){
-
+	mkdir -pv "${S}"
+	cd "${S}"
+	
 	default
-
-	chmod 0755 "${S}"
 
 }
 
