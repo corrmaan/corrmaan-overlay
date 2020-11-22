@@ -43,7 +43,7 @@ src_unpack(){
 
 	mkdir -pv "${S}"
 	cd "${S}"
-	
+
 	default
 
 }
