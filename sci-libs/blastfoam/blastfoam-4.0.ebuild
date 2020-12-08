@@ -17,7 +17,7 @@ IUSE="examples gnuplot source"
 
 DEPEND="sci-libs/openfoam:7=[gnuplot?,source]"
 
-DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/blastFoam_User_Guide.pdf" )
+DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/BlastFoam_User_Guide.pdf" )
 
 src_prepare() {
 
