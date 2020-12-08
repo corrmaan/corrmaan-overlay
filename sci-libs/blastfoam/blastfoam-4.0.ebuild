@@ -8,7 +8,7 @@ inherit flag-o-matic toolchain-funcs git-r3
 DESCRIPTION="A CFD solver for multi-component compressible flow"
 HOMEPAGE="https://github.com/synthetik-technologies/blastfoam"
 EGIT_REPO_URI="https://github.com/synthetik-technologies/${PN}.git"
-EGIT_COMMIT="aa2af24126e7fa875c928cbb73560a0df08731e6"
+EGIT_COMMIT="35753f65d03447ff4ade0dd258481a0a80b2f262"
 KEYWORDS="~amd64 ~x86"
 LICENSE="GPL-3"
 SLOT="0"
