@@ -51,7 +51,6 @@ RDEPEND="media-libs/libsdl2
 	>=dev-libs/openssl-1.1
 	dev-db/postgresql:*
 	sys-apps/lsb-release
-	sys-auth/sssd[${MULTILIB_USEDEP}]
 	dev-cpp/tbb
 	dev-libs/xalan-c
 	dev-libs/xerces-c
