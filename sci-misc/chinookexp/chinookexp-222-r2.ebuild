@@ -30,6 +30,7 @@ S=${WORKDIR}
 INSTDIR="opt/${PN}"
 
 src_prepare() {
+	default
 	echo "SEARCH_DIRS_MASK=\"${EPREFIX}/opt/bin/${PN}"\" > "${T}/70-${PN}" || die
 }
 
