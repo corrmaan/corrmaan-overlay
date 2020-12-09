@@ -165,7 +165,7 @@ src_install() {
 
 	insinto "/etc/revdep-rebuild"
 	insopts -m0644
-	doins "${T}/80-${PN}"
+	doins "${T}/75-${PN}"
 
 }
 
