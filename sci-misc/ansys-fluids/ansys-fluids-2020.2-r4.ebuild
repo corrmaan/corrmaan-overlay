@@ -85,7 +85,7 @@ src_prepare() {
 
 	default
 
-	echo "SEARCH_DIRS_MASK=\"${EPREFIX}/${INSTDIR}"\" > "${T}/80-${PN}" || die
+	echo "SEARCH_DIRS_MASK=\"${EPREFIX}/${INSTDIR}"\" > "${T}/75-${PN}" || die
 
 	mkdir -p "${T}/${MY_P}"
 	use doc && 	mkdir -p "${T}/${MY_P_DOC}"
