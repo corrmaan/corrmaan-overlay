@@ -23,38 +23,8 @@ SLOT="0"
 IUSE="+X +cfx doc +fluent"
 REQUIRED_USE="|| ( cfx fluent )"
 
-RDEPEND="media-libs/libsdl2
-	virtual/blas
-	media-libs/ftgl
-	>=sys-devel/gcc-4.8:*
-	dev-libs/glib:2[${MULTILIB_USEDEP}]
-	sys-libs/glibc
-	media-libs/gstreamer
-	x11-libs/gtk+:2[${MULTILIB_USEDEP}]
-	x11-libs/libSM[${MULTILIB_USEDEP}]
-	x11-libs/libXfont2
-	x11-libs/libXft[${MULTILIB_USEDEP}]
-	x11-libs/libXp[${MULTILIB_USEDEP}]
-	x11-libs/libXpm
-	x11-libs/libXScrnSaver
-	x11-libs/libXt[${MULTILIB_USEDEP}]
-	x11-libs/libXxf86vm[${MULTILIB_USEDEP}]
-	media-libs/libjpeg-turbo[${MULTILIB_USEDEP}]
-	media-libs/libmng
-	x11-libs/libnotify
-	media-libs/libpng[${MULTILIB_USEDEP}]
-	media-libs/libpng-compat:1.2[${MULTILIB_USEDEP}]
-	sys-fabric/librdmacm
-	media-libs/tiff[${MULTILIB_USEDEP}]
-	x11-libs/libxkbcommon
-	x11-libs/motif[${MULTILIB_USEDEP}]
-	>=dev-libs/openssl-1.1
-	dev-db/postgresql:*
-	sys-apps/lsb-release
-	dev-cpp/tbb
-	dev-libs/xalan-c
-	dev-libs/xerces-c
-	sys-libs/zlib"
+RDEPEND="media-libs/freetype
+	media-libs/libjpeg-turbo[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/gzip
 	app-arch/rpm[python]
@@ -131,17 +101,24 @@ src_install() {
 	use doc && "${S_DOC}/INSTALL" -usetempdir "${T}/${MY_P_DOC}" -silent -install_dir "${ED}/${INSTDIR}"
 
 	# Fixes lmutil
-	dosym ld-linux-x86-64.so.2 "${EPREFIX}/lib64/ld-lsb-x86-64.so.3"
+	dosym ld-linux-x86-64.so.2 /lib64/ld-lsb-x86-64.so.3
+
+	# Delete useless files
+	cd "${ED}/${INSTDIR}/${RELID}"
+	rm -rf aisol dcs SEC EKM RSM Addins installer SystemCoupling CADConfigLogs \
+		Electronics Tools Icepak \
+		> /dev/null
+	cd -
+
+	rm -rf "${ED}/${INSTDIR}/${RELID}"/Framework/bin/Linux64/libfreetype.so* \
+		"${ED}/${INSTDIR}/${RELID}"/tp/qt/5.9.6/linx64/lib/libjpeg.so*
 
 	if use cfx; then
 
 		source "${EPREFIX}/etc/env.d/gcc/config-x86_64-pc-linux-gnu"
 		source "${EPREFIX}/etc/env.d/gcc/${CURRENT}"
-
-		cd "${ED}/${INSTDIR}/${RELID}/CFX/lib/linux-amd64"
-		rm libstdc++.so.6
-		ln -s ${LDPATH%%:*}/libstdc++.so libstdc++.so.6
-		cd -
+		rm "${ED}/${INSTDIR}/${RELID}/CFX/lib/linux-amd64/libstdc++.so.6"
+		dosym "${LDPATH%%:*}/libstdc++.so" "/${INSTDIR}/${RELID}/CFX/lib/linux-amd64/libstdc++.so.6"
 
 		sed -i "s,${ED},," "${ED}/${INSTDIR}/${RELID}/CFX/config/hostinfo.ccl"
 
