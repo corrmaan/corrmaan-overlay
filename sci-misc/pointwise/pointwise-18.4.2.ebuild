@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -28,46 +28,46 @@ S=${WORKDIR}
 
 INSTDIR="opt/${PN^}/${PN^}V${RELID}"
 
-#QA_PRESTRIPPED="${INSTDIR}/linux_x86_64/lib/libkernel_io.so
-#	${INSTDIR}/linux_x86_64/lib/libQt5Xml.so.5.15.0
-#	${INSTDIR}/linux_x86_64/lib/libQt5XcbQpa.so.5.15.0
-#	${INSTDIR}/linux_x86_64/lib/libQt5X11Extras.so.5.15.0
-#	${INSTDIR}/linux_x86_64/lib/libQt5Widgets.so.5.15.0
-#	${INSTDIR}/linux_x86_64/lib/libQt5Svg.so.5.15.0
-#	${INSTDIR}/linux_x86_64/lib/libQt5PrintSupport.so.5.15.0
-#	${INSTDIR}/linux_x86_64/lib/libQt5OpenGL.so.5.15.0
-#	${INSTDIR}/linux_x86_64/lib/libQt5Network.so.5.15.0
-#	${INSTDIR}/linux_x86_64/lib/libQt5Gui.so.5.15.0
-#	${INSTDIR}/linux_x86_64/lib/libQt5DBus.so.5.15.0
-#	${INSTDIR}/linux_x86_64/lib/libQt5Core.so.5.15.0
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKernel.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKXSBase.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKTopAlgo.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKShHealing.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKSTEPBase.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKSTEPAttr.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKSTEP209.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKSTEP.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKPrim.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKOffset.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKMath.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKIGES.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKGeomBase.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKGeomAlgo.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKG3d.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKG2d.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKFillet.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKFeat.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKBool.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKBRep.so.7.3.1
-#	${INSTDIR}/linux_x86_64/egads2nmb/libTKBO.so.7.3.1
-#	${INSTDIR}/linux_x86_64/bin/xcbglintegrations/libqxcb-glx-integration.so
-#	${INSTDIR}/linux_x86_64/bin/rlmutil
-#	${INSTDIR}/linux_x86_64/bin/qtdiag
-#	${INSTDIR}/linux_x86_64/bin/platforms/libqxcb.so
-#	${INSTDIR}/linux_x86_64/bin/imageformats/libqtiff.so
-#	${INSTDIR}/linux_x86_64/bin/imageformats/libqsvg.so
-#	${INSTDIR}/linux_x86_64/bin/iconengines/libqsvgicon.so"
+QA_PRESTRIPPED="${INSTDIR}/linux_x86_64/lib/libkernel_io.so
+	${INSTDIR}/linux_x86_64/lib/libQt5Xml.so.5.15.0
+	${INSTDIR}/linux_x86_64/lib/libQt5XcbQpa.so.5.15.0
+	${INSTDIR}/linux_x86_64/lib/libQt5X11Extras.so.5.15.0
+	${INSTDIR}/linux_x86_64/lib/libQt5Widgets.so.5.15.0
+	${INSTDIR}/linux_x86_64/lib/libQt5Svg.so.5.15.0
+	${INSTDIR}/linux_x86_64/lib/libQt5PrintSupport.so.5.15.0
+	${INSTDIR}/linux_x86_64/lib/libQt5OpenGL.so.5.15.0
+	${INSTDIR}/linux_x86_64/lib/libQt5Network.so.5.15.0
+	${INSTDIR}/linux_x86_64/lib/libQt5Gui.so.5.15.0
+	${INSTDIR}/linux_x86_64/lib/libQt5DBus.so.5.15.0
+	${INSTDIR}/linux_x86_64/lib/libQt5Core.so.5.15.0
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKernel.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKXSBase.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKTopAlgo.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKShHealing.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKSTEPBase.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKSTEPAttr.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKSTEP209.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKSTEP.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKPrim.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKOffset.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKMath.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKIGES.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKGeomBase.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKGeomAlgo.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKG3d.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKG2d.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKFillet.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKFeat.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKBool.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKBRep.so.7.3.1
+	${INSTDIR}/linux_x86_64/egads2nmb/libTKBO.so.7.3.1
+	${INSTDIR}/linux_x86_64/bin/xcbglintegrations/libqxcb-glx-integration.so
+	${INSTDIR}/linux_x86_64/bin/rlmutil
+	${INSTDIR}/linux_x86_64/bin/qtdiag
+	${INSTDIR}/linux_x86_64/bin/platforms/libqxcb.so
+	${INSTDIR}/linux_x86_64/bin/imageformats/libqtiff.so
+	${INSTDIR}/linux_x86_64/bin/imageformats/libqsvg.so
+	${INSTDIR}/linux_x86_64/bin/iconengines/libqsvgicon.so"
 
 src_prepare() {
 
