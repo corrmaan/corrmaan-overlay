@@ -25,7 +25,7 @@ DEPEND="${RDEPEND}
 	app-admin/chrpath
 	>=sys-devel/gcc-5.1
 	virtual/libusb:1
-	~x11-libs/evdi-1.7.1"
+	x11-libs/evdi:1.7"
 
 pkg_nofetch() {
 	einfo "Please download"
