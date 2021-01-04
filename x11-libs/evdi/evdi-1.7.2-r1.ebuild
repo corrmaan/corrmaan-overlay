@@ -10,7 +10,7 @@ HOMEPAGE="https://github.com/DisplayLink/${PN}"
 SRC_URI="https://github.com/DisplayLink/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2 LGPL-2.1"
-SLOT="0"
+SLOT="$(ver_cut 1-2)"
 KEYWORDS="~amd64 ~x86"
 
 RDEPEND=""
@@ -25,8 +25,8 @@ CONFIG_CHECK="~DRM ~DRM_KMS_HELPER"
 pkg_setup() {
 	linux-mod_pkg_setup
 	kernel_is -ge 4 15 || die "Update your kernel to at least version 4.15."
-	if kernel_is -gt 5 9; then
-		ewarn "Kernel versions only up to 5.9 are officially supported."
+	if kernel_is -gt 5 10; then
+		ewarn "Kernel versions only up to 5.10 are officially supported."
 	fi
 }
 
