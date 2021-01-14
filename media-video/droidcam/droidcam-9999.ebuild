@@ -33,8 +33,6 @@ RDEPEND=">=app-pda/libplist-2
 	!modules? ( media-video/v4l2loopback )"
 DEPEND="${RDEPEND}"
 
-S="${WORKDIR}/${P}/linux"
-
 CONFIG_CHECK="SND_ALOOP VIDEO_V4L2"
 MODULE_NAMES="v4l2loopback-dc(video:${S}/v4l2loopback)"
 BUILD_TARGETS="clean all"
