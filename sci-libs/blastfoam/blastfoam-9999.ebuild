@@ -10,13 +10,13 @@ if [[ ${PV} == "9999" ]]; then
 	EGIT_REPO_URI="https://github.com/synthetik-technologies/${PN}.git"
 else
 	SRC_URI="https://github.com/synthetik-technologies/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~x86"
 fi
 
 DESCRIPTION="A CFD solver for multi-component compressible flow"
 HOMEPAGE="https://github.com/synthetik-technologies/${PN}"
 LICENSE="GPL-3"
 SLOT="0"
+KEYWORDS="~amd64 ~x86"
 IUSE="examples gnuplot qbmm source"
 
 DEPEND="sci-libs/openfoam:7=[gnuplot?,source]
