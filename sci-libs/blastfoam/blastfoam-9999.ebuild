@@ -1,11 +1,10 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit flag-o-matic toolchain-funcs
+inherit toolchain-funcs
 
-DESCRIPTION="A CFD solver for multi-component compressible flow"
 if [[ ${PV} == "9999" ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/synthetik-technologies/${PN}.git"
@@ -13,21 +12,27 @@ else
 	SRC_URI="https://github.com/synthetik-technologies/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
 fi
-HOMEPAGE="https://github.com/synthetik-technologies/blastfoam"
 
+DESCRIPTION="A CFD solver for multi-component compressible flow"
+HOMEPAGE="https://github.com/synthetik-technologies/${PN}"
 LICENSE="GPL-3"
 SLOT="0"
-IUSE="examples gnuplot source"
+IUSE="examples gnuplot qbmm source"
 
-DEPEND="sci-libs/openfoam:7=[gnuplot?,source]"
+DEPEND="sci-libs/openfoam:7=[gnuplot?,source]
+		qbmm? ( sci-libs/openqbmm:=[source] )"
 
 DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/BlastFoam_User_Guide.pdf" )
 
 src_prepare() {
 
+	INSDIR="usr/$(get_libdir)"
+
 	default
 
-	rm "${S}/.gitignore"
+	rm -rf "${S}"/.git* "${S}/media" "${S}/svgs"
+
+	use examples || rm -rf "${S}/tutorials" "${S}/validation"
 
 }
 
@@ -36,9 +41,15 @@ src_configure() {
 	export FOAM_VERBOSE=1
 	export PS1=1
 
-	sed -i 's:export BLAST_DIR=$HOME/$WM_PROJECT/$BLAST_PROJECT:export BLAST_DIR=$(cd $(dirname ${BASH_SOURCE\:-$0})/.. \&\& pwd -P):g' "${S}/etc/bashrc"
+	source "${EPREFIX}/${INSDIR}/OpenFOAM-7/etc/bashrc"
 
-	source "${EPREFIX}/usr/$(get_libdir)/OpenFOAM-7/etc/bashrc"
+	if use qbmm; then
+		export QBMM_INST_DIR="${WM_PROJECT_INST_DIR}/openqbmm"
+		sed -e "s:export QBMM_LIBBIN=\$FOAM_USER_LIBBIN:export QBMM_LIBBIN=${QBMM_INST_DIR}/platforms/${WM_OPTIONS}/lib:" -i "${S}/etc/bashrc"
+		sed -e "s:export QBMM_APPBIN=\$FOAM_USER_APPBIN:export QBMM_APPBIN=${QBMM_INST_DIR}/platforms/${WM_OPTIONS}/bin:" -i "${S}/etc/bashrc"
+		# Fix for ld missing library errors
+		sed -e 's:export QBMM_LIBS="-L\\\$(QBMM_LIBBIN) -leigenSolver -lquadratureNode -lmomentSets -lmomentInversion -lfieldMomentInversion -lquadratureApproximation -lmomentAdvection -lPDFTransportModel -lmixing -lpopulationBalance\":export QBMM_LIBS=\"-L\\\$(QBMM_LIBBIN) -leigenSolver -lvandermonde -lquadratureNode -lmomentSets -lmomentInversion -lfieldMomentInversion -lquadratureApproximation -lmomentAdvection -lPDFTransportModel -lmixing -lpopulationBalance":' -i "${S}/etc/bashrc"
+	fi
 	source "${S}/etc/bashrc"
 
 }
@@ -54,20 +65,11 @@ src_compile() {
 src_install() {
 
 	einstalldocs
-
-	INSDIR="usr/$(get_libdir)"
+	rm INPUT.md README.md BlastFoam_User_Guide.pdf
+	use source || rm -rf Allwclean Allwmake COPYING src
 
 	mkdir -p "${ED}/${INSDIR}"
-
 	mv "${S}" "${ED}/${INSDIR}/${PN}"
-
-	cd "${ED}/${INSDIR}/${PN}"
-
-	rm INPUT.md README.md blastFoam_User_Guide.pdf media svgs
-	rm -rf media svgs
-
-	use examples || rm -rf tutorials validation
-	use source || rm -rf Allwclean Allwmake COPYING src
 
 }
 

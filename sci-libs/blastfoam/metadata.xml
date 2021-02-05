@@ -2,6 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <use>
+    <flag name="qbmm">Include OpenQBMM support</flag>
     <flag name="source">Install source code</flag>
   </use>
 </pkgmetadata>

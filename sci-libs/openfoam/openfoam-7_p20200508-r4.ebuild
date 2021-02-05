@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -12,7 +12,6 @@ if [ -z "${MY_PP}" ]; then
 	MY_PP="version-${MY_PV}"
 fi
 
-DESCRIPTION="The Open Source CFD Toolbox"
 if [[ ${PV} == "9999" ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/OpenFOAM/OpenFOAM-dev.git"
@@ -20,8 +19,9 @@ else
 	SRC_URI="https://github.com/${MY_PN}/${MY_PN}-${MY_PV}/archive/${MY_PP}.tar.gz -> ${MY_PN}-${PV}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
 fi
-HOMEPAGE="https://openfoam.org/"
 
+DESCRIPTION="The Open Source CFD Toolbox"
+HOMEPAGE="https://openfoam.org/"
 LICENSE="GPL-3"
 SLOT="${MY_PV}"
 IUSE="cgal doc examples gnuplot metis mpi paraview perftools scotch source test"
@@ -50,9 +50,17 @@ src_unpack() {
 
 	mv "${WORKDIR}/${MY_PN}-${MY_PV}-${MY_PP}" "${S}"
 
-	rm "${S}/.gitignore"
+}
 
-	use doc && DOCS=( "${S}/doc/Guides" "${S}/doc/codingStyleGuide.org" )
+src_prepare() {
+
+	INSDIR="usr/$(get_libdir)"
+	DOCS=( "${S}/README.org" "${S}/doc/Guides" "${S}/doc/codingStyleGuide.org" )
+
+	default
+
+	use examples || rm -rf "${S}/tutorials"
+
 	use doc && HTML_DOCS=( "${S}/doc/Doxygen/html/." )
 
 }
@@ -164,19 +172,12 @@ src_test() {
 
 src_install() {
 
-	use doc && einstalldocs
-	rm -rf "${S}/doc"
-
-	use examples || rm -rf "${S}/tutorials"
-	use source || rm -rf "${S}/src" "${S}/test" "${S}/wmake"
-
-	INSDIR="usr/$(get_libdir)"
+	einstalldocs
+	rm -rf doc README.org
+	use source || rm -rf COPYING src test wmake
 
 	mkdir -p "${ED}/${INSDIR}"
-
 	mv "${S}" "${ED}/${INSDIR}/${MY_PN}-${MY_PV}"
-
-	cd "${ED}/${INSDIR}/${MY_PN}-${MY_PV}"
 
 }
 

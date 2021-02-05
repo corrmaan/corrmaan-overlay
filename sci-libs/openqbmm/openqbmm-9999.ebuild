@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit flag-o-matic toolchain-funcs
+inherit toolchain-funcs
 
 MY_PN=OpenQBMM
 
@@ -19,9 +19,8 @@ fi
 
 DESCRIPTION="An open-source implementation of Quadrature-Based Moment Methods"
 HOMEPAGE="https://github.com/${MY_PN}/${MY_PN}"
-KEYWORDS="~amd64 ~x86"
 LICENSE="GPL-3"
-SLOT="$(ver_cut 1)"
+SLOT="0"
 IUSE="doc examples source test"
 
 DEPEND="sci-libs/openfoam:7=[source]
@@ -31,22 +30,24 @@ DOCS=( "${S}/README.md" )
 
 src_prepare() {
 
+	INSDIR="usr/$(get_libdir)"
+
 	default
 
-	rm -rf "${S}/.git*" "${S}/.travis.yml"
+	rm -rf "${S}/".git* "${S}/.travis.yml"
 
-	use examples || rm -rf "${S}/tutorials"
-
-	if ! use test; then
-		sed -e '/(cd test \&\& .\/Allwmake)/ s/^#*/#/' -i "${S}/Allwmake"
-	fi
+	sed -e 's/^curl/#&/' -i  "${S}/Allwmake"
 
 	if use doc; then
 		HTML_DOCS=( "${S}/doc/Doxygen/html/." )
 		sed -e 's:/home/alberto/Desktop/OpenQBMM-Test/OpenQBMM/doc/::' -i "${S}/doc/Doxyfile"
 	fi
 
-	sed -e 's/^curl/#&/' -i  "${S}/Allwmake"
+	use examples || rm -rf "${S}/tutorials" "${S}/validation"
+
+	if ! use test; then
+		sed -e '/(cd test \&\& .\/Allwmake)/ s/^#*/#/' -i "${S}/Allwmake"
+	fi
 
 }
 
@@ -55,7 +56,7 @@ src_configure() {
 	export FOAM_VERBOSE=1
 	export PS1=1
 
-	source "${EPREFIX}/usr/$(get_libdir)/OpenFOAM-7/etc/bashrc"
+	source "${EPREFIX}/${INSDIR}/OpenFOAM-7/etc/bashrc"
 
 }
 
@@ -74,18 +75,10 @@ src_compile() {
 src_install() {
 
 	einstalldocs
-
-	INSDIR="usr/$(get_libdir)"
+	rm README.md
+	use source || rm -rf Allwclean Allwmake COPYING src
 
 	mkdir -p "${ED}/${INSDIR}"
-
 	mv "${S}" "${ED}/${INSDIR}/${PN}"
-
-	cd "${ED}/${INSDIR}/${PN}"
-
-	rm README.md
-
-	use examples || rm -rf "${S}/tutorials" "${S}/validation"
-	use source || rm -rf Allwclean Allwmake COPYING src
 
 }
