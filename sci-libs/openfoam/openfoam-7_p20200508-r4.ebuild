@@ -17,13 +17,13 @@ if [[ ${PV} == "9999" ]]; then
 	EGIT_REPO_URI="https://github.com/OpenFOAM/OpenFOAM-dev.git"
 else
 	SRC_URI="https://github.com/${MY_PN}/${MY_PN}-${MY_PV}/archive/${MY_PP}.tar.gz -> ${MY_PN}-${PV}.tar.gz"
-	KEYWORDS="~amd64 ~x86"
 fi
 
 DESCRIPTION="The Open Source CFD Toolbox"
 HOMEPAGE="https://openfoam.org/"
 LICENSE="GPL-3"
 SLOT="${MY_PV}"
+KEYWORDS="~amd64 ~x86"
 IUSE="cgal doc examples gnuplot metis mpi paraview perftools scotch source test"
 
 RDEPEND="gnuplot? ( sci-visualization/gnuplot )

@@ -13,7 +13,6 @@ if [[ ${PV} == "9999" ]]; then
 	EGIT_BRANCH="development-openfoam.org"
 else
 	SRC_URI="https://github.com/${MY_PN}/${MY_PN}/archive/${MY_PN}_${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~x86"
 	S="${WORKDIR}/${MY_PN}-${MY_PN}_${PV}"
 fi
 
@@ -21,6 +20,7 @@ DESCRIPTION="An open-source implementation of Quadrature-Based Moment Methods"
 HOMEPAGE="https://github.com/${MY_PN}/${MY_PN}"
 LICENSE="GPL-3"
 SLOT="0"
+KEYWORDS="~amd64 ~x86"
 IUSE="doc examples source test"
 
 DEPEND="sci-libs/openfoam:7=[source]
