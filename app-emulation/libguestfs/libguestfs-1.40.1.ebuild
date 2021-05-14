@@ -20,7 +20,7 @@ LICENSE="GPL-2 LGPL-2"
 SLOT="0/"${MY_PV_1}""
 
 KEYWORDS="~amd64"
-IUSE="doc erlang +fuse gtk inspect-icons introspection libvirt lua ocaml +perl python ruby selinux static-libs systemtap test"
+IUSE="doc erlang +fuse gtk inspect-icons introspection libvirt lua +perl python ruby selinux static-libs systemtap test"
 RESTRICT="!test? ( test )"
 
 REQUIRED_USE="lua? ( ${LUA_REQUIRED_USE} )
@@ -73,7 +73,7 @@ COMMON_DEPEND="
 		sys-libs/libsemanage
 	)
 	systemtap? ( dev-util/systemtap )
-	ocaml? ( >=dev-lang/ocaml-4.03:=[ocamlopt] )
+	>=dev-lang/ocaml-4.03:=[ocamlopt]
 	erlang? ( dev-lang/erlang )
 	inspect-icons? (
 		media-libs/netpbm
@@ -92,12 +92,12 @@ COMMON_DEPEND="
 	"
 DEPEND="${COMMON_DEPEND}
 	dev-util/gperf
-	ocaml? ( || (
+	dev-ml/ounit2[ocamlopt]
 	    dev-ml/findlib[ocamlopt]
+	|| (
 		dev-ml/ocaml-gettext
 		dev-ml/ocaml-gettext-stub[ocamlopt]
-	    dev-ml/ounit2[ocamlopt]
-	) )
+	)
 	doc? ( app-text/po4a )
 	ruby? ( dev-lang/ruby virtual/rubygems dev-ruby/rake )
 	test? ( introspection? ( dev-libs/gjs ) )
