@@ -34,6 +34,7 @@ COMMON_DEPEND="
 	sys-devel/gettext
 	>=app-misc/hivex-1.3.1
 	dev-libs/libpcre:3
+	dev-libs/jansson
 	app-arch/cpio
 	dev-lang/perl:=
 	app-cdr/cdrtools
