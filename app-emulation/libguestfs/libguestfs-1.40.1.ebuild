@@ -153,7 +153,6 @@ src_configure() {
 		--without-java \
 		$(use_enable perl) \
 		$(use_enable fuse) \
-		$(use_enable ocaml) \
 		$(use_enable ruby) \
 		--disable-haskell \
 		--disable-golang \
@@ -177,9 +176,6 @@ src_install() {
 pkg_postinst() {
 	if ! use gtk ; then
 		einfo "virt-p2v NOT installed"
-	fi
-	if ! use ocaml ; then
-		einfo "Ocaml based tools and bindings (sysprep, ...) NOT installed"
 	fi
 	if ! use perl ; then
 		einfo "Perl based tools NOT build"
