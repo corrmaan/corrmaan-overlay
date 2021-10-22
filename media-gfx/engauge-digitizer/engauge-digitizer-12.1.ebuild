@@ -6,8 +6,8 @@ EAPI=7
 inherit desktop qmake-utils xdg-utils
 
 DESCRIPTION="Convert an image file showing a graph or map into numbers"
-HOMEPAGE="https://markummitchell.github.io/engauge-digitizer/"
-SRC_URI="https://github.com/markummitchell/engauge-digitizer/archive/v${PV}.tar.gz -> engauge-digitizer-${PV}.tar.gz"
+HOMEPAGE="https://markummitchell.github.io/${PN}/"
+SRC_URI="https://github.com/markummitchell/${PN}/archive/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -27,14 +27,14 @@ RDEPEND="dev-qt/qtcore:5
 	pdf? ( app-text/poppler[qt5] )"
 DEPEND="${RDEPEND}"
 
-S=${WORKDIR}/engauge-digitizer-${PV}
+S=${WORKDIR}/${PN}-${PV}
 
 src_prepare() {
 
 	default
 
 	# Make sure the documentation is looked for in the proper directory
-	sed -e "s:engauge-digitizer/engauge.qhc:${PF}/engauge.qhc:" \
+	sed -e "s:${PN}/engauge.qhc:${PF}/engauge.qhc:" \
 		-i src/Help/HelpWindow.cpp || die
 
 	# This otherwise overrides user CFLAGS
@@ -74,8 +74,8 @@ src_compile() {
 src_install() {
 
 	dobin bin/engauge
-	doicon src/img/engauge-digitizer.svg
-	make_desktop_entry engauge "Engauge Digitizer" engauge-digitizer Graphics
+	doicon src/img/${PN}.svg
+	make_desktop_entry ${PN} "Engauge Digitizer" ${PN} Graphics
 
 	# Install qt help files
 	insinto /usr/share/doc/${PF} # this must match sed expression in src_prepare
