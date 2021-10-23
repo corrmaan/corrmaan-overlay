@@ -4,7 +4,7 @@
   <use>
     <flag name="single-precision">Install single precision solver</flag>
     <flag name="double-precision">Install double precision solver</flag>
-    <flag name="usermat">Install usermat libraries with solver</flag>
-    <flag name="usermat-only">Install usermat libraries only</flag>
+    <flag name="usermat-single-precision">Install single precision usermat libraries</flag>
+    <flag name="usermat-double-precision">Install double precision usermat libraries</flag>
   </use>
 </pkgmetadata>
