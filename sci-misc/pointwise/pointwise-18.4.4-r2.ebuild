@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit desktop xdg-utils
+inherit desktop xdg-utils java-pkg-2
 MY_PV=$(ver_cut 1-2)
 RELID="${MY_PV}R$(ver_cut 3)"
 FN="pw-V${RELID}-linux_x86_64-nojre.sh"
@@ -19,7 +19,7 @@ KEYWORDS="~amd64"
 SLOT="0"
 IUSE="+X doc tutorials"
 
-RDEPEND="|| ( virtual/jre:1.8 virtual/jdk:1.8 )"
+RDEPEND="|| ( >=virtual/jdk-1.8:* >=virtual/jdk-1.8:* )"
 DEPEND="${RDEPEND}
 	X? ( media-gfx/icoutils
 		 media-gfx/imagemagick )"
@@ -90,21 +90,10 @@ src_prepare() {
 	JAVAVM=$(readlink -f "${EPREFIX}/etc/java-config-2/current-system-vm")
 
 	addpredict "${JAVAVM}"
+	addpredict /root/.icesoft
 	addpredict /root/.java
 	addpredict /root/.local/share/applications
 	addpredict "${EPREFIX}/usr/local/bin/${PN}"
-
-}
-
-src_configure() {
-
-cat <<EOT >> response.varfile
-licenseAcceptBtns\$Integer=0
-sys.adminRights\$Boolean=false
-sys.component.Pointwise\$Boolean=true
-sys.installationDir=${ED}/${INSTDIR}
-sys.languageId=en
-EOT
 
 }
 
@@ -114,6 +103,14 @@ src_install() {
 
 	cp "${DISTDIR}/${FN}" ${FN}
 	chmod +x ${FN}
+
+	cat <<EOT > response.varfile
+licenseAcceptBtns\$Integer=0
+sys.adminRights\$Boolean=false
+sys.component.Pointwise\$Boolean=true
+sys.installationDir=${ED}/${INSTDIR}
+sys.languageId=en
+EOT
 
 	app_java_home="${EPREFIX}/usr" ./${FN} -varfile response.varfile -q || die
 
@@ -132,10 +129,10 @@ src_install() {
 		for i in 16 22 24 32 36 48 64 72 96 128 192 256; do
 			case ${i} in
 			16|22|24|32|36|48|64|72|96|128|192|256|512)
-				if [ ${i} -eq 256 ]; then
-					newicon -s ${i} "icon_pwise_${j}_${i}x${i}x64.png" ${P}.png
-				else
+				if [ -f "icon_pwise_${j}_${i}x${i}x32.png" ]; then
 					newicon -s ${i} "icon_pwise_${j}_${i}x${i}x32.png" ${P}.png
+				elif [ -f "icon_pwise_${j}_${i}x${i}x64.png" ]; then
+					newicon -s ${i} "icon_pwise_${j}_${i}x${i}x64.png" ${P}.png
 				fi
 				;;
 			*)
