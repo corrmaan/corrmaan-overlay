@@ -48,7 +48,6 @@ QA_PRESTRIPPED="${INSTDIR}/lib/libavformat.so.58.29.100
 	${INSTDIR}/lib/libintlc.so.5
 	${INSTDIR}/lsrun"
 
-
 src_prepare() {
 
 	default
@@ -62,7 +61,7 @@ EOT
 }
 
 src_install() {
-	
+
 	default
 
 	insinto /${INSTDIR}
