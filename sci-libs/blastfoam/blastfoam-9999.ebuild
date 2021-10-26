@@ -17,10 +17,11 @@ HOMEPAGE="https://github.com/synthetik-technologies/${PN}"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="examples gnuplot qbmm source"
+IUSE="examples gnuplot paraview source"
 
-DEPEND="sci-libs/openfoam:7=[gnuplot?,source]
-		qbmm? ( sci-libs/openqbmm:=[source] )"
+RDEPEND="gnuplot? ( sci-visualization/gnuplot )
+	paraview? ( sci-visualization/paraview )"
+DEPEND="sci-libs/openfoam:9=[gnuplot?,source]"
 
 DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/BlastFoam_User_Guide.pdf" )
 
@@ -41,15 +42,8 @@ src_configure() {
 	export FOAM_VERBOSE=1
 	export PS1=1
 
-	source "${EPREFIX}/${INSDIR}/OpenFOAM-7/etc/bashrc"
+	source "${EPREFIX}/${INSDIR}/OpenFOAM-9/etc/bashrc"
 
-	if use qbmm; then
-		export QBMM_INST_DIR="${WM_PROJECT_INST_DIR}/openqbmm"
-		sed -e "s:export QBMM_LIBBIN=\$FOAM_USER_LIBBIN:export QBMM_LIBBIN=${QBMM_INST_DIR}/platforms/${WM_OPTIONS}/lib:" -i "${S}/etc/bashrc"
-		sed -e "s:export QBMM_APPBIN=\$FOAM_USER_APPBIN:export QBMM_APPBIN=${QBMM_INST_DIR}/platforms/${WM_OPTIONS}/bin:" -i "${S}/etc/bashrc"
-		# Fix for ld missing library errors
-		sed -e 's:export QBMM_LIBS="-L\\\$(QBMM_LIBBIN) -leigenSolver -lquadratureNode -lmomentSets -lmomentInversion -lfieldMomentInversion -lquadratureApproximation -lmomentAdvection -lPDFTransportModel -lmixing -lpopulationBalance\":export QBMM_LIBS=\"-L\\\$(QBMM_LIBBIN) -leigenSolver -lvandermonde -lquadratureNode -lmomentSets -lmomentInversion -lfieldMomentInversion -lquadratureApproximation -lmomentAdvection -lPDFTransportModel -lmixing -lpopulationBalance":' -i "${S}/etc/bashrc"
-	fi
 	source "${S}/etc/bashrc"
 
 }
@@ -58,7 +52,7 @@ src_compile() {
 
 	./Allwmake ${MAKEOPTS} || die "Build failure."
 
-	mv "${HOME}/OpenFOAM/-7/platforms" "${S}/"
+	mv "${HOME}/OpenFOAM/-9/platforms" "${S}/"
 
 }
 

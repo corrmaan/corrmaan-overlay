@@ -1,24 +1,26 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit flag-o-matic toolchain-funcs
+inherit toolchain-funcs
 
-DESCRIPTION="A CFD solver for multi-component compressible flow"
 if [[ ${PV} == "9999" ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/synthetik-technologies/${PN}.git"
 else
 	SRC_URI="https://github.com/synthetik-technologies/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~x86"
 fi
-HOMEPAGE="https://github.com/synthetik-technologies/blastfoam"
 
+DESCRIPTION="A CFD solver for multi-component compressible flow"
+HOMEPAGE="https://github.com/synthetik-technologies/${PN}"
 LICENSE="GPL-3"
 SLOT="0"
-IUSE="examples gnuplot source"
+KEYWORDS="~amd64 ~x86"
+IUSE="examples gnuplot paraview source"
 
+RDEPEND="gnuplot? ( sci-visualization/gnuplot )
+	paraview? ( sci-visualization/paraview )"
 DEPEND="sci-libs/openfoam:7=[gnuplot?,source]"
 
 DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/blastFoam_User_Guide.pdf" )
