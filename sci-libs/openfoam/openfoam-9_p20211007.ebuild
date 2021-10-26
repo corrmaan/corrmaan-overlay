@@ -5,6 +5,10 @@ EAPI=7
 
 inherit flag-o-matic toolchain-funcs
 
+DESCRIPTION="The Open Source CFD Toolbox"
+HOMEPAGE="https://openfoam.org/"
+LICENSE="GPL-3+"
+
 MY_PN="OpenFOAM"
 MY_PV="$(ver_cut 1)"
 MY_PP="$(ver_cut 3)"
@@ -12,31 +16,22 @@ if [ -z "${MY_PP}" ]; then
 	MY_PP="version-${MY_PV}"
 fi
 
-if [[ ${PV} == "9999" ]]; then
-	inherit git-r3
-	EGIT_REPO_URI="https://github.com/OpenFOAM/OpenFOAM-dev.git"
-else
-	SRC_URI="https://github.com/${MY_PN}/${MY_PN}-${MY_PV}/archive/${MY_PP}.tar.gz -> ${MY_PN}-${PV}.tar.gz"
-fi
-
-DESCRIPTION="The Open Source CFD Toolbox"
-HOMEPAGE="https://openfoam.org/"
-LICENSE="GPL-3"
+SRC_URI="https://github.com/${MY_PN}/${MY_PN}-${MY_PV}/archive/${MY_PP}.tar.gz -> ${MY_PN}-${MY_PV}-${MY_PP}.tar.gz"
 SLOT="${MY_PV}"
 KEYWORDS="~amd64 ~x86"
-IUSE="cgal doc examples gnuplot metis mpi paraview perftools scotch source test"
+IUSE="doc examples foamy gnuplot metis mpi paraview perftools scotch source test"
 
 RDEPEND="gnuplot? ( sci-visualization/gnuplot )
 	paraview? ( sci-visualization/paraview )"
 DEPEND="dev-libs/boost[mpi?]
-	|| ( >=sys-devel/gcc-4.8 >=sys-devel/clang-3.6 )
+	|| ( >=sys-devel/gcc-5 >=sys-devel/clang-3.6 )
 	sys-devel/flex
 	sys-libs/ncurses
 	sys-libs/readline
 	sys-libs/zlib
 	x11-libs/libXt
-	cgal? ( sci-mathematics/cgal )
 	doc? ( app-doc/doxygen[dot] )
+	foamy? ( sci-mathematics/cgal )
 	metis? ( sci-libs/metis )
 	mpi? ( sys-cluster/openmpi )
 	perftools? ( dev-util/google-perftools )
@@ -71,7 +66,7 @@ src_configure() {
 	append-cflags $(test-flags-CC -fPIC)
 	append-cxxflags $(test-flags-CXX -m64)
 	append-cxxflags $(test-flags-CXX -fPIC)
-	append-cxxflags $(test-flags-CXX -std=c++11)
+	append-cxxflags $(test-flags-CXX -std=c++14)
 	append-ldflags -m64
 
 	if tc-ld-is-gold; then
@@ -85,8 +80,8 @@ src_configure() {
 
 	export FOAM_VERBOSE=1
 	export PS1=1
+	use foamy && export FOAMY_HEX_MESH=yes
 
-	use mpi || sed -i '/config.sh\/mpi/s/^/#/g' "${S}/etc/bashrc"
 	sed -i '/config.sh\/paraview/s/^/#/g' "${S}/etc/bashrc"
 	sed -i '/config.sh\/ensight/s/^/#/g' "${S}/etc/bashrc"
 
@@ -96,14 +91,17 @@ src_configure() {
 	sed -i "s/export WM_CXXFLAGS='-m64 -fPIC -std=c++0x'/export WM_CXXFLAGS='${CXXFLAGS}'/g" "${S}/etc/config.sh/settings"
 	sed -i "s/export WM_LDFLAGS='-m64'/export WM_LDFLAGS='${LDFLAGS}'/g" "${S}/etc/config.sh/settings"
 
-	use cgal && export FOAMY_HEX_MESH=yes
-
 	if use metis; then
 		sed -i "s/METIS_VERSION=metis-.*/METIS_VERSION=metis-system/g" "${S}/etc/config.sh/metis"
 		sed -i "s:export METIS_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$METIS_VERSION:export METIS_ARCH_PATH=/usr:g" "${S}/etc/config.sh/metis"
 	else
 		sed -i "s/METIS_VERSION=metis-.*/METIS_VERSION=metis-none/g" "${S}/etc/config.sh/metis"
 		sed -i "s:export METIS_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$METIS_VERSION:export METIS_ARCH_PATH=:g" "${S}/etc/config.sh/metis"
+	fi
+
+	if ! use mpi; then
+		sed -i '/export WM_MPLIB=.*/s/^/#/g' "${S}/etc/bashrc"
+		sed -i '/config.sh\/mpi/s/^/#/g' "${S}/etc/bashrc"
 	fi
 
 	if use perftools; then
@@ -117,7 +115,7 @@ src_configure() {
 		sed -i "s/export SCOTCH_VERSION=scotch_.*/export SCOTCH_VERSION=scotch-system/g" "${S}/etc/config.sh/scotch"
 		sed -i "s:export SCOTCH_ARCH_PATH=\$WM_THIRD_PARTY_DIR/platforms/\$WM_ARCH\$WM_COMPILER\$WM_PRECISION_OPTION\$WM_LABEL_OPTION/\$SCOTCH_VERSION:export SCOTCH_ARCH_PATH=/usr:g" "${S}/etc/config.sh/scotch"
 	else
-		sed -i "s/export SCOTCH_VERSION=scotch_.*/export SCOTCH_VERSION=scotch-none/g" "${S}/etc/config.sh/scotch"
+		mv "${S}/etc/config.sh/scotch" "${S}/etc/config.sh/scotch.bak"
 	fi
 
 	source "${S}/etc/bashrc"
