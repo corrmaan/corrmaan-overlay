@@ -16,7 +16,7 @@ HOMEPAGE="http://www.lstc.com/"
 
 LICENSE="Clickwrap-SLA"
 KEYWORDS="~amd64"
-SLOT="0"
+SLOT="${PV}"
 IUSE="single-precision +double-precision usermat-single-precision usermat-double-precision"
 REQUIRED_USE="
 	usermat-single-precision? ( !usermat-double-precision )
@@ -32,20 +32,22 @@ S=${WORKDIR}
 src_unpack() {
 
 	if use single-precision; then
-		sh ../distdir/"${FN_S}.${SH}" --skip-license --exclude-subdir
+		sh "${DISTDIR}"/"${FN_S}.${SH}" --skip-license --exclude-subdir
 	fi
 	if use double-precision; then
-		sh ../distdir/"${FN_D}.${SH}" --skip-license --exclude-subdir
+		sh "${DISTDIR}"/"${FN_D}.${SH}" --skip-license --exclude-subdir
 	fi
 	if use usermat-single-precision; then
-		sh ../distdir/"${FN_S}.usermat.${SH}" --skip-license --exclude-subdir
-		use single-precision || use double-precision && rm -rf usermat/licensingclient || mv usermat/licensingclient licensingclient
-		mv usermat ${PN}
+		sh "${DISTDIR}"/"${FN_S}.usermat.${SH}" --skip-license --exclude-subdir
+		rm -rf usermat/licensingclient
+		mkdir ${PN}
+		mv usermat ${PN}/${PV}
 	fi
 	if use usermat-double-precision; then
-		sh ../distdir/"${FN_D}.usermat.${SH}" --skip-license --exclude-subdir
-		use single-precision || use double-precision && rm -rf usermat/licensingclient || mv usermat/licensingclient licensingclient
-		mv usermat ${PN}
+		sh "${DISTDIR}"/"${FN_D}.usermat.${SH}" --skip-license --exclude-subdir
+		rm -rf usermat/licensingclient
+		mkdir ${PN}
+		mv usermat ${PN}/${PV}
 	fi
 	rm -rf licensingclient/winx64
 
@@ -53,10 +55,10 @@ src_unpack() {
 
 src_install() {
 
-	insinto /opt/${PN}
-	doins -r licensingclient
+	insinto /opt/${PN}/${PV}
+	use single-precision || use double-precision && doins -r licensingclient
 
-	exeinto /opt/${PN}
+	exeinto /opt/${PN}/${PV}
 	use single-precision && doexe "${FN_S}"
 	use double-precision && doexe "${FN_D}"
 
