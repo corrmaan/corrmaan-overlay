@@ -3,17 +3,23 @@
 
 EAPI=7
 
-MY_PV="${PV//1_beta/B}"
-
 inherit cmake git-r3
 
 DESCRIPTION="A low latency KVMFR implementation for guests with VGA PCI Passthrough"
 HOMEPAGE="https://looking-glass.io/"
-EGIT_REPO_URI="https://github.com/gnif/LookingGlass.git"
 
-if [[ ${PV} != "9999" ]]; then
-	EGIT_COMMIT="25c88a1c6ca77c2db5f1fcef3458e3083b7bfaa7"
+MY_PN="LookingGlass"
+if [ ! -z $(ver_cut 4) ]; then
+	if [ ! -z $(ver_cut 6) ]; then
+		MY_PV="B$(ver_cut 4)-rc$(ver_cut 6)"
+	else
+		MY_PV="B$(ver_cut 4)"
+	fi
+else
+	MY_PV="${PV}"
 fi
+EGIT_REPO_URI="https://github.com/gnif/${MY_PN}.git"
+EGIT_COMMIT="aa6cf7271818b5a76e2c19f60ce5fe775b8c9751"
 
 LICENSE="GPL-2"
 SLOT="0"

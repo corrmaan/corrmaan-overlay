@@ -3,17 +3,21 @@
 
 EAPI=7
 
-MY_PN="looking-glass-host"
-MY_PV="${PV//1_beta/B}"
-
 DESCRIPTION="A low latency KVMFR implementation for guests with VGA PCI Passthrough"
 HOMEPAGE="https://looking-glass.io/"
 
-SRC_URI="https://looking-glass.io/ci/host/download?id=715 -> ${PN}-${MY_PV}.zip"
-
-if [[ ${PV} != "9999" ]]; then
-	EGIT_COMMIT="25c88a1c6ca77c2db5f1fcef3458e3083b7bfaa7"
+MY_PN="looking-glass-host"
+if [ ! -z $(ver_cut 4) ]; then
+	if [ ! -z $(ver_cut 6) ]; then
+		MY_PV="B$(ver_cut 4)-rc$(ver_cut 6)"
+	else
+		MY_PV="B$(ver_cut 4)"
+	fi
+else
+	MY_PV="${PV}"
 fi
+SRC_URI="https://looking-glass.io/artifact/${MY_PV}/host -> ${MY_PN}-${MY_PV}.zip"
+EGIT_COMMIT="25c88a1c6ca77c2db5f1fcef3458e3083b7bfaa7"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -25,7 +29,7 @@ S="${WORKDIR}"
 
 src_unpack() {
 	mkdir "${MY_PN}"
-	unzip -P "${EGIT_COMMIT:0:8}" -d "${MY_PN}" "${DISTDIR}/${PN}-${MY_PV}.zip"
+	unzip -P "${EGIT_COMMIT:0:8}" -d "${MY_PN}" "${DISTDIR}/${MY_PN}-${MY_PV}.zip"
 }
 
 src_prepare() {
