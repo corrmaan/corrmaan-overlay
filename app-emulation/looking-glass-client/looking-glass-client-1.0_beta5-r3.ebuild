@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake git-r3 tmpfiles
+inherit cmake desktop git-r3 tmpfiles xdg-utils
 
 DESCRIPTION="A low latency KVMFR implementation for guests with VGA PCI Passthrough"
 HOMEPAGE="https://looking-glass.io/"
@@ -34,7 +34,10 @@ BDEPEND="sys-devel/binutils:*
 	dev-libs/nettle[gmp]
 	media-libs/glu
 	virtual/pkgconfig
-	X? ( x11-base/xorg-server
+	virtual/tmpfiles
+	X? ( media-gfx/icoutils
+		media-gfx/imagemagick
+		x11-base/xorg-server
 		x11-libs/libXfixes
 		x11-libs/libXi
 		x11-libs/libXinerama
@@ -74,8 +77,36 @@ src_install() {
 
 	echo "f /dev/shm/looking-glass 0660 qemu kvm -" > ${PN}.conf
 	newtmpfiles ${PN}.conf ${PN}.conf
+
+	if use X
+	then
+		cd resources
+		icotool -x -o . icon.ico
+		local i
+		local j=1
+		for i in 128 64 32 16; do
+			newicon -s ${i} "icon_${j}_${i}x${i}x32.png" ${P}.png
+			j=$((j+1))
+		done
+		make_desktop_entry "${PN}" "Looking Glass Client" ${P} "System;Emulator" "StartupWMClass=\"Looking Glass (client)\", \"${PN}\""
+		cd -
+	fi
 }
 
 pkg_postinst() {
+
 	tmpfiles_process ${PN}.conf
+
+	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
+
+}
+
+pkg_postrm() {
+
+	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
+
 }
