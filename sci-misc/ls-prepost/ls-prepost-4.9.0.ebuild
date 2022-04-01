@@ -5,10 +5,10 @@ EAPI=7
 
 inherit desktop xdg-utils
 
-BUILDDATE=07Mar2022
+BUILDDATE=23Mar2022
 
 DESCRIPTION="Advanced Pre- and Post-Processor for LS-DYNA"
-SRC_URI="http://ftp.lstc.com/user/ls-prepost/$(ver_cut 1).$(ver_cut 2)/linux64/${P}-common-${BUILDDATE}.tgz"
+SRC_URI="http://ftp.lstc.com/user/${PN}/$(ver_cut 1).$(ver_cut 2)/linux64/lsprepost-${PV}-common-${BUILDDATE}.tgz"
 HOMEPAGE="http://www.lstc.com/"
 
 LICENSE="LSPREPOST"
@@ -34,6 +34,8 @@ QA_PRESTRIPPED="${INSTDIR}/lib/libavformat.so.58.29.100
 	${INSTDIR}/lib/libavdevice.so.57.0.101
 	${INSTDIR}/lib/libpng12.so.0.10.0
 	${INSTDIR}/lib/libswscale.so.5.5.100
+	${INSTDIR}/lib/libLSMD653.so.0.0.0
+	${INSTDIR}/lib/libLSAF653.so.0.0.0
 	${INSTDIR}/lib/libjpeg.so.62.0.0
 	${INSTDIR}/lib/libLSVI653.so.0.0.0
 	${INSTDIR}/lib/libavcodec.so.58.54.100
@@ -69,9 +71,9 @@ src_install() {
 	doins lsdyna_bestfit lspp$(ver_cut 1)$(ver_cut 2) lsprepost lsrun msuite_ls_64 tetgen
 	doins -r lib
 	insopts -m0644
-	doins -r BaoSteel lspp_forming_48 lspp_matlib material.xml
+	doins -r BaoSteel lspp_forming_$(ver_cut 1)$(ver_cut 2) lspp_matlib material.xml
 
-	make_desktop_entry "${EPREFIX}/${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2)" "LS-PrePost V${PV}" ${PN} "Science;Physics"
+	make_desktop_entry "${EPREFIX}/${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2)" "${PN} V${PV}" ${PN} "Science;Physics"
 
 }
 
