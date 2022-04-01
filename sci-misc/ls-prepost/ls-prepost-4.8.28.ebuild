@@ -22,9 +22,9 @@ DEPEND=""
 
 RESTRICT="fetch"
 
-S=${WORKDIR}/${PN}$(ver_cut 1).$(ver_cut 2)_common
+S=${WORKDIR}/lsprepost$(ver_cut 1).$(ver_cut 2)_common
 
-INSTDIR="opt/lsprepost"
+INSTDIR="opt/${PN}"
 
 HTML_DOCS="resource/HelpDocument/."
 
@@ -71,7 +71,7 @@ src_install() {
 	insopts -m0644
 	doins -r BaoSteel lspp_forming_48 lspp_matlib material.xml
 
-	make_desktop_entry "${EPREFIX}/${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2)" "${PN} V${PV}" ${PN} "Science;Physics"
+	make_desktop_entry "${EPREFIX}/${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2)" "LS-PrePost V${PV}" ${PN} "Science;Physics"
 
 }
 
