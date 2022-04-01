@@ -3,15 +3,15 @@
 
 EAPI=7
 
-FN_S="ls-dyna_smp_s_R$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)_x64_centos610_ifort190"
-FN_D="ls-dyna_smp_d_R$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)_x64_centos610_ifort190"
+FN_S="${PN}_smp_s_R$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)_x64_centos610_ifort190"
+FN_D="${PN}_smp_d_R$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)_x64_centos610_ifort190"
 SH="tgz_extractor.sh"
 
 DESCRIPTION="A general-purpose finite element program"
-SRC_URI="single-precision? ( http://ftp.lstc.com/user/ls-dyna/R${PV}/linx.64/${FN_S}.${SH} )
-	double-precision? ( http://ftp.lstc.com/user/ls-dyna/R${PV}/linx.64/${FN_D}.${SH} )
-	usermat-single-precision? ( http://ftp.lstc.com/objects/ls-dyna/R${PV}/${FN_S}.usermat.${SH} )
-	usermat-double-precision? ( http://ftp.lstc.com/objects/ls-dyna/R${PV}/${FN_D}.usermat.${SH} )"
+SRC_URI="single-precision? ( http://ftp.lstc.com/user/${PN}/R${PV}/linx.64/${FN_S}.${SH} )
+	double-precision? ( http://ftp.lstc.com/user/${PN}/R${PV}/linx.64/${FN_D}.${SH} )
+	usermat-single-precision? ( http://ftp.lstc.com/objects/${PN}/R${PV}/${FN_S}.usermat.${SH} )
+	usermat-double-precision? ( http://ftp.lstc.com/objects/${PN}/R${PV}/${FN_D}.usermat.${SH} )"
 HOMEPAGE="http://www.lstc.com/"
 
 LICENSE="Clickwrap-SLA"
