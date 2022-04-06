@@ -94,7 +94,7 @@ src_prepare() {
 cat <<EOT > lspp$(ver_cut 1)$(ver_cut 2)
 #!/usr/bin/env bash
 export LD_LIBRARY_PATH=${EPREFIX}/${INSTDIR}/lib2:\$LD_LIBRARY_PATH
-${EPREFIX}/${INSTDIR}/lsprepost \$*
+${EPREFIX}/${INSTDIR}/lsprepost2 \$*
 EOT
 
 }
