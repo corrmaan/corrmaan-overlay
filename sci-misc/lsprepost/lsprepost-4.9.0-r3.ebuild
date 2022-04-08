@@ -1,32 +1,32 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 inherit desktop xdg-utils
 
+MY_PV="$(ver_cut 1).$(ver_cut 2)"
+MY_PV1="$(ver_cut 1)$(ver_cut 2)"
 BUILDDATE=28Mar2022
 
 DESCRIPTION="Advanced Pre- and Post-Processor for LS-DYNA"
-SRC_URI="http://ftp.lstc.com/user/${PN}/$(ver_cut 1).$(ver_cut 2)/linux64/lsprepost-${PV}-common_gtk3-${BUILDDATE}.tgz"
+SRC_URI="https://ftp.lstc.com/anonymous/outgoing/${PN}/${MY_PV}/linux64/${P}-common_gtk3-${BUILDDATE}.tgz
+	doc? ( https://ftp.lstc.com/anonymous/outgoing/${PN}/${MY_PV}/doc/linux/Document.zip -> ${PN}-${MY_PV}-Document.zip
+		https://ftp.lstc.com/anonymous/outgoing/${PN}/${MY_PV}/doc/linux/Tutor.zip -> ${PN}-${MY_PV}-Tutor.zip )"
 HOMEPAGE="http://www.lstc.com/"
 
 LICENSE="LSPREPOST"
 KEYWORDS="~amd64"
-SLOT="0"
-IUSE=""
+SLOT="${MY_PV}"
+IUSE="doc"
 REQUIRED_USE=""
 
 RDEPEND=""
 DEPEND=""
 
-RESTRICT="fetch"
+S=${WORKDIR}/${PN}${MY_PV}_common_gtk3
 
-S=${WORKDIR}/lsprepost$(ver_cut 1).$(ver_cut 2)_common_gtk3
-
-INSTDIR="opt/${PN}"
-
-HTML_DOCS="resource/HelpDocument/."
+INSTDIR="opt/${PN}-${MY_PV}"
 
 QA_PRESTRIPPED="${INSTDIR}/lib2/libTKSTEPAttr.so.7.0.0
 	${INSTDIR}/lib2/libTKStdL.so.7.0.0
@@ -87,14 +87,24 @@ QA_PRESTRIPPED="${INSTDIR}/lib2/libTKSTEPAttr.so.7.0.0
 	${INSTDIR}/lib2/libTKXmlL.so.7.0.0
 	${INSTDIR}/lib2/libTKV3d.so.7.0.0"
 
+src_unpack() {
+
+	unpack ${P}-common_gtk3-${BUILDDATE}.tgz
+
+}
+
 src_prepare() {
 
 	default
 
-cat <<EOT > lspp$(ver_cut 1)$(ver_cut 2)
+	mv "${DISTDIR}/${PN}-${MY_PV}-Document.zip" "${DISTDIR}/Document.zip"
+	mv "${DISTDIR}/${PN}-${MY_PV}-Tutor.zip" "${DISTDIR}/Tutor.zip"
+
+cat <<EOT > lspp${MY_PV1}
 #!/usr/bin/env bash
+export LSPP_HELPDIR=${EPREFIX}/${INSTDIR}/resource/HelpDocument
 export LD_LIBRARY_PATH=${EPREFIX}/${INSTDIR}/lib2:\$LD_LIBRARY_PATH
-${EPREFIX}/${INSTDIR}/lsprepost2 \$*
+${EPREFIX}/${INSTDIR}/${PN}2 \$*
 EOT
 
 }
@@ -105,12 +115,18 @@ src_install() {
 
 	insinto /${INSTDIR}
 	insopts -m0755
-	doins lsdyna_bestfit lspp$(ver_cut 1)$(ver_cut 2) lsprepost2 lsrun msuite_ls_64 tetgen
+	doins lsdyna_bestfit lspp${MY_PV1} ${PN}2 lsrun msuite_ls_64 tetgen
 	doins -r lib2
 	insopts -m0644
-	doins -r BaoSteel lspp_forming_$(ver_cut 1)$(ver_cut 2) lspp_matlib material.xml
+	doins -r BaoSteel lspp_forming_${MY_PV1} lspp_matlib material.xml
 
-	make_desktop_entry "${EPREFIX}/${INSTDIR}/lspp$(ver_cut 1)$(ver_cut 2)" "LS-PrePost V${PV}" ${PN} "Science;Physics"
+	if use doc; then
+		doins -r resource
+		insinto /${INSTDIR}/resource/HelpDocument
+		doins "${DISTDIR}/Document.zip" "${DISTDIR}/Tutor.zip"
+	fi
+
+	make_desktop_entry "${EPREFIX}/${INSTDIR}/lspp${MY_PV1}" "LS-PrePost V${PV}" ${PN} "Science;Physics"
 
 }
 
