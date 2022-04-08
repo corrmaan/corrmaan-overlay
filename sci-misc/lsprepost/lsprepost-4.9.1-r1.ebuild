@@ -97,8 +97,8 @@ src_prepare() {
 
 	default
 
-	mv "${DISTDIR}/${PN}-${MY_PV}-Document.zip" "${DISTDIR}/Document.zip"
-	mv "${DISTDIR}/${PN}-${MY_PV}-Tutor.zip" "${DISTDIR}/Tutor.zip"
+	cp "${DISTDIR}/${PN}-${MY_PV}-Document.zip" Document.zip
+	cp "${DISTDIR}/${PN}-${MY_PV}-Tutor.zip" Tutor.zip
 
 cat <<EOT > lspp${MY_PV1}
 #!/usr/bin/env bash
@@ -123,7 +123,7 @@ src_install() {
 	if use doc; then
 		doins -r resource
 		insinto /${INSTDIR}/resource/HelpDocument
-		doins "${DISTDIR}/Document.zip" "${DISTDIR}/Tutor.zip"
+		doins Document.zip Tutor.zip
 	fi
 
 	make_desktop_entry "${EPREFIX}/${INSTDIR}/lspp${MY_PV1}" "LS-PrePost V${PV}" ${PN} "Science;Physics"
