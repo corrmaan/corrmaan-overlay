@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -42,8 +42,8 @@ INSTDIR="opt/ansys_inc"
 
 QA_PREBUILT="${INSTDIR}/*"
 addpredict "${EPREFIX}/var/lib/rpm/.dbenv.lock"
-addpredict "${EPREFIX}/var/lib/rpm/rpmdb.sqlite-shm"
 addpredict "${EPREFIX}/var/lib/rpm/rpmdb.sqlite-wal"
+addpredict "${EPREFIX}/var/lib/rpm/rpmdb.sqlite-shm"
 
 pkg_pretend() {
 
