@@ -23,10 +23,13 @@ S="${WORKDIR}/l_${MY_PN}_p_${PV}_offline"
 
 INSTDIR="opt/intel/oneapi"
 
+addpredict /etc/OpenCL
+addpredict /etc/OpenCL/vendors
 addpredict /etc/OpenCL/vendors/intel64.icd
 addpredict /etc/OpenCL/vendors/Altera.icd
 addpredict /etc/OpenCL/vendors/Intel_FPGA_SSG_Emulator.icd
 addpredict /usr/local/lib/cmake
+addpredict /usr/local/share
 addpredict /usr/local/share/pkgconfig
 # Yucky, but necessary. Cleanup at end of src_install().
 addwrite /opt
