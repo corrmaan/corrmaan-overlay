@@ -118,6 +118,7 @@ src_install() {
 
 	# Cleanup
 	mv /opt/intel/oneapi/installer "${ED}/${INSTDIR}/"
+	rm -rf /opt/intel
 	mkdir -pv "${ED}/var"
 	mv /var/intel "${ED}/var/"
 
