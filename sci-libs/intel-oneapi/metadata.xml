@@ -5,6 +5,7 @@
     <flag name="advisor">Intel Advisor</flag>
     <flag name="ccl">Intel oneAPI Collective Communications Library</flag>
     <flag name="clck">Intel Cluster Checker</flag>
+    <flag name="cxxc">Intel oneAPI DPC++/C++ Compiler and Intel® C++ Compiler Classic</flag>
     <flag name="dal">Intel oneAPI Data Analytics Library</flag>
     <flag name="dnnl">Intel oneAPI Deep Neural Network Library</flag>
     <flag name="dpcppct">Intel DPC++ Compatibility Tool</flag>
