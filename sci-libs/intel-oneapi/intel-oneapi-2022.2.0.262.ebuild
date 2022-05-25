@@ -117,9 +117,9 @@ src_install() {
 	fi
 
 	# Cleanup
-	mv /opt/intel/oneapi/installer "${ED}/${INSTDIR}/"
-	rm -rf /opt/intel
-	mkdir -pv "${ED}/var"
-	mv /var/intel "${ED}/var/"
+	rm -rf /opt/intel/oneapi/installer /opt/intel/packagemanager
+	rmdir --ignore-fail-on-non-empty /opt/intel/oneapi /opt/intel
+	rm -rf /var/intel/installercache /var/intel/pythonpackages
+	rmdir --ignore-fail-on-non-empty /var/intel
 
 }
