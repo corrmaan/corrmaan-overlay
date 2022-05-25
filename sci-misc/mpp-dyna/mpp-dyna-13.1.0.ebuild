@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -31,8 +31,8 @@ IUSE="cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f +double-precis
 REQUIRED_USE="|| ( cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f )
 			  ^^ ( double-precision single-precision )"
 
-RDEPEND="sci-libs/intel-oneapi[cxx,fortran,mkl,mpi]"
-DEPEND="${RDEPEND}"
+BDEPEND="sci-libs/intel-oneapi[cxx,fortran,mkl,mpi]"
+DEPEND="${BDEPEND}"
 
 RESTRICT="fetch strip"
 
