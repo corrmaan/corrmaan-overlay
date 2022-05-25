@@ -1,0 +1,28 @@
+diff --git a/Makefile b/Makefile
+index c97704e..4b00b1d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -10,19 +10,19 @@
+ # below. Example:
+ # LMATH=
+ #
+-FC=/opt/intel/compilers_and_libraries_2019/linux/bin/intel64/ifort
++FC=ifort
+ #
+ FF=-O2 -safe_cray_ptr -assume byterecl,buffered_io,protect_parens -warn nousage -zero -ftz -fp-model precise -mP2OPT_hpo_dist_factor=21 -diag-disable 10212,10010 -pad -qopenmp -fimf-arch-consistency=true -qno-opt-dynamic-align -march=core-avx2 -mtune=core-avx2  -align array32byte -fPIC
+ #
+-LD=/opt/intel/compilers_and_libraries_2019/linux/bin/intel64/ifort -sox
++LD=ifort -sox
+ #
+ LF= -qopenmp-link=static -static-intel -L/usr/X11R6/lib64 -lX11 -qopenmp -lrt -lstdc++ -lpthread -lpthread
+ #
+-LMATH= liblapack.a libblas.a
++LMATH=${MKLROOT}/lib/intel64/libmkl_blas95_lp64.a ${MKLROOT}/lib/intel64/libmkl_lapack95_lp64.a -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_lp64.a ${MKLROOT}/lib/intel64/libmkl_intel_thread.a ${MKLROOT}/lib/intel64/libmkl_core.a -Wl,--end-group
+ #
+ OBJS=init_once.o init_dyn21.o dynm.o banner.o sec.o dyn21.o dyn21umat.o dyn21umats.o dyn21umatv.o dyn21umatc.o dyn21tumat.o dyn21utan.o dyn21ueos.o dyn21cnt.o dyn21ushl.o dyn21usld.o  couple2other_user.o dynrfn_user.o adummy_graph.o orderByMetis.o mod_impl_matrices.o 
+ #
+-LIBS=libdyna.a libbcsext4.a liblsda.a liblsdb.a liblssecurity.a  liblcpack.a libmf2.a libspooles.a liblcpack.a libspooles.a libcparse.a liblsm.a liblscrypt.a libresurf.a libdsa.a liblsmc.a libsfg.a       libmetis.a     liblso.a libunits.a libfftw3.a libfftw3_omp.a     libdyna.a libmetis.a libspooles.a
++LIBS=libdyna.a libbcsext4.a liblsda.a liblsdb.a liblssecurity.a  liblcpack.a libmf2.a libspooles.a liblcpack.a libspooles.a libcparse.a liblsm.a liblscrypt.a libresurf.a libdsa.a liblsmc.a libsfg.a       libmetis.a     liblso.a libunits.a libfftw3.a libfftw3_omp.a libansyslic.a libdyna.a libmetis.a libspooles.a
+ #
+ lsdyna: $(OBJS)
+ 	$(LD) -o lsdyna $(OBJS) $(LIBS) $(LMATH) $(LF)

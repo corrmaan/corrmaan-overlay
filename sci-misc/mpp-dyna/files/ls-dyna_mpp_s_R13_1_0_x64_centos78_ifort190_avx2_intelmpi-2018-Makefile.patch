@@ -1,0 +1,21 @@
+diff --git a/Makefile b/Makefile
+index 6a5fd9d..5503994 100644
+--- a/Makefile
++++ b/Makefile
+@@ -11,13 +11,13 @@ FF=-O2 -safe_cray_ptr -assume byterecl,buffered_io,protect_parens -warn nousage
+ #
+ LD=mpiifort -sox -static-intel
+ #
+-LF=  -safe_cray_ptr -assume byterecl,buffered_io,protect_parens -warn nousage -zero -ftz -fp-model precise -mP2OPT_hpo_dist_factor=21 -diag-disable 10212,10010 -traceback -pad -DLINUX -DIFORT -DNET_SECURITY -DADDR64 -DINTEL -DXEON64 -DFCC80 -DTIMER=cycle_time -D_GLIBCXX_USE_CXX11_ABI=0 -DAVX -DAVX2 -DMPP -DMPICH -DMF3_SYM -DRELEASE -DNEW_UNITS -DLSTCODE  -DBIGID -DENABLE_HASH3 -DFFTW -DPTHREADS -fimf-arch-consistency=true -qno-opt-dynamic-align -march=core-avx2 -mtune=core-avx2  -align array32byte  -lrt -lstdc++ -lpthread -lpthread
++LF=  -safe_cray_ptr -assume byterecl,buffered_io,protect_parens -warn nousage -zero -ftz -fp-model precise -mP2OPT_hpo_dist_factor=21 -diag-disable 10212,10010 -traceback -pad -DLINUX -DIFORT -DNET_SECURITY -DADDR64 -DINTEL -DXEON64 -DFCC80 -DTIMER=cycle_time -D_GLIBCXX_USE_CXX11_ABI=0 -DAVX -DAVX2 -DMPP -DMPICH -DMF3_SYM -DRELEASE -DNEW_UNITS -DLSTCODE  -DBIGID -DENABLE_HASH3 -DFFTW -DPTHREADS -fimf-arch-consistency=true -qno-opt-dynamic-align -march=core-avx2 -mtune=core-avx2  -align array32byte  -lrt -lstdc++ -lpthread -lpthread -liomp5
+ #
+-LMATH= liblapack.a libblas.a
++LMATH= ${MKLROOT}/lib/intel64/libmkl_blas95_lp64.a ${MKLROOT}/lib/intel64/libmkl_scalapack_lp64.a -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_lp64.a ${MKLROOT}/lib/intel64/libmkl_intel_thread.a ${MKLROOT}/lib/intel64/libmkl_core.a ${MKLROOT}/lib/intel64/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group
+ #
+ OBJS=init_once.o init_dyn21.o dynm.o banner.o sec.o dyn21.o dyn21umat.o dyn21umats.o dyn21umatv.o dyn21umatc.o dyn21tumat.o dyn21utan.o dyn21ueos.o dyn21cnt.o dyn21ushl.o dyn21usld.o  couple2other_user.o dynrfn_user.o adummy_graph.o orderByMetis.o mod_impl_matrices.o 
+ #
+-LIBS=libdyna.a liblsmpp.a libmpp_lanczos.a libbcsext4.a liblsda.a liblsdb.a liblssecurity.a  liblcpack.a libmf2.a libspooles.a liblcpack.a libspooles.a libcparse.a liblsm.a liblscrypt.a libresurf.a liblsmppdes.a libdsa.a liblsmc.a libbalance.a libsfg.a       libmetis.a     liblsmpp.a liblso.a libunits.a libfftw3.a     libdyna.a libmetis.a libspooles.a
++LIBS=libdyna.a liblsmpp.a libmpp_lanczos.a libbcsext4.a liblsda.a liblsdb.a liblssecurity.a  liblcpack.a libmf2.a libspooles.a liblcpack.a libspooles.a libcparse.a liblsm.a liblscrypt.a libresurf.a liblsmppdes.a libdsa.a liblsmc.a libbalance.a libsfg.a       libmetis.a     liblsmpp.a liblso.a libunits.a libfftw3.a libansyslic.a libdyna.a libmetis.a libspooles.a
+ #
+ mppdyna: $(OBJS)
+ 	$(LD) -o mppdyna $(OBJS) $(LIBS) $(LMATH) $(LF)
