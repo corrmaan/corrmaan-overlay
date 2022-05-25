@@ -32,6 +32,7 @@ HPC_S="${WORKDIR}/l_${MY_PN}_p_${PV}_offline"
 
 INSTDIR="opt/intel/oneapi"
 
+addread .
 addpredict /etc/OpenCL
 addpredict /etc/OpenCL/vendors
 addpredict /etc/OpenCL/vendors/intel64.icd
