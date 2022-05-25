@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
-<pkgmetadata>
-  <use>
-    <flag name="clck">Cluster Checker</flag>
-    <flag name="inspector">Inspector</flag>
-    <flag name="itac">Trace Analyzer and Collector</flag>
-  </use>
-</pkgmetadata>
