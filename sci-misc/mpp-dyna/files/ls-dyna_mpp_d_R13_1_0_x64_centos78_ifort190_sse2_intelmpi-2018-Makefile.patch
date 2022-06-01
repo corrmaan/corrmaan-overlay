@@ -1,22 +1,8 @@
 diff --git a/Makefile b/Makefile
-index 5a73734..c534a82 100644
+index 5a73734..8120135 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -11,19 +11,13 @@ FF=-O2 -safe_cray_ptr -assume byterecl,buffered_io,protect_parens -warn nousage
- #
- LD=mpiifort -sox -static-intel
- #
--LF=  -lrt -lstdc++ -lpthread -lstdc++ -lpthread
-+LF=  -lrt -lstdc++ -lpthread -lstdc++ -lpthread -liomp5
- #
--LMATH= \
--libmkl_scalapack_ilp64.a libmkl_intel_ilp64.a \
--libmkl_sequential.a libmkl_core.a libmkl_blacs_intelmpi_ilp64.a \
--libmkl_scalapack_ilp64.a libmkl_intel_ilp64.a \
--libmkl_sequential.a libmkl_core.a libmkl_blacs_intelmpi_ilp64.a \
--libmkl_scalapack_ilp64.a libmkl_intel_ilp64.a \
--libmkl_sequential.a libmkl_core.a libmkl_blacs_intelmpi_ilp64.a
-+LMATH=${MKLROOT}/lib/intel64/libmkl_blas95_ilp64.a ${MKLROOT}/lib/intel64/libmkl_scalapack_ilp64.a -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_ilp64.a ${MKLROOT}/lib/intel64/libmkl_intel_thread.a ${MKLROOT}/lib/intel64/libmkl_core.a ${MKLROOT}/lib/intel64/libmkl_blacs_intelmpi_ilp64.a -Wl,--end-group
+@@ -23,7 +23,7 @@ libmkl_sequential.a libmkl_core.a libmkl_blacs_intelmpi_ilp64.a
  #
  OBJS=init_once.o init_dyn21.o dynm.o banner.o sec.o dyn21.o dyn21umat.o dyn21umats.o dyn21umatv.o dyn21umatc.o dyn21tumat.o dyn21utan.o dyn21ueos.o dyn21cnt.o dyn21ushl.o dyn21usld.o  dyn21em.o dyn21icfd.o couple2other_user.o dynrfn_user.o adummy_graph.o orderByMetis.o mod_impl_matrices.o 
  #

@@ -24,7 +24,7 @@ SLOT="${PV}"
 IUSE="+double-precision single-precision"
 REQUIRED_USE="^^ ( double-precision single-precision )"
 
-BDEPEND="sci-libs/intel-oneapi[cxx,fortran,mkl]"
+BDEPEND="sci-libs/intel-oneapi[fortran,mkl]"
 DEPEND="${BDEPEND}"
 
 RESTRICT="fetch strip"

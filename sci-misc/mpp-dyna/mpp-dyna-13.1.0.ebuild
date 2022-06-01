@@ -31,7 +31,7 @@ IUSE="cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f +double-precis
 REQUIRED_USE="|| ( cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f )
 			  ^^ ( double-precision single-precision )"
 
-BDEPEND="sci-libs/intel-oneapi[cxx,fortran,mkl,mpi]"
+BDEPEND="sci-libs/intel-oneapi[fortran,mpi]"
 DEPEND="${BDEPEND}"
 
 RESTRICT="fetch strip"
