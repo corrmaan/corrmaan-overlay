@@ -12,8 +12,8 @@ HPC_PV=2022.2.0.191
 DESCRIPTION="Build high-performance, data-centric applications across diverse architectures."
 SRC_URI="https://registrationcenter-download.intel.com/akdlm/irc_nas/${MAGIC}/l_${MY_PN}_p_${PV}_offline.sh
 		 clck? ( https://registrationcenter-download.intel.com/akdlm/irc_nas/${HPC_MAGIC}/l_${HPC_PN}_p_${HPC_PV}_offline.sh )
-		 cxxc? ( https://registrationcenter-download.intel.com/akdlm/irc_nas/${HPC_MAGIC}/l_${HPC_PN}_p_${HPC_PV}_offline.sh )
 		 fortran? ( https://registrationcenter-download.intel.com/akdlm/irc_nas/${HPC_MAGIC}/l_${HPC_PN}_p_${HPC_PV}_offline.sh )
+		 icc? ( https://registrationcenter-download.intel.com/akdlm/irc_nas/${HPC_MAGIC}/l_${HPC_PN}_p_${HPC_PV}_offline.sh )
 		 inspector? ( https://registrationcenter-download.intel.com/akdlm/irc_nas/${HPC_MAGIC}/l_${HPC_PN}_p_${HPC_PV}_offline.sh )
 		 itac? ( https://registrationcenter-download.intel.com/akdlm/irc_nas/${HPC_MAGIC}/l_${HPC_PN}_p_${HPC_PV}_offline.sh )
 		 mpi? ( https://registrationcenter-download.intel.com/akdlm/irc_nas/${HPC_MAGIC}/l_${HPC_PN}_p_${HPC_PV}_offline.sh )"
@@ -22,7 +22,7 @@ HOMEPAGE="https://www.intel.com/content/www/us/en/developer/tools/oneapi/overvie
 LICENSE="Intel-EULA-DevTools"
 KEYWORDS="~amd64"
 SLOT="0"
-IUSE="advisor ccl clck cxx cxxc dal dnnl dpcppct dpcppdbg dpl fortran fpga inspector ipp ippcp itac mkl mpi python tbb vpl vtune"
+IUSE="advisor ccl clck cxx dal dnnl dpcppct dpcppdbg dpl fortran fpga icc inspector ipp ippcp itac mkl mpi python tbb vpl vtune"
 REQUIRED_USE="|| ( ${IUSE} )"
 
 RDEPEND="virtual/libcrypt:="
@@ -50,7 +50,7 @@ RESTRICT="binchecks mirror preserve-libs strip"
 src_unpack() {
 
 	mkdir -p "${S}"
-	if use clck || use cxxc || use fortran || use inspector || use itac || use mpi; then
+	if use clck || use fortran || use icc || use inspector || use itac || use mpi; then
 		mkdir -p "${HPC_S}"
 	fi
 
@@ -93,12 +93,12 @@ src_install() {
 			--install-dir "${ED}/${INSTDIR}" || die
 	fi
 
-	if use clck || use cxxc || use fortran || use inspector || use itac || use mpi; then
+	if use clck || use fortran || use icc || use inspector || use itac || use mpi; then
 		local HPC_MYCOMPS=""
 
 		use clck && HPC_MYCOMPS+="intel.oneapi.lin.clck "
-		use cxxc && MYCOMPS+="intel.oneapi.lin.dpcpp-cpp-compiler-pro "
 		use fortran && HPC_MYCOMPS+="intel.oneapi.lin.ifort-compiler "
+		use icc && MYCOMPS+="intel.oneapi.lin.dpcpp-cpp-compiler-pro "
 		use inspector && HPC_MYCOMPS+="intel.oneapi.lin.inspector "
 		use itac && HPC_MYCOMPS+="intel.oneapi.lin.itac "
 		use mpi && HPC_MYCOMPS+="intel.oneapi.lin.mpi.devel "
