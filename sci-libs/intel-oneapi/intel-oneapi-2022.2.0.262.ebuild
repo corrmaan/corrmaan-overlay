@@ -98,7 +98,7 @@ src_install() {
 
 		use clck && HPC_MYCOMPS+="intel.oneapi.lin.clck "
 		use fortran && HPC_MYCOMPS+="intel.oneapi.lin.ifort-compiler "
-		use icc && MYCOMPS+="intel.oneapi.lin.dpcpp-cpp-compiler-pro "
+		use icc && HPC_MYCOMPS+="intel.oneapi.lin.dpcpp-cpp-compiler-pro "
 		use inspector && HPC_MYCOMPS+="intel.oneapi.lin.inspector "
 		use itac && HPC_MYCOMPS+="intel.oneapi.lin.itac "
 		use mpi && HPC_MYCOMPS+="intel.oneapi.lin.mpi.devel "
