@@ -126,7 +126,7 @@ src_install() {
 		doins Document.zip Tutor.zip
 	fi
 
-	make_desktop_entry "${EPREFIX}/${INSTDIR}/lspp${MY_PV1}" "LS-PrePost V${PV}" ${PN} "Science;Physics" "StartupWMClass=\"Lsprepost2\""
+	make_desktop_entry "${EPREFIX}/${INSTDIR}/lspp${MY_PV1}" "LS-PrePost V${PV}" ${PN} "Science;Physics" "StartupWMClass=Lsprepost2"
 
 }
 
