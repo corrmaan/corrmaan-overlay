@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -25,6 +25,11 @@ src_unpack() {
 	if [[ -n ${A} ]]; then
 		rpm_unpack ${A}
 	fi
+}
+
+src_prepare() {
+	default
+	ln -s ${MY_PV} intel/oneapi/licensing/latest
 }
 
 src_install() {

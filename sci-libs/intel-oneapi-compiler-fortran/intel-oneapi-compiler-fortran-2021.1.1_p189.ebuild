@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -16,7 +16,6 @@ SRC_URI="
 LICENSE="Intel-EULA-DevTools"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="static-libs"
 RESTRICT="mirror strip"
 
 BDEPEND="app-arch/rpm"
@@ -33,6 +32,11 @@ S="${WORKDIR}/opt"
 
 src_unpack() {
 	rpm2cpio "${DISTDIR}/${PN}-${MY_PV}-${MY_PV}-$(ver_cut 5).x86_64.rpm" | cpio -idm
+}
+
+src_prepare() {
+	default
+	ln -s ${MY_PV} intel/oneapi/compiler/latest
 }
 
 src_install() {
