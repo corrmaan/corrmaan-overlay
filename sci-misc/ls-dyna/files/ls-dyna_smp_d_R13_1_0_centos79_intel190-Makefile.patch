@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 6434685..aeeb446 100644
+index 6434685..ad23ea0 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -10,19 +10,19 @@
@@ -14,10 +14,11 @@ index 6434685..aeeb446 100644
 -LD=/opt/intel/compilers_and_libraries_2019/linux/bin/intel64/ifort -qopenmp -sox
 +LD=ifort -qopenmp -sox
  #
- LF= -qopenmp-link=static -static-intel  -qopenmp -lrt -lstdc++ -lpthread -lstdc++ -lpthread
+-LF= -qopenmp-link=static -static-intel  -qopenmp -lrt -lstdc++ -lpthread -lstdc++ -lpthread
++LF= -qopenmp-link=static -static-intel  -qopenmp -lrt -lstdc++ -lpthread -lstdc++ -lpthread -lm -ldl
  #
 -LMATH= liblapack.a libblas.a
-+LMATH= -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_ilp64.a ${MKLROOT}/lib/intel64/libmkl_intel_thread.a ${MKLROOT}/lib/intel64/libmkl_core.a -Wl,--end-group
++LMATH=-Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_ilp64.a ${MKLROOT}/lib/intel64/libmkl_intel_thread.a ${MKLROOT}/lib/intel64/libmkl_core.a -Wl,--end-group
  #
  OBJS=init_once.o init_dyn21.o dynm.o banner.o sec.o dyn21.o dyn21umat.o dyn21umats.o dyn21umatv.o dyn21umatc.o dyn21tumat.o dyn21utan.o dyn21ueos.o dyn21cnt.o dyn21ushl.o dyn21usld.o  dyn21em.o dyn21icfd.o couple2other_user.o dynrfn_user.o adummy_graph.o orderByMetis.o mod_impl_matrices.o 
  #
