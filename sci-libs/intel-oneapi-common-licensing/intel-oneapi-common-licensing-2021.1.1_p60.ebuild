@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 RESTRICT="mirror"
 
-S="${WORKDIR}/opt"
+S="${WORKDIR}"
 
 src_unpack() {
 	default
@@ -29,10 +29,9 @@ src_unpack() {
 
 src_prepare() {
 	default
-	ln -s ${MY_PV} intel/oneapi/licensing/latest
+	ln -s ${MY_PV} opt/intel/oneapi/licensing/latest
 }
 
 src_install() {
-	insinto /opt
-	doins -r intel
+	cp -a opt "${ED}/"
 }

@@ -24,7 +24,7 @@ RDEPEND="
 	>=sci-libs/intel-oneapi-mpi-${MY_PV}
 "
 
-S="${WORKDIR}/opt"
+S="${WORKDIR}"
 
 src_unpack() {
 	default
@@ -35,10 +35,9 @@ src_unpack() {
 
 src_prepare() {
 	default
-	ln -s ${MY_PV} intel/oneapi/mpi/latest
+	ln -s ${MY_PV} opt/intel/oneapi/mpi/latest
 }
 
 src_install() {
-	insinto /opt
-	doins -r intel
+	cp -a opt "${ED}/"
 }

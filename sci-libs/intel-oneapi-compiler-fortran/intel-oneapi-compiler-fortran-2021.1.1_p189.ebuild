@@ -28,7 +28,7 @@ RDEPEND="
 	>=sci-libs/intel-oneapi-compiler-shared-${MY_PV}
 "
 
-S="${WORKDIR}/opt"
+S="${WORKDIR}"
 
 src_unpack() {
 	rpm2cpio "${DISTDIR}/${PN}-${MY_PV}-${MY_PV}-$(ver_cut 5).x86_64.rpm" | cpio -idm
@@ -36,10 +36,9 @@ src_unpack() {
 
 src_prepare() {
 	default
-	ln -s ${MY_PV} intel/oneapi/compiler/latest
+	ln -s ${MY_PV} opt/intel/oneapi/compiler/latest
 }
 
 src_install() {
-	insinto /opt
-	doins -r intel
+	cp -a opt "${ED}/"
 }

@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 RESTRICT="mirror"
 
-S="${WORKDIR}/opt"
+S="${WORKDIR}"
 
 src_unpack() {
 	default
@@ -28,6 +28,5 @@ src_unpack() {
 }
 
 src_install() {
-	insinto /opt
-	doins -r intel
+	cp -a opt "${ED}/"
 }
