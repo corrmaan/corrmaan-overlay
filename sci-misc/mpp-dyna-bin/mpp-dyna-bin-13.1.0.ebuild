@@ -31,9 +31,6 @@ IUSE="cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f +double-precis
 REQUIRED_USE="^^ ( cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f )
 			  || ( double-precision single-precision )"
 
-RDEPEND="sci-libs/intel-oneapi-mpi"
-DEPEND="${RDEPEND}"
-
 RESTRICT="fetch strip"
 
 S=${WORKDIR}
