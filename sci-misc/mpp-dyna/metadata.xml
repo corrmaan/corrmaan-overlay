@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <use>
-    <flag name="double-precision">Install double precision solver</flag>
-    <flag name="single-precision">Install single precision solver</flag>
-  </use>
 </pkgmetadata>
