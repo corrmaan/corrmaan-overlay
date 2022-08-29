@@ -5,7 +5,7 @@ EAPI=7
 
 MY_PN="mpp-dyna"
 MY_PV="R$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)"
-SH="tar.gz_extractor.sh"
+SH="tgz_extractor.sh"
 ARCH="x64"
 PLATFORM="centos78"
 IFORT="ifort190"
@@ -13,14 +13,14 @@ MPI="intelmpi-2018"
 
 DESCRIPTION="A general-purpose finite element program"
 SRC_URI="single-precision? (
-			cpu_flags_x86_avx2? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/usermat/x86-64/ifort_190_avx2/MPP/ls-dyna_mpp_s_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx2_${MPI}.usermat.${SH} )
-			cpu_flags_x86_avx512f? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/usermat/x86-64/ifort_190_avx512/MPP/ls-dyna_mpp_s_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx512_${MPI}.usermat.${SH} )
-			cpu_flags_x86_sse2? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/usermat/x86-64/ifort_190_sse2/MPP/ls-dyna_mpp_s_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_sse2_${MPI}.usermat.${SH} )
+			cpu_flags_x86_avx2? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/x86-64/ifort_190_avx2/MPP/ls-dyna_mpp_s_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx2_${MPI}.${SH} )
+			cpu_flags_x86_avx512f? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/x86-64/ifort_190_avx512/MPP/ls-dyna_mpp_s_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx512_${MPI}.${SH} )
+			cpu_flags_x86_sse2? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/x86-64/ifort_190_sse2/MPP/ls-dyna_mpp_s_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_sse2_${MPI}.${SH} )
 		 )
 		 double-precision? (
-			cpu_flags_x86_avx2? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/usermat/x86-64/ifort_190_avx2/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx2_${MPI}.usermat.${SH} )
-			cpu_flags_x86_avx512f? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/usermat/x86-64/ifort_190_avx512/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx512_${MPI}.usermat.${SH} )
-			cpu_flags_x86_sse2? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/usermat/x86-64/ifort_190_sse2/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_sse2_${MPI}.usermat.${SH} )
+			cpu_flags_x86_avx2? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/x86-64/ifort_190_avx2/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx2_${MPI}.${SH} )
+			cpu_flags_x86_avx512f? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/x86-64/ifort_190_avx512/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx512_${MPI}.${SH} )
+			cpu_flags_x86_sse2? ( http://ftp.lstc.com/user/${MY_PN}/R${PV}/x86-64/ifort_190_sse2/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_sse2_${MPI}.${SH} )
 		 )"
 HOMEPAGE="http://www.lstc.com/"
 
@@ -29,17 +29,11 @@ KEYWORDS="~amd64"
 SLOT="${PV}"
 IUSE="cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f +double-precision single-precision"
 REQUIRED_USE="^^ ( cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f )
-			  ^^ ( double-precision single-precision )"
-
-BDEPEND="
-	sci-libs/intel-oneapi-compiler-fortran
-	sci-libs/intel-oneapi-mpi-devel
-"
-DEPEND="${BDEPEND}"
+			  || ( double-precision single-precision )"
 
 RESTRICT="fetch strip"
 
-S="${WORKDIR}/usermat"
+S=${WORKDIR}
 
 INSTDIR="opt/${MY_PN}/${PV}"
 
@@ -58,34 +52,20 @@ src_unpack() {
 	FN_S="ls-dyna_mpp_s_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_${CPU}_${MPI}"
 	FN_D="ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_${CPU}_${MPI}"
 
-	use single-precision && sh "${DISTDIR}"/"${FN_S}.usermat.${SH}" --skip-license --exclude-subdir
-	use double-precision && sh "${DISTDIR}"/"${FN_D}.usermat.${SH}" --skip-license --exclude-subdir
+	use single-precision && sh "${DISTDIR}"/"${FN_S}.${SH}" --skip-license --exclude-subdir
+	use double-precision && sh "${DISTDIR}"/"${FN_D}.${SH}" --skip-license --exclude-subdir
 
 	rm -rf licensingclient/winx64
 
 }
 
-src_prepare() {
-
-	default
-	use single-precision && eapply "${FILESDIR}/${FN_S}-Makefile.patch"
-	use double-precision && eapply "${FILESDIR}/${FN_D}-Makefile.patch"
-
-}
-
-src_compile() {
-
-	source /opt/intel/oneapi/setvars.sh
-	make
-
-}
-
 src_install() {
 
-	FN="${MY_PN}_${MY_PV}"
-	mv mppdyna "${FN}"
+	insinto "/${INSTDIR}"
+	doins -r licensingclient
 
 	exeinto "/${INSTDIR}"
-	doexe "${FN}"
+	use single-precision && doexe "${FN_S}"*
+	use double-precision && doexe "${FN_D}"*
 
 }

@@ -5,7 +5,7 @@ EAPI=7
 
 MY_PN="ls-dyna"
 MY_PV="R$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)"
-SH="tar.gz_extractor.sh"
+SH="tgz_extractor.sh"
 PLATFORM="centos79"
 IFORT="intel190"
 
