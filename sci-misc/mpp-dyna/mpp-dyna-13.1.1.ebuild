@@ -45,6 +45,11 @@ src_unpack() {
 
 	sh "${DISTDIR}"/"${FN}.${SH}" --skip-license --exclude-subdir
 
+}
+
+src_prepare() {
+
+	default
 	rm -rf licensingclient/winx64
 
 }

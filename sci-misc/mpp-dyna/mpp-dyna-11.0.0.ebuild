@@ -4,17 +4,17 @@
 EAPI=7
 
 MY_PV="R$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)"
-SH="tgz_extractor.sh"
+SH="tar.gz_extractor.sh"
 ARCH="x64"
-PLATFORM="centos78"
-IFORT="ifort190"
-MPI="intelmpi-2018"
+PLATFORM="centos65"
+IFORT="ifort160"
+MPI="intelmpi-413"
 
 DESCRIPTION="A general-purpose finite element program"
 SRC_URI="
-	cpu_flags_x86_avx2? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_190_avx2/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx2_${MPI}.${SH} )
-	cpu_flags_x86_avx512f? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_190_avx512/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx512_${MPI}.${SH} )
-	cpu_flags_x86_sse2? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_190_sse2/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_sse2_${MPI}.${SH} )"
+	cpu_flags_x86_avx2? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_160_avx2/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx2_${MPI}.${SH} )
+	cpu_flags_x86_avx512f? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_160_avx512/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx512_${MPI}.${SH} )
+	cpu_flags_x86_sse2? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_160/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_sse2_${MPI}.${SH} )"
 HOMEPAGE="http://www.lstc.com/"
 
 LICENSE="Clickwrap-SLA"
@@ -28,8 +28,6 @@ RESTRICT="fetch strip"
 S=${WORKDIR}
 
 INSTDIR="opt/${PN}/${PV}"
-
-QA_PRESTRIPPED="${INSTDIR}/licensingclient/linx64/ansyscl"
 
 src_unpack() {
 
@@ -47,17 +45,9 @@ src_unpack() {
 
 }
 
-src_prepare() {
-
-	default
-	rm -rf licensingclient/winx64
-
-}
-
 src_install() {
 
-	insinto "/${INSTDIR}"
-	doins -r licensingclient
+	FN="ls-dyna_mpp_d_r$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)_${ARCH}_${PLATFORM}_${IFORT}_${CPU}_${MPI}"
 
 	exeinto "/${INSTDIR}"
 	doexe "${FN}"*

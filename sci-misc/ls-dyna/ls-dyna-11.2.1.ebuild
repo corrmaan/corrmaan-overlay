@@ -5,9 +5,10 @@ EAPI=7
 
 MY_PV="R$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)"
 SH="tgz_extractor.sh"
-PLATFORM="centos79"
-IFORT="intel190"
-FN="${PN}_smp_d_${MY_PV}_${PLATFORM}_${IFORT}"
+ARCH="x64"
+PLATFORM="centos610"
+IFORT="ifort160"
+FN="${PN}_smp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}"
 
 DESCRIPTION="A general-purpose finite element program"
 SRC_URI="http://ftp.lstc.com/user/${PN}/R${PV}/linx.64/${FN}.${SH}"
@@ -22,7 +23,7 @@ DEPEND="${RDEPEND}"
 
 RESTRICT="fetch strip"
 
-S="${WORKDIR}/${FN}"
+S=${WORKDIR}
 
 INSTDIR="opt/${PN}/${PV}"
 

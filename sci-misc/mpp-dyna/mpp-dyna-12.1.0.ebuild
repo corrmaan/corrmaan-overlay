@@ -12,9 +12,9 @@ MPI="intelmpi-2018"
 
 DESCRIPTION="A general-purpose finite element program"
 SRC_URI="
-	cpu_flags_x86_avx2? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_190_avx2/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx2_${MPI}.${SH} )
-	cpu_flags_x86_avx512f? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_190_avx512/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx512_${MPI}.${SH} )
-	cpu_flags_x86_sse2? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_190_sse2/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_sse2_${MPI}.${SH} )"
+	cpu_flags_x86_avx2? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_160_avx2/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx2_${MPI}.${SH} )
+	cpu_flags_x86_avx512f? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_160_avx512/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_avx512_${MPI}.${SH} )
+	cpu_flags_x86_sse2? ( http://ftp.lstc.com/user/${PN}/R${PV}/x86-64/ifort_160_sse2/MPP/ls-dyna_mpp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}_sse2_${MPI}.${SH} )"
 HOMEPAGE="http://www.lstc.com/"
 
 LICENSE="Clickwrap-SLA"
@@ -45,6 +45,11 @@ src_unpack() {
 
 	sh "${DISTDIR}"/"${FN}.${SH}" --skip-license --exclude-subdir
 
+}
+
+src_prepare() {
+
+	default
 	rm -rf licensingclient/winx64
 
 }

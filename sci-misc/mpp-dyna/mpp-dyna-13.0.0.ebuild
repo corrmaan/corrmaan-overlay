@@ -6,7 +6,7 @@ EAPI=7
 MY_PV="R$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)"
 SH="tgz_extractor.sh"
 ARCH="x64"
-PLATFORM="centos78"
+PLATFORM="centos610"
 IFORT="ifort190"
 MPI="intelmpi-2018"
 
