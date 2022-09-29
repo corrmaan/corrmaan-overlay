@@ -17,11 +17,11 @@ else
 	MY_PV="${PV}"
 fi
 SRC_URI="https://looking-glass.io/artifact/${MY_PV}/host -> ${MY_PN}-${MY_PV}.zip"
-EGIT_COMMIT="74444f8eeda44d894a814db6db837c239189c7d1"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+RESTRICT="mirror"
 
 BDEPEND="app-cdr/cdrtools"
 

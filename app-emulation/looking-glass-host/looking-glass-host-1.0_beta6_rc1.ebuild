@@ -19,11 +19,12 @@ else
 	MY_PV="${PV}"
 fi
 EGIT_REPO_URI="https://github.com/gnif/${MY_PN}.git"
-EGIT_COMMIT="74444f8eeda44d894a814db6db837c239189c7d1"
+EGIT_COMMIT="5b6095ad05d6651d39ad4355ca480e8f02ae1b02"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+RESTRICT="mirror"
 IUSE="debug"
 
 BDEPEND="sys-devel/binutils:*

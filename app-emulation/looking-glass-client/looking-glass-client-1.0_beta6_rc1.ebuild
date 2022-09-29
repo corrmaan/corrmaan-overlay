@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -19,11 +19,12 @@ else
 	MY_PV="${PV}"
 fi
 EGIT_REPO_URI="https://github.com/gnif/${MY_PN}.git"
-EGIT_COMMIT="74444f8eeda44d894a814db6db837c239189c7d1"
+EGIT_COMMIT="5b6095ad05d6651d39ad4355ca480e8f02ae1b02"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+RESTRICT="mirror"
 IUSE="X debug doc +host wayland"
 
 BDEPEND="sys-devel/binutils:*
@@ -34,7 +35,7 @@ BDEPEND="sys-devel/binutils:*
 	dev-libs/nettle[gmp]
 	media-libs/glu
 	virtual/pkgconfig
-	virtual/tmpfiles
+	>=virtual/tmpfiles-0-r3
 	X? ( media-gfx/icoutils
 		media-gfx/imagemagick
 		x11-base/xorg-server
