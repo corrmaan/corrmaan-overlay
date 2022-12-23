@@ -1,0 +1,10 @@
+DEFINED_PHASES=install unpack
+DESCRIPTION=A general-purpose finite element program
+EAPI=7
+HOMEPAGE=http://www.lstc.com/
+KEYWORDS=~amd64
+LICENSE=Clickwrap-SLA
+RESTRICT=fetch strip
+SLOT=11.1.0
+SRC_URI=http://ftp.lstc.com/user/ls-dyna/R11.1.0/linx.64/ls-dyna_smp_d_R11_1_0_x64_redhat65_ifort160_sse2.gz_extractor.sh
+_md5_=5a5baa31c5ed4506416e9ba3df2bd2fb

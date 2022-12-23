@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure install postinst prepare
+DEPEND=sci-libs/openfoam:7=[gnuplot?,source]
+DESCRIPTION=A CFD solver for multi-component compressible flow
+EAPI=7
+HOMEPAGE=https://github.com/synthetik-technologies/blastfoam
+INHERIT=toolchain-funcs
+IUSE=examples gnuplot paraview source
+KEYWORDS=~amd64 ~x86
+LICENSE=GPL-3
+RDEPEND=gnuplot? ( sci-visualization/gnuplot ) paraview? ( sci-visualization/paraview )
+SLOT=0
+SRC_URI=https://github.com/synthetik-technologies/blastfoam/archive/3.5.tar.gz -> blastfoam-3.5.tar.gz
+_eclasses_=toolchain-funcs	1542e649be915f43f6908a9e93909961	multilib	5ca4e49abed8e3a2f7b56920eadee157
+_md5_=5fb9eb7fecebfdf367209da81f82e4d7

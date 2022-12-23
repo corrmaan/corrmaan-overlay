@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure install postinst prepare test unpack
+DEPEND=dev-libs/boost[mpi?] || ( >=sys-devel/gcc-5 >=sys-devel/clang-3.6 ) sys-devel/flex sys-libs/ncurses sys-libs/readline sys-libs/zlib x11-libs/libXt doc? ( app-doc/doxygen[dot] ) foamy? ( sci-mathematics/cgal ) metis? ( sci-libs/metis ) mpi? ( sys-cluster/openmpi ) perftools? ( dev-util/google-perftools ) scotch? ( sci-libs/scotch[mpi?] )
+DESCRIPTION=The Open Source CFD Toolbox
+EAPI=7
+HOMEPAGE=https://openfoam.org/
+INHERIT=flag-o-matic toolchain-funcs
+IUSE=doc examples foamy gnuplot metis mpi paraview perftools scotch source test
+KEYWORDS=~amd64 ~x86
+LICENSE=GPL-3+
+RDEPEND=gnuplot? ( sci-visualization/gnuplot ) paraview? ( sci-visualization/paraview )
+SLOT=9
+SRC_URI=https://github.com/OpenFOAM/OpenFOAM-9/archive/20211122.tar.gz -> OpenFOAM-9-20211122.tar.gz
+_eclasses_=toolchain-funcs	1542e649be915f43f6908a9e93909961	multilib	5ca4e49abed8e3a2f7b56920eadee157	edos2unix	33e347e171066657f91f8b0c72ec8773	strip-linguas	ac3ee41ee2d31d8c41a77c0838320cc7	wrapper	4a1902f969e5718126434fc35f3a0d9c	eutils	8f942ebdcf04334697649d4a0bf65a32	flag-o-matic	29a755b1291d64133634d80b0328f153
+_md5_=b7c3dc722524659cbc67c57fba77e5d9

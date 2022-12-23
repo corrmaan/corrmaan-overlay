@@ -1,0 +1,14 @@
+DEFINED_PHASES=install prepare
+DEPEND=mpi? ( sci-libs/metis virtual/mpi >=sys-cluster/openmpi-3.1.3 )
+DESCRIPTION=Analysis Tools for Explosive and Gas Dynamic Events
+EAPI=7
+HOMEPAGE=https://www.lr.org/en/explosion-testing-and-trial-support/
+IUSE=+fsi +mpi scalemp
+KEYWORDS=~amd64
+LICENSE=LR-EULA
+RDEPEND=mpi? ( sci-libs/metis virtual/mpi >=sys-cluster/openmpi-3.1.3 )
+REQUIRED_USE=mpi? ( !scalemp ) scalemp? ( !mpi )
+RESTRICT=fetch
+SLOT=0
+SRC_URI=chinookexp-222.tar.xz
+_md5_=1b3319b6ca6eaed43dc4cc4d364825db

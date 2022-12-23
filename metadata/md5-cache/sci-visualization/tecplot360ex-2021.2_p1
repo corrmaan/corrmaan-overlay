@@ -1,0 +1,12 @@
+DEFINED_PHASES=install postinst postrm
+DESCRIPTION=A numerical results post-processor
+EAPI=7
+HOMEPAGE=https://www.tecplot.com/
+INHERIT=desktop xdg-utils
+IUSE=chorus
+KEYWORDS=~amd64
+LICENSE=Tecplot-EULA
+SLOT=2021.2_p1
+SRC_URI=https://tecplot.azureedge.net/products/360/2021r2m1/tecplot360ex2021r2_linux64.sh -> tecplot360ex2021r2m1_linux64.sh
+_eclasses_=desktop	22952d8f27cac191d75529d4c38e6bfa	xdg-utils	fffb53a53cf17c9c0c998a3c0a590c7e
+_md5_=31fbbb325457078bc369404ac1d40633
