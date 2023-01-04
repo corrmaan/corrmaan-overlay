@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure install
+DEPEND=dev-qt/qtcore
+DESCRIPTION=The complete and simply to use backup solution for your Wii games
+EAPI=7
+HOMEPAGE=https://github.com/larsenv/Wii-Backup-Fusion
+INHERIT=desktop qmake-utils
+KEYWORDS=~amd64 ~x86
+LICENSE=GPL-3
+RDEPEND=games-util/wit
+SLOT=0
+SRC_URI=https://codeload.github.com/larsenv/Wii-Backup-Fusion/tar.gz/refs/tags/v2.0 -> wiibafu-2.0.tar.gz
+_eclasses_=desktop	7eb20ad915a0a318176d51bc2508ff5c	toolchain-funcs	37a4612ce5522df5a100359a8dbc8491	multilib	5ca4e49abed8e3a2f7b56920eadee157	qmake-utils	59420c906278d16deaaa629f9d115707
+_md5_=06d08780154dd833de3c3ea488ad1dbc
