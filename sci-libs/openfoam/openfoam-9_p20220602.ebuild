@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -19,12 +19,12 @@ fi
 SRC_URI="https://github.com/${MY_PN}/${MY_PN}-${MY_PV}/archive/${MY_PP}.tar.gz -> ${MY_PN}-${MY_PV}-${MY_PP}.tar.gz"
 SLOT="${MY_PV}"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc examples foamy gnuplot metis mpi paraview perftools scotch source test"
+IUSE="doc examples foamy gnuplot metis mpi perftools scotch source test"
+RESTRICT="!test? ( test )"
 
-RDEPEND="gnuplot? ( sci-visualization/gnuplot )
-	paraview? ( sci-visualization/paraview )"
+RDEPEND="gnuplot? ( sci-visualization/gnuplot )"
 DEPEND="dev-libs/boost[mpi?]
-	|| ( >=sys-devel/gcc-5 >=sys-devel/clang-3.6 )
+	|| ( >=sys-devel/gcc-5.4 >=sys-devel/clang-3.6 )
 	sys-devel/flex
 	sys-libs/ncurses
 	sys-libs/readline
@@ -33,9 +33,13 @@ DEPEND="dev-libs/boost[mpi?]
 	doc? ( app-doc/doxygen[dot] )
 	foamy? ( sci-mathematics/cgal )
 	metis? ( sci-libs/metis )
-	mpi? ( sys-cluster/openmpi )
+	mpi? ( virtual/mpi sys-cluster/openmpi )
 	perftools? ( dev-util/google-perftools )
 	scotch? ( sci-libs/scotch[mpi?] )"
+
+PATCHES=(
+	"${FILESDIR}/${PN}-${MY_PV}-cgal-5.5.patch"
+)
 
 S="${WORKDIR}/${MY_PN}-${MY_PV}"
 
@@ -72,7 +76,7 @@ src_configure() {
 	if tc-ld-is-gold; then
 		# Need to disable gold linker https://bugs.openfoam.org/view.php?id=685
 		tc-ld-disable-gold
-		# tc-ld-disable-gold only appends -fuse-ld=bfd to LDFLAGS, also need to 
+		# tc-ld-disable-gold only appends -fuse-ld=bfd to LDFLAGS, also need to
 		# append it to C[XX]FLAGS:
 		append-cflags $(test-flags-CC -fuse-ld=bfd)
 		append-cxxflags $(test-flags-CXX -fuse-ld=bfd)
@@ -106,7 +110,8 @@ src_configure() {
 
 	if use perftools; then
 		sed -i "s/version=svn/version=system/g" "${S}/etc/config.sh/gperftools"
-		sed -i "s:GPERFTOOLS_ARCH_PATH=\$gperftools_install/\$GPERFTOOLS_VERSION:GPERFTOOLS_ARCH_PATH=/usr:g" "${S}/etc/config.sh/gperftools"
+		sed -i "s:GPERFTOOLS_ARCH_PATH=\$gperftools_install/\$GPERFTOOLS_VERSION:GPERFTOOLS_ARCH_PATH=/usr:g" \
+			"${S}/etc/config.sh/gperftools"
 	else
 		sed -i "s/version=svn/version=none/g" "${S}/etc/config.sh/gperftools"
 	fi
@@ -132,17 +137,18 @@ src_configure() {
 	sed -i "s/CPP        = cpp/CPP        = $(tc-getCPP)/g" ${GENERAL_RULES}/general
 	sed -i "s/LD         = ld/LD         = $(tc-getLD)/g" ${GENERAL_RULES}/general
 
-	# The command below is used instead of $(tc-getCPP) because that produces linking 
+	# The command below is used instead of $(tc-getCPP) because that produces linking
 	# errors as gcc -E
 	CPP=$(readlink -f `which cpp` | rev | cut -d'/' -f1 | rev)
 	sed -i "s/CPP        = cpp/CPP        = ${CPP}/g" "${DEFAULT_RULES}/general"
 
 	sed -i "s/cc          = gcc -m64/cc          = $(tc-getCC)/g" "${DEFAULT_RULES}/c"
 	sed -i "s/cc          = clang -m64/cc          = $(tc-getCC)/g" "${DEFAULT_RULES}/c"
+
 	sed -i "s/cOPT        = -O3/cOPT        = ${CFLAGS}/g" "${DEFAULT_RULES}/cOpt"
 
-	sed -i "s/CC          = g++ -std=c++11 -m64/CC          = $(tc-getCXX)/g" "${DEFAULT_RULES}/c++"
-	sed -i "s/CC          = clang++ -std=c++11 -m64/CC          = $(tc-getCXX)/g" "${DEFAULT_RULES}/c++"
+	sed -i "s/CC          = g++ -std=c++14 -m64/CC          = $(tc-getCXX)/g" "${DEFAULT_RULES}/c++"
+	sed -i "s/CC          = clang++ -std=c++14 -m64/CC          = $(tc-getCXX)/g" "${DEFAULT_RULES}/c++"
 	sed -i "s/c++OPT      = -O3/c++OPT      = ${CXXFLAGS}/g" "${DEFAULT_RULES}/c++Opt"
 
 }
