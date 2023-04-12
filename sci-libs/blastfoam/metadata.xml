@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <use>
-    <flag name="paraview">Install ParaView post-processor</flag>
-    <flag name="source">Install source code</flag>
-  </use>
+  <upstream>
+    <remote-id type="github">synthetik-technologies/blastfoam</remote-id>
+  </upstream>
 </pkgmetadata>

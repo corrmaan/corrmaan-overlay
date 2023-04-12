@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile configure install postinst prepare
+DEPEND=sci-libs/openfoam:9=[source]
+DESCRIPTION=A CFD solver for multi-component compressible flow
+EAPI=7
+HOMEPAGE=https://github.com/synthetik-technologies/blastfoam
+IUSE=examples source
+KEYWORDS=~amd64 ~x86
+LICENSE=GPL-3
+SLOT=0
+SRC_URI=https://github.com/synthetik-technologies/blastfoam/archive/v6.2.0.tar.gz -> blastfoam-6.2.0.tar.gz
+_md5_=6541ef122de0a271a6d1710394f9af60

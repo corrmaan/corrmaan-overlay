@@ -1,35 +1,29 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit toolchain-funcs
-
-if [[ ${PV} == "9999" ]]; then
-	inherit git-r3
-	EGIT_REPO_URI="https://github.com/synthetik-technologies/${PN}.git"
-else
-	SRC_URI="https://github.com/synthetik-technologies/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
-fi
+SRC_URI="https://github.com/synthetik-technologies/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 DESCRIPTION="A CFD solver for multi-component compressible flow"
-HOMEPAGE="https://github.com/synthetik-technologies/${PN}"
+HOMEPAGE="https://github.com/synthetik-technologies/blastfoam"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="examples gnuplot paraview source"
+IUSE="examples source"
 
-RDEPEND="gnuplot? ( sci-visualization/gnuplot )
-	paraview? ( sci-visualization/paraview )"
-DEPEND="sci-libs/openfoam:7=[gnuplot?,source]"
+RDEPEND=""
+DEPEND="sci-libs/openfoam:9=[source]"
 
-DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/blastFoam_User_Guide.pdf" )
+DOCS=( "${S}/INPUT.md" "${S}/README.md" "${S}/BlastFoam_User_Guide.pdf" )
 
 src_prepare() {
 
 	default
 
-	rm "${S}/.gitignore"
+	rm -rf "${S}/.dockerignore" "${S}/.github" "${S}/.gitignore" \
+		"${S}/.releaserc" "${S}/.updateDeb.sh" "${S}/debian" \
+		"${S}/Dockerfile" "${S}/Makefile"
 
 }
 
@@ -40,7 +34,7 @@ src_configure() {
 
 	sed -i 's:export BLAST_DIR=$HOME/$WM_PROJECT/$BLAST_PROJECT:export BLAST_DIR=$(cd $(dirname ${BASH_SOURCE\:-$0})/.. \&\& pwd -P):g' "${S}/etc/bashrc"
 
-	source "${EPREFIX}/usr/$(get_libdir)/OpenFOAM-7/etc/bashrc"
+	source "${EPREFIX}/usr/$(get_libdir)/OpenFOAM-9/etc/bashrc"
 	source "${S}/etc/bashrc"
 
 }
@@ -49,7 +43,7 @@ src_compile() {
 
 	./Allwmake ${MAKEOPTS} || die "Build failure."
 
-	mv "${HOME}/OpenFOAM/-7/platforms" "${S}/"
+	mv "${HOME}/OpenFOAM/-9/platforms" "${S}/"
 
 }
 
@@ -65,8 +59,7 @@ src_install() {
 
 	cd "${ED}/${INSDIR}/${PN}"
 
-	rm INPUT.md README.md blastFoam_User_Guide.pdf media svgs
-	rm -rf media svgs
+	rm -rf INPUT.md README.md BlastFoam_User_Guide.pdf media svgs
 
 	use examples || rm -rf tutorials validation
 	use source || rm -rf Allwclean Allwmake COPYING src

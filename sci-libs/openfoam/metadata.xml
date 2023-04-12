@@ -8,7 +8,6 @@
     <flag name="foamy">Build foamy mesh building applications with <pkg>sci-mathematics/cgal</pkg></flag>
     <flag name="metis">Enable partitioning with <pkg>sci-libs/metis</pkg></flag>
     <flag name="perftools">Use <pkg>dev-util/google-perftools</pkg> for memory allocation</flag>
-    <flag name="source">Install source code</flag>
     <flag name="scotch">Add support for scotch</flag>
   </use>
 </pkgmetadata>
