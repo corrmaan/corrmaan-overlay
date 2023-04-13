@@ -23,7 +23,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 RESTRICT="mirror"
 
-BDEPEND="app-cdr/cdrtools"
+BDEPEND="app-arch/unzip
+		 app-cdr/cdrtools"
 
 S="${WORKDIR}"
 

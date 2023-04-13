@@ -89,7 +89,8 @@ src_install() {
 			newicon -s ${i} "icon_${j}_${i}x${i}x32.png" ${P}.png
 			j=$((j+1))
 		done
-		make_desktop_entry "${PN}" "Looking Glass Client" ${P} "System;Emulator" "StartupWMClass=\"Looking Glass (client)\", \"${PN}\""
+		make_desktop_entry "${PN}" "Looking Glass Client" ${P} "System;Emulator" \
+			"StartupWMClass=\"Looking Glass (client)\", \"${PN}\""
 		cd -
 	fi
 }

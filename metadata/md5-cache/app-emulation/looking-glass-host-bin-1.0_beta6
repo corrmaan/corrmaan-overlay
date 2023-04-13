@@ -1,4 +1,4 @@
-BDEPEND=app-cdr/cdrtools
+BDEPEND=app-arch/unzip app-cdr/cdrtools
 DEFINED_PHASES=install prepare unpack
 DESCRIPTION=A low latency KVMFR implementation for guests with VGA PCI Passthrough
 EAPI=7
@@ -8,4 +8,4 @@ LICENSE=GPL-2
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://looking-glass.io/artifact/B6/host -> looking-glass-host-B6.zip
-_md5_=81d9d3fe5a87da9ae812e1f59dc81b1e
+_md5_=d75837c311512c9f348d946697a07226
