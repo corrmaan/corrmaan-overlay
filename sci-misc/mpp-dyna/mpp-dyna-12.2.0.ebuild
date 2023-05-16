@@ -6,7 +6,7 @@ EAPI=7
 MY_PV="R$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)"
 SH="tgz_extractor.sh"
 ARCH="x64"
-PLATFORM="centos78"
+PLATFORM="centos79"
 IFORT="ifort160"
 MPI="intelmpi-2018"
 
@@ -47,19 +47,10 @@ src_unpack() {
 
 }
 
-src_prepare() {
-
-	default
-	rm -rf licensingclient/winx64
-
-}
-
 src_install() {
-
-	insinto "/${INSTDIR}"
-	doins -r licensingclient
 
 	exeinto "/${INSTDIR}"
 	doexe "${FN}"*
+	doexe ansyscl
 
 }

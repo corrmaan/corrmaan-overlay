@@ -4,10 +4,10 @@
 EAPI=7
 
 MY_PV="R$(ver_cut 1)_$(ver_cut 2)_$(ver_cut 3)"
-SH="tar.gz_extractor.sh"
+SH="tgz_extractor.sh"
 ARCH="x64"
-PLATFORM="centos610"
-IFORT="ifort160"
+PLATFORM="centos79"
+IFORT="ifort190"
 FN="${PN}_smp_d_${MY_PV}_${ARCH}_${PLATFORM}_${IFORT}"
 
 DESCRIPTION="A general-purpose finite element program"

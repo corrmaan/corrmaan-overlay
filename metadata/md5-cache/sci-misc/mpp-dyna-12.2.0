@@ -1,0 +1,12 @@
+DEFINED_PHASES=install unpack
+DESCRIPTION=A general-purpose finite element program
+EAPI=7
+HOMEPAGE=http://www.lstc.com/
+IUSE=cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f
+KEYWORDS=~amd64
+LICENSE=Clickwrap-SLA
+REQUIRED_USE=^^ ( cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f )
+RESTRICT=fetch mirror strip
+SLOT=12.2.0
+SRC_URI=cpu_flags_x86_avx2? ( http://ftp.lstc.com/user/mpp-dyna/R12.2.0/x86-64/ifort_160_avx2/MPP/ls-dyna_mpp_d_R12_2_0_x64_centos79_ifort160_avx2_intelmpi-2018.tgz_extractor.sh ) cpu_flags_x86_avx512f? ( http://ftp.lstc.com/user/mpp-dyna/R12.2.0/x86-64/ifort_160_avx512/MPP/ls-dyna_mpp_d_R12_2_0_x64_centos79_ifort160_avx512_intelmpi-2018.tgz_extractor.sh ) cpu_flags_x86_sse2? ( http://ftp.lstc.com/user/mpp-dyna/R12.2.0/x86-64/ifort_160_sse2/MPP/ls-dyna_mpp_d_R12_2_0_x64_centos79_ifort160_sse2_intelmpi-2018.tgz_extractor.sh )
+_md5_=32913dd86828e61897728ace33be4ab1

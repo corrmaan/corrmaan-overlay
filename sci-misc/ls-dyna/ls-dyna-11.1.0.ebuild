@@ -22,7 +22,7 @@ SLOT="${PV}"
 RDEPEND=""
 DEPEND="${RDEPEND}"
 
-RESTRICT="fetch strip"
+RESTRICT="fetch mirror strip"
 
 S=${WORKDIR}
 

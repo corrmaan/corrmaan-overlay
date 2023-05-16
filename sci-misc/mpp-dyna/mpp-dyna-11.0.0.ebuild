@@ -23,7 +23,7 @@ SLOT="${PV}"
 IUSE="cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f"
 REQUIRED_USE="^^ ( cpu_flags_x86_sse2 cpu_flags_x86_avx2 cpu_flags_x86_avx512f )"
 
-RESTRICT="fetch strip"
+RESTRICT="fetch mirror strip"
 
 S=${WORKDIR}
 
