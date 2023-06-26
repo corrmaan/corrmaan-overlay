@@ -21,7 +21,7 @@ SLOT="${MY_PV}"
 IUSE="doc"
 REQUIRED_USE=""
 
-RDEPEND=""
+RDEPEND="media-libs/speex"
 DEPEND=""
 BDEPEND="doc? ( app-arch/unzip )"
 
