@@ -7,7 +7,7 @@ inherit desktop xdg-utils
 
 MY_PV="$(ver_cut 1).$(ver_cut 2)"
 MY_PV1="$(ver_cut 1)$(ver_cut 2)"
-BUILDDATE=05Apr2023
+BUILDDATE=23Jun2023
 
 DESCRIPTION="Advanced Pre- and Post-Processor for LS-DYNA"
 SRC_URI="https://ftp.lstc.com/anonymous/outgoing/${PN}/${MY_PV}/linux64/${P}-common_gtk3-${BUILDDATE}.tgz
