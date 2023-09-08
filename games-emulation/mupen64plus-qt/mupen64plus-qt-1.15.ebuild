@@ -1,9 +1,9 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils qmake-utils
+inherit desktop qmake-utils
 
 if [[ ${PV} == "9999" ]]; then
 	inherit git-r3
@@ -30,8 +30,10 @@ RDEPEND=">=games-emulation/mupen64plus-core-2.0
 		${DEPEND}"
 
 src_prepare() {
-	sed -i 's:LIBS += -lquazip5:LIBS += -lquazip1-qt5 -lQt5Core:' mupen64plus-qt.pro || die
-	sed -i 's:#include <quazip5/:#include <QuaZip-Qt5-1.1/quazip/:' src/emulation/emulatorhandler.cpp src/common.cpp || die
+	sed -i 's:LIBS += -lquazip5:LIBS += -lquazip1-qt5 -lQt5Core:' \
+		mupen64plus-qt.pro || die
+	sed -i 's:#include <quazip5/:#include <QuaZip-Qt5-1.1/quazip/:' \
+		src/emulation/emulatorhandler.cpp src/common.cpp || die
 	eapply_user
 }
 
