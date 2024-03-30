@@ -28,7 +28,7 @@ RESTRICT="mirror"
 IUSE="X debug doc +host wayland"
 
 BDEPEND="sys-devel/binutils:*
-	>=dev-util/cmake-3.0
+	>=dev-build/cmake-3.0
 	media-fonts/freefonts
 	app-emulation/spice-protocol
 	media-libs/fontconfig

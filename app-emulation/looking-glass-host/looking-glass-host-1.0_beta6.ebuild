@@ -28,7 +28,7 @@ RESTRICT="mirror"
 IUSE="debug"
 
 BDEPEND="sys-devel/binutils:*
-	>=dev-util/cmake-3.0
+	>=dev-build/cmake-3.0
 	media-libs/glu
 	virtual/pkgconfig
 	x11-base/xorg-server
