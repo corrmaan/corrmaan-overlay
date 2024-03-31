@@ -19,7 +19,7 @@ else
 	MY_PV="${PV}"
 fi
 EGIT_REPO_URI="https://github.com/gnif/${MY_PN}.git"
-EGIT_COMMIT="b251b22a649b1296e0857d3fbc63fcd210cd56a6"
+EGIT_COMMIT="188f25c6bf6e4525652222be7408f628d7fec1fc"
 
 LICENSE="GPL-2"
 SLOT="0"
