@@ -1,0 +1,13 @@
+DEFINED_PHASES=install postinst postrm prepare unpack
+DESCRIPTION=Advanced Pre- and Post-Processor for LS-DYNA
+EAPI=8
+HOMEPAGE=http://www.lstc.com/
+INHERIT=desktop xdg-utils
+KEYWORDS=~amd64
+LICENSE=LSPREPOST
+RDEPEND=media-libs/speex virtual/libcrypt
+RESTRICT=strip
+SLOT=4.12
+SRC_URI=https://ftp.lstc.com/anonymous/outgoing/lsprepost/4.12/linux64/lsprepost-4.12.0-common_dp-01Oct2024.tgz
+_eclasses_=desktop	3a72ffe0d8e1dd73af3a1c8c15a59fed	xdg-utils	42869b3c8d86a70ef3cf75165a395e09
+_md5_=25660105c8802e887a2c9a525ebe1a85
