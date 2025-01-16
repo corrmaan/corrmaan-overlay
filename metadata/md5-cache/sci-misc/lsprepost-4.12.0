@@ -1,13 +1,14 @@
-DEFINED_PHASES=install postinst postrm prepare unpack
+BDEPEND=media-gfx/icoutils
+DEFINED_PHASES=install postinst postrm prepare
 DESCRIPTION=Advanced Pre- and Post-Processor for LS-DYNA
 EAPI=8
 HOMEPAGE=http://www.lstc.com/
 INHERIT=desktop xdg-utils
 KEYWORDS=~amd64
 LICENSE=LSPREPOST
-RDEPEND=media-libs/speex virtual/libcrypt
+RDEPEND=app-accessibility/at-spi2-core app-arch/bzip2 app-arch/xz-utils app-crypt/libsecret app-crypt/p11-kit dev-libs/expat dev-libs/fribidi dev-libs/glib dev-libs/gmp dev-libs/icu dev-libs/libffi dev-libs/libgcrypt dev-libs/libgpg-error dev-libs/libpcre2 dev-libs/libtasn1 dev-libs/libunistring dev-libs/libxml2 dev-libs/openssl media-gfx/graphite2 media-libs/fontconfig media-libs/freetype media-libs/glu media-libs/harfbuzz media-libs/libepoxy media-libs/libglvnd media-libs/libogg media-libs/libpng media-libs/libtheora media-libs/libvorbis media-libs/openjpeg net-dns/c-ares net-dns/libidn2 net-libs/libpsl net-libs/nghttp2 net-misc/curl sys-apps/dbus sys-apps/util-linux virtual/libcrypt x11-libs/cairo x11-libs/gdk-pixbuf x11-libs/gtk+ x11-libs/libICE x11-libs/libSM x11-libs/libX11 x11-libs/libXau x11-libs/libXcomposite x11-libs/libXcursor x11-libs/libXdamage x11-libs/libXdmcp x11-libs/libXext x11-libs/libXfixes x11-libs/libXi x11-libs/libXmu x11-libs/libXrandr x11-libs/libXrender x11-libs/libXt x11-libs/libXtst x11-libs/libXxf86vm x11-libs/libdrm x11-libs/libnotify x11-libs/libxcb x11-libs/libxkbcommon x11-libs/pango x11-libs/pixman
 RESTRICT=strip
 SLOT=4.12
 SRC_URI=https://ftp.lstc.com/anonymous/outgoing/lsprepost/4.12/linux64/lsprepost-4.12.0-common_dp-01Oct2024.tgz
 _eclasses_=desktop	3a72ffe0d8e1dd73af3a1c8c15a59fed	xdg-utils	42869b3c8d86a70ef3cf75165a395e09
-_md5_=25660105c8802e887a2c9a525ebe1a85
+_md5_=94ef2e426a54eb90c3ff62072c95b6fd
