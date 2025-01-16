@@ -11,9 +11,9 @@ BUILDDATE=01Oct2024
 
 DESCRIPTION="Advanced Pre- and Post-Processor for LS-DYNA"
 HOMEPAGE="http://www.lstc.com/"
-SRC_URI="https://ftp.lstc.com/anonymous/outgoing/${PN}/${MY_PV}/linux64/${P}-common_dp-${BUILDDATE}.tgz"
+SRC_URI="https://ftp.lstc.com/anonymous/outgoing/${PN}/${MY_PV}/linux64/${P}-common-${BUILDDATE}.tgz"
 
-S=${WORKDIR}/${PN}${MY_PV}_common_dp
+S=${WORKDIR}/${PN}${MY_PV}_common
 
 LICENSE="LSPREPOST"
 SLOT="${MY_PV}"
@@ -97,7 +97,7 @@ cat <<EOT > lspp${MY_PV1}
 export LSPP_HELPDIR=${EPREFIX}/${INSTDIR}/resource/HelpDocument
 export LD_LIBRARY_PATH=${EPREFIX}/${INSTDIR}/lib:\$LD_LIBRARY_PATH
 export GDK_BACKEND=x11
-${EPREFIX}/${INSTDIR}/${PN}_dp \$*
+${EPREFIX}/${INSTDIR}/${PN} \$*
 EOT
 
 	rm README.txt
@@ -110,7 +110,7 @@ src_install() {
 
 	insinto /${INSTDIR}
 	insopts -m0755
-	doins lsdyna_bestfit lspp${MY_PV1} ${PN}_dp lsrun msuite_ls_64 surfgen tetgen
+	doins lsdyna_bestfit lspp${MY_PV1} ${PN} lsrun msuite_ls_64 surfgen tetgen
 	doins -r lib
 	insopts -m0644
 	doins -r BaoSteel lspp_forming_temp lspp_matlib material.xml resource templates
@@ -124,7 +124,7 @@ src_install() {
 	done
 
 	make_desktop_entry "${EPREFIX}/${INSTDIR}/lspp${MY_PV1}" "LS-PrePost V${PV}" ${PN} "Science;Physics" \
-		"StartupWMClass=Lsprepost_dp"
+		"StartupWMClass=Lsprepost"
 
 }
 
