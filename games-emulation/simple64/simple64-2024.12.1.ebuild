@@ -48,7 +48,7 @@ src_prepare() {
 		cmake_src_prepare
 	done
 	echo "#define GUI_VERSION \"${REV}\"" >"${S}/simple64-gui/version.h"
-	mv "${DISTDIR}/${P}-cheats.json" "${DISTDIR}/cheats.json"
+	cp "${DISTDIR}/${P}-cheats.json" "${S}/cheats.json"
 }
 
 src_configure() {
@@ -70,7 +70,7 @@ src_compile() {
 src_install() {
 	dobin "${S}/simple64-gui_build/simple64-gui"
 	insinto "/usr/share/${PN}"
-	doins "${DISTDIR}/cheats.json"
+	doins "${S}/cheats.json"
 	doins "${S}/mupen64plus-core/data/mupen64plus.ini"
 	doins "${S}/mupen64plus-core/data/pif.ntsc.rom"
 	doins "${S}/mupen64plus-core/data/pif.pal.rom"
