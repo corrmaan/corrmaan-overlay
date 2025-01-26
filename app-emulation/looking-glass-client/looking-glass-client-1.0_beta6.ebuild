@@ -24,8 +24,8 @@ EGIT_COMMIT="188f25c6bf6e4525652222be7408f628d7fec1fc"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-RESTRICT="mirror"
 IUSE="X debug doc +host wayland"
+RESTRICT="mirror"
 
 BDEPEND="sys-devel/binutils:*
 	>=dev-build/cmake-3.0
@@ -46,7 +46,8 @@ BDEPEND="sys-devel/binutils:*
 		x11-libs/libXScrnSaver )
 	doc? ( dev-python/sphinx )
 	wayland? ( dev-libs/wayland
-		>=dev-libs/wayland-protocols-1.15 )"
+		>=dev-libs/wayland-protocols-1.15
+		gui-libs/libdecor )"
 DEPEND="${BDEPEND}
 	host? ( || ( ~app-emulation/looking-glass-host-bin-${PV} ~app-emulation/looking-glass-host-${PV} ) )"
 
@@ -56,6 +57,7 @@ src_configure() {
 	local mycmakeargs=(
 		-DENABLE_X11="$(usex X)"
 		-DENABLE_BACKTRACE="$(usex debug)"
+		-DENABLE_LIBDECOR="$(usex wayland)"
 		-DENABLE_WAYLAND="$(usex wayland)"
 	)
 	cmake_src_configure
